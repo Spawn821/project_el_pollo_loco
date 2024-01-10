@@ -14,6 +14,7 @@ class MovableObject {
         this.img.src = path; // <img id="image" src="path">
     }
 
+
     loadImages(arr) {
         arr.forEach(path => {
             let img = new Image();
@@ -22,11 +23,13 @@ class MovableObject {
         });
     }
 
+
     moveRight() {
         setInterval(() => {
             this.x += this.speed;
         }, 1000 / 60);
     }
+
 
     moveLeft() {
         setInterval(() => {
