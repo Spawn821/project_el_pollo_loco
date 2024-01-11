@@ -1,0 +1,49 @@
+class Level {
+    backgroundObjects = [];
+    clouds = [];
+    air;
+    enemies;
+    end_level;
+
+    constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air, enemies) {
+        this.backgroundObjects = this.loadObjects(IMAGES_BACKGROUND, 'background');
+        this.clouds = this.loadObjects(IMAGES_CLOUD, 'cloud');
+        this.air = air;
+        this.enemies = enemies;
+    }
+
+
+    loadObjects(IMAGES, category) {
+        let posX1 = 0;
+        let posX2 = 720;
+        let objectList = [];
+
+        for (let i = 0; i < 3; i++) {
+
+            objectList = this.addObjects(posX1, posX2, objectList, IMAGES, category);
+
+            posX1 = posX2 + 720;
+            posX2 = posX2 + 720 * 2;
+        }
+
+        return objectList;
+    }
+
+
+    addObjects(posX1, posX2, objectList, IMAGES, category) {
+        for (let j = 0; j < IMAGES.length; j++) {
+            let image = IMAGES[j];
+
+            if (category == 'background') {
+                if (j < IMAGES.length / 2) objectList.push(new BackgroundObject(image, posX1));
+                else objectList.push(new BackgroundObject(image, posX2));
+            } else {
+                if (j < IMAGES.length / 2) objectList.push(new Cloud(image, posX1));
+                else objectList.push(new Cloud(image, posX2));
+            }
+        }
+
+        this.end_level = posX2;
+        return objectList;
+    }
+}
