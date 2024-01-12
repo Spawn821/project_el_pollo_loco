@@ -51,15 +51,25 @@ class World {
 
 
     addObjectToMap(movableObject) {
+        this.mirrorObject(movableObject);
+
+        this.ctx.drawImage(movableObject.img, movableObject.x, movableObject.y, movableObject.width, movableObject.height)
+
+        this.removeMirrorObject(movableObject);
+    }
+
+
+    mirrorObject(movableObject) {
         if (movableObject.otherDirection) {
             this.ctx.save();
             this.ctx.translate(movableObject.width, 0);
             this.ctx.scale(-1, 1);
             movableObject.x = movableObject.x * -1;
         }
+    }
 
-        this.ctx.drawImage(movableObject.img, movableObject.x, movableObject.y, movableObject.width, movableObject.height)
 
+    removeMirrorObject(movableObject) {
         if (movableObject.otherDirection) {
             movableObject.x = movableObject.x * -1;
             this.ctx.restore();

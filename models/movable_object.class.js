@@ -21,6 +21,16 @@ class MovableObject {
             img.src = path;
             this.imgCache[path] = img;
         });
+
+        return this.imgCache;
+    }
+
+
+    animateImages(images, imgCache) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = imgCache[path];
+        this.currentImage++;
     }
 
 

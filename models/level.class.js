@@ -35,15 +35,25 @@ class Level {
             let image = IMAGES[j];
 
             if (category == 'background') {
-                if (j < IMAGES.length / 2) objectList.push(new BackgroundObject(image, posX1));
-                else objectList.push(new BackgroundObject(image, posX2));
+                this.addBackgroundObjects(image, posX1, posX2, objectList, IMAGES, j);
             } else {
-                if (j < IMAGES.length / 2) objectList.push(new Cloud(image, posX1));
-                else objectList.push(new Cloud(image, posX2));
+                this.addCloudObjects(image, posX1, posX2, objectList, IMAGES, j);
             }
         }
 
         this.end_level = posX2;
         return objectList;
+    }
+
+
+    addBackgroundObjects(image, posX1, posX2, objectList, IMAGES, j) {
+        if (j < IMAGES.length / 2) objectList.push(new BackgroundObject(image, posX1));
+        else objectList.push(new BackgroundObject(image, posX2));
+    }
+
+
+    addCloudObjects(image, posX1, posX2, objectList, IMAGES, j) {
+        if (j < IMAGES.length / 2) objectList.push(new Cloud(image, posX1));
+        else objectList.push(new Cloud(image, posX2));
     }
 }
