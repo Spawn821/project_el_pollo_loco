@@ -13,6 +13,18 @@ class World {
 
         this.draw();
         this.setWorld();
+        this.checkCollisions();
+    }
+
+
+    checkCollisions() {
+        setInterval(() => {
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy)) {
+                    console.log('Character collision with chicken ', enemy);
+                }
+            });
+        }, 1000);
     }
 
 
@@ -51,28 +63,29 @@ class World {
 
 
     addObjectToMap(movableObject) {
-        this.mirrorObject(movableObject);
-
-        this.ctx.drawImage(movableObject.img, movableObject.x, movableObject.y, movableObject.width, movableObject.height)
-
-        this.removeMirrorObject(movableObject);
-    }
-
-
-    mirrorObject(movableObject) {
         if (movableObject.otherDirection) {
-            this.ctx.save();
-            this.ctx.translate(movableObject.width, 0);
-            this.ctx.scale(-1, 1);
-            movableObject.x = movableObject.x * -1;
+            this.mirrorImage(movableObject);
+        }
+
+        movableObject.draw(this.ctx);
+        movableObject.drawRectBounding(this.ctx);
+
+        if (movableObject.otherDirection) {
+            this.removeMirrorImage(movableObject);
         }
     }
 
 
-    removeMirrorObject(movableObject) {
-        if (movableObject.otherDirection) {
-            movableObject.x = movableObject.x * -1;
-            this.ctx.restore();
-        }
+    mirrorImage(movableObject) {
+        this.ctx.save();
+        this.ctx.translate(movableObject.width, 0);
+        this.ctx.scale(-1, 1);
+        movableObject.x = movableObject.x * -1;
+    }
+
+
+    removeMirrorImage(movableObject) {
+        movableObject.x = movableObject.x * -1;
+        this.ctx.restore();
     }
 }
