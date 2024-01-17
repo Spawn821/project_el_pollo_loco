@@ -21,10 +21,10 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    console.log('Character collision with chicken ', enemy);
+                    this.character.hit();
                 }
             });
-        }, 1000);
+        }, 1000 / 5);
     }
 
 
@@ -38,6 +38,9 @@ class World {
 
         this.addObjectToMap(this.level.air);
         this.addObjectListToMap(this.level.clouds);
+        this.addObjectToMap(this.level.bottle);
+        this.addObjectToMap(this.level.health);
+        this.addObjectToMap(this.level.coin);
 
         this.ctx.translate(this.camera_x, 0);
 
