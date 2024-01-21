@@ -1,6 +1,7 @@
 class World {
     level = level1;
     character = new Character();
+    statusbar = new Statusbar();
     canvas;
     ctx; // Context for canvas
     keyboard;
@@ -22,9 +23,10 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
+                    this.statusbar.setHealth(this.character.energy);
                 }
             });
-        }, 1000 / 5);
+        }, 1000 / 3);
     }
 
 
@@ -36,18 +38,9 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.addObjectToMap(this.level.air);
-        this.addObjectListToMap(this.level.clouds);
-        this.addObjectToMap(this.level.bottle);
-        this.addObjectToMap(this.level.health);
-        this.addObjectToMap(this.level.coin);
-
+        this.beforTheCamera();
         this.ctx.translate(this.camera_x, 0);
-
-        this.addObjectListToMap(this.level.backgroundObjects);
-        this.addObjectListToMap(this.level.enemies);
-        this.addObjectToMap(this.character);
-
+        this.afterTheCamera();
         this.ctx.translate(-this.camera_x, 0);
 
         // draw() wird immer wieder aufgerufen
@@ -55,6 +48,22 @@ class World {
         requestAnimationFrame(() => {
             self.draw();
         });
+    }
+
+
+    beforTheCamera() {
+        this.addObjectToMap(this.level.air);
+        this.addObjectListToMap(this.level.clouds);
+        this.addObjectToMap(this.statusbar.bottle);
+        this.addObjectToMap(this.statusbar.health);
+        this.addObjectToMap(this.statusbar.coin);
+    }
+
+
+    afterTheCamera() {
+        this.addObjectListToMap(this.level.backgroundObjects);
+        this.addObjectListToMap(this.level.enemies);
+        this.addObjectToMap(this.character);
     }
 
 
@@ -72,6 +81,7 @@ class World {
 
         movableObject.draw(this.ctx);
         movableObject.drawRectBounding(this.ctx);
+        movableObject.drawText(this.ctx);
 
         if (movableObject.otherDirection) {
             this.removeMirrorImage(movableObject);

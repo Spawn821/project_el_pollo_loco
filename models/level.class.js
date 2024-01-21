@@ -8,14 +8,11 @@ class Level {
     health;
     coin;
 
-    constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air, enemies, bottle, health, coin) {
+    constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air, enemies) {
         this.backgroundObjects = this.loadObjects(IMAGES_BACKGROUND, 'background');
         this.clouds = this.loadObjects(IMAGES_CLOUD, 'cloud');
         this.air = air;
         this.enemies = enemies;
-        this.bottle = bottle;
-        this.health = health;
-        this.coin = coin;
     }
 
 
