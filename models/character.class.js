@@ -1,12 +1,9 @@
 class Character extends MovableObject {
-    width = 125;
-    height = this.width * 1.97;
     world;
     level = level1;
     end_walking = this.level.end_level + 720 - this.width;
     end_camera = this.level.end_level + 50;
     walking_sound = new Audio('../audio/step_dirt.mp3');
-    current_interval;
 
     IMAGES = {
         IMAGES_IDLE: [
@@ -63,13 +60,14 @@ class Character extends MovableObject {
     constructor() {
         super().loadImage('../graphics/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES);
+        this.setImgDimensions(125, 1.97);
+        this.setCoordinates(50);
+        this.setOffset(0.75, 0.50)
         this.animation();
         this.move();
         this.moveCamera();
         this.applyGravity();
 
-        this.x = 50;
-        this.y = this.y - this.height;
         this.speed = 5;
     }
 

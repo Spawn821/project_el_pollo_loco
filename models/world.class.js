@@ -2,6 +2,7 @@ class World {
     level = level1;
     character = new Character();
     statusbar = new Statusbar();
+    coins = new CoinPositions();
     canvas;
     ctx; // Context for canvas
     keyboard;
@@ -26,6 +27,13 @@ class World {
                     this.statusbar.setHealth(this.character.energy);
                 }
             });
+
+            this.coins.COINS.forEach((coin) => {
+                if (this.character.isColliding(coin)) {
+                    this.coins.COINS.splice(this.coins.COINS.indexOf(coin), 1);
+                    this.statusbar.setCounterCoin();
+                }
+            })
         }, 1000 / 3);
     }
 
@@ -54,15 +62,16 @@ class World {
     beforTheCamera() {
         this.addObjectToMap(this.level.air);
         this.addObjectListToMap(this.level.clouds);
-        this.addObjectToMap(this.statusbar.bottle);
-        this.addObjectToMap(this.statusbar.health);
-        this.addObjectToMap(this.statusbar.coin);
+        this.addObjectToMap(this.statusbar.bottleIcon);
+        this.addObjectToMap(this.statusbar.healthIcon);
+        this.addObjectToMap(this.statusbar.coinIcon);
     }
 
 
     afterTheCamera() {
         this.addObjectListToMap(this.level.backgroundObjects);
         this.addObjectListToMap(this.level.enemies);
+        this.addObjectListToMap(this.coins.COINS);
         this.addObjectToMap(this.character);
     }
 

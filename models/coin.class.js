@@ -1,15 +1,36 @@
-class Coin extends DrawableObject {
-    width = 65;
-    height = this.width * 1.06;
+class Coin extends MovableObject {
+    IMAGES = {
+        IMAGES_COINS: [
+            'graphics/8_coin/coin_1.png',
+            'graphics/8_coin/coin_2.png'
+        ]
+    }
 
-    constructor() {
-        super().loadImage('../graphics/7_statusbars/3_icons/icon_coin.png');
+    constructor(x, y) {
+        super().loadImage('graphics/8_coin/coin_1.png');
+        this.loadImages(this.IMAGES);
+        this.setDimensions();
+        this.animation();
 
-        this.y = 10;
-        this.x = 270;
+        this.x = x;
+        this.y = y;
+    }
 
-        this.numberText = 0;
-        this.textOffsetX = 50;
-        this.textOffsetY = 50;
+
+    setDimensions() {
+        this.width = 150;                // Default width for the image
+        this.height = this.width * 1.03; // Default height for the image
+
+        this.offsetWidth = this.width * 0.50; // Offset width for collision
+        this.offsetHight = this.height * 0.50; // Offset height for collision
+        this.offsetX = this.x + (this.width - this.offsetWidth) / 2; // Offset x for collision
+        this.offsetY = this.y + this.width - this.offsetWidth; // Offset y for collision
+    }
+
+
+    animation() {
+        setInterval(() => {
+            this.animateImages(this.IMAGES.IMAGES_COINS);
+        }, 1000 / 2);
     }
 }
