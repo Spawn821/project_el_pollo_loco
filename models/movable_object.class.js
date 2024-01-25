@@ -48,38 +48,11 @@ class MovableObject extends DrawableObject {
 
 
     isColliding(mO) {
-        return this.imgTopRightCorner(this) > this.imgTopLeftCorner(mO) && 
-               this.imgTopLeftCorner(this) < this.imgTopRightCorner(mO) &&
-               this.imgBottomRightCorner(this) > this.imgBottomLeftCorner(mO) && 
-               this.imgBottomLeftCorner(this) < this.imgBottomRightCorner(mO);
-        //return this.x + this.width > mO.x && 
-        //       this.x < mO.x + mO.width &&
-        //       this.y + this.height > mO.y && 
-        //       this.y < mO.y + mO.height;
+        return this.x + this.width > mO.x && 
+               this.x < mO.x + mO.width &&
+               this.y + this.height > mO.y && 
+               this.y < mO.y + mO.height;
     }
-
-
-    imgTopRightCorner(object) {
-        return object.x + object.offsetX + object.width * object.scaleWPercent;
-    }
-
-
-    imgTopLeftCorner(object) {
-        return object.x + object.offsetX;
-    }
-
-
-    imgBottomRightCorner(object) {
-        return object.y + object.offsetY + object.height * object.scaleHPercent;
-    }
-
-
-    imgBottomLeftCorner(object) {
-        return object.y + object.offsetY;
-    }
-
-
-
 
 
     moveRight() {

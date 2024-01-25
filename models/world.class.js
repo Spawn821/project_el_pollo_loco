@@ -28,16 +28,13 @@ class World {
                 }
             });
 
-        }, 1000 / 3);
-
-        setInterval(() => {
             this.coins.COINS.forEach((coin) => {
                 if (this.character.isColliding(coin)) {
                     this.coins.COINS.splice(this.coins.COINS.indexOf(coin), 1);
                     this.statusbar.setCounterCoin();
                 }
             })
-        }, 1000 / 60);
+        }, 1000 / 3);
     }
 
 

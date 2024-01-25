@@ -1,4 +1,4 @@
-class DrawableObject extends Sound{
+class DrawableObject {
     // Coordinates for image position
     x;
     y = 375;
@@ -8,9 +8,8 @@ class DrawableObject extends Sound{
     // Values for canvas and images
     width = 720;
     height = 400;
-    scaleWPercent = 0;
-    scaleHPercent = 0;
-
+    offsetWidth = 0;
+    offsetHight = 0;
 
     // Declaration for img objects
     img;
@@ -36,37 +35,27 @@ class DrawableObject extends Sound{
     }
 
 
-    setImgDimensions(width, percDiffHeight) {
-        this.width = width;                        // Default width image
-        this.height = this.width * percDiffHeight; // Default height image
+    setImgDimensions(width, percHeight) {
+        this.width = width;              // Default width image
+        this.height = this.width * percHeight; // Default height image
     }
 
 
-    setImgCoordinates(x, y = this.y - this.height) {
+    setCoordinates(x, y=this.y-this.height) {
         this.x = x; // Start value for img position
-        this.y = y; // Does the same
+        this.y = y; // Start value for img position
     }
 
 
-    setImgScalePercentage(scalePercWidth, scalePercHeight) {
-        this.scaleWPercent = scalePercWidth; // Percent value to scale the image in width
-        this.scaleHPercent = scalePercHeight; // Does the same only in height
+    setOffset(percWidth, percHeight) {
+        // Offset dimensions
+        this.offsetWidth = this.width * percWidth;
+        this.offsetHight = this.height * percHeight;
 
-        this.setOffsetCoordinates();
-    }
-
-
-    setOffsetCoordinates() {
-        // Calculate the diffrenz between default and scale value
-        let diffToWidht = this.width - (this.width * this.scaleWPercent);
-        let diffToHeight = this.height - (this.height * this.scaleHPercent);
-
-        this.offsetX = diffToWidht / 2;
-        if (this instanceof Character || this instanceof Endboss) {
-            this.offsetY = diffToHeight; // For the character image
-        } else {
-            this.offsetY = diffToHeight / 2; // For all other pictures
-        }
+        debugger; //########### Line 58 is individual depending on the figure ##################################
+        // Offset coordinates
+        this.offsetX = this.x + (this.width - this.offsetWidth) / 2;
+        this.offsetY = this.y + this.width - this.offsetWidth;
     }
 
 
@@ -84,12 +73,12 @@ class DrawableObject extends Sound{
 
 
     drawRectBounding(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Coin || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Coin) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';
             //ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.rect(this.x + this.offsetX, this.y + this.offsetY, this.width * this.scaleWPercent, this.height * this.scaleHPercent);
+            ctx.rect(this.offsetX, this.offsetY, this.offsetWidth, this.offsetHight);
             ctx.stroke();
         }
     }

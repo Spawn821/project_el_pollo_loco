@@ -1,4 +1,7 @@
 class Endboss extends MovableObject {
+    height = 350;
+    width = this.height * 0.86;
+
     IMAGES = {
         IMAGES_ALERT: [
             '../graphics/4_enemie_boss_chicken/2_alert/G5.png',
@@ -15,12 +18,11 @@ class Endboss extends MovableObject {
     constructor() {
         super().loadImage('../graphics/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.IMAGES);
-        this.setImgDimensions(300, 1.16); // width, percent for height = width * height
-        this.setImgCoordinates(720 - this.width); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.95, 0.85) // percentage scale from width and height
         this.animation();
         this.move();
 
+        this.x = 720 - this.width;
+        this.y = this.y - this.height + 25;
         this.speed = 1.5;
     }
 
