@@ -3,7 +3,6 @@ class Character extends MovableObject {
     level = level1;
     end_walking = this.level.end_level + 720 - this.width;
     end_camera = this.level.end_level + 50;
-    walking_sound = new Audio('../audio/step_dirt.mp3');
 
     IMAGES = {
         IMAGES_IDLE: [
@@ -60,9 +59,9 @@ class Character extends MovableObject {
     constructor() {
         super().loadImage('../graphics/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES);
-        this.setImgDimensions(125, 1.97);
-        this.setCoordinates(50);
-        this.setOffset(0.75, 0.50)
+        this.setImgDimensions(125, 1.97); // width, percent for height = width * height
+        this.setImgCoordinates(50); // coordinates x, y calculate less height
+        this.setImgScalePercentage(0.65, 0.60) // percentage scale from width and height
         this.animation();
         this.move();
         this.moveCamera();
@@ -80,6 +79,7 @@ class Character extends MovableObject {
                 this.animateImages(this.IMAGES.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.animateImages(this.IMAGES.IMAGES_JUMPING);
+                this.jumping_sound.play();
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.animateImages(this.IMAGES.IMAGES_WALKING);
                 this.walking_sound.play();

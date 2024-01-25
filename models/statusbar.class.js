@@ -18,5 +18,6 @@ class Statusbar {
 
     setCounterCoin() {
         this.coinIcon.numberText++;
+        this.coinIcon.collect_coin_sound.play();
     }
 }
