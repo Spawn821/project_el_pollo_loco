@@ -84,7 +84,7 @@ class DrawableObject extends Sound{
 
 
     drawRectBounding(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Coin || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Coin || this instanceof BackgroundObject) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';
@@ -93,4 +93,16 @@ class DrawableObject extends Sound{
             ctx.stroke();
         }
     }
+
+
+    drawRectBounding2(ctx) {
+        if (this instanceof BackgroundObject) {
+            ctx.beginPath();
+            ctx.lineWidth = '2.5';
+            ctx.strokeStyle = 'green';
+            //ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    } 
 }

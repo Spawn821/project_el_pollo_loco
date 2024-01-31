@@ -13,6 +13,7 @@ class Coin extends MovableObject {
         this.setImgCoordinates(x, y); // coordinates x, y calculate less height
         this.setImgScalePercentage(0.3, 0.3) // percentage scale from width and height
         this.animation();
+        this.rotate();
     }
 
 
@@ -20,5 +21,16 @@ class Coin extends MovableObject {
         setInterval(() => {
             this.animateImages(this.IMAGES.IMAGES_COINS);
         }, 1000 / 2);
+    }
+
+
+    rotate() {
+        setInterval(() => {
+            if (!this.otherDirection) {
+                this.otherDirection = true;
+            } else {
+                this.otherDirection = false;
+            }
+        }, 1000 / 1);
     }
 }

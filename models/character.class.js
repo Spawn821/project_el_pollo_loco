@@ -1,8 +1,8 @@
 class Character extends MovableObject {
     world;
     level = level1;
-    end_walking = this.level.end_level + 720 - this.width;
-    end_camera = this.level.end_level + 50;
+    end_walking;
+    end_camera;
 
     IMAGES = {
         IMAGES_IDLE: [
@@ -62,6 +62,10 @@ class Character extends MovableObject {
         this.setImgDimensions(125, 1.97); // width, percent for height = width * height
         this.setImgCoordinates(50); // coordinates x, y calculate less height
         this.setImgScalePercentage(0.65, 0.60) // percentage scale from width and height
+
+        this.end_walking = this.level.sections['section_6_xPos'] + 720 - this.width;
+        this.end_camera = this.level.sections['section_6_xPos'] + 50;
+
         this.animation();
         this.move();
         this.moveCamera();

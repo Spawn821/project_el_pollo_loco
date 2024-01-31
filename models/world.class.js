@@ -54,7 +54,7 @@ class World {
         this.afterTheCamera();
         this.ctx.translate(-this.camera_x, 0);
 
-        // draw() wird immer wieder aufgerufen
+       // draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(() => {
             self.draw();
@@ -93,6 +93,7 @@ class World {
 
         movableObject.draw(this.ctx);
         movableObject.drawRectBounding(this.ctx);
+        movableObject.drawRectBounding2(this.ctx);
         movableObject.drawText(this.ctx);
 
         if (movableObject.otherDirection) {

@@ -2,11 +2,15 @@ class Level {
     backgroundObjects = [];
     clouds = [];
     air;
-    end_level;
     enemies;
     bottle;
     health;
     coin;
+    section1Xpos;
+    section2Xpos;
+    section1Num = 1;
+    section2Num = 2;
+    sections = {};
 
     constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air, enemies) {
         this.backgroundObjects = this.loadObjects(IMAGES_BACKGROUND, 'background');
@@ -17,46 +21,64 @@ class Level {
 
 
     loadObjects(IMAGES, category) {
-        let posX1 = 0;
-        let posX2 = 720;
+        [this.section1Xpos, this.section2Xpos, this.section1Num, this.section2Num] = [0, 720, 1, 2];
+        this.sections = [];
         let objectList = [];
 
         for (let i = 0; i < 3; i++) {
+            objectList = this.addObjects(objectList, IMAGES, category);
 
-            objectList = this.addObjects(posX1, posX2, objectList, IMAGES, category);
-
-            posX1 = posX2 + 720;
-            posX2 = posX2 + 720 * 2;
+            this.setXCoordinates();
+            this.setSections();
         }
 
         return objectList;
     }
 
 
-    addObjects(posX1, posX2, objectList, IMAGES, category) {
+    setXCoordinates() {
+        this.section1Xpos = this.section2Xpos + 720;
+        this.section2Xpos = this.section2Xpos + 720 * 2;
+    }
+
+
+    setSections() {
+        this.section1Num = this.section2Num + 1;
+        this.section2Num = this.section2Num + 1 * 2;
+    }
+
+
+    addObjects(objectList, IMAGES, category) {
         for (let j = 0; j < IMAGES.length; j++) {
             let image = IMAGES[j];
 
             if (category == 'background') {
-                this.addBackgroundObjects(image, posX1, posX2, objectList, IMAGES, j);
+                this.addBackgroundObjects(image, objectList, IMAGES, j);
             } else {
-                this.addCloudObjects(image, posX1, posX2, objectList, IMAGES, j);
+                this.addCloudObjects(image, objectList, IMAGES, j);
             }
         }
 
-        this.end_level = posX2;
+        this.addSectionsToArray();
+
         return objectList;
     }
 
 
-    addBackgroundObjects(image, posX1, posX2, objectList, IMAGES, j) {
-        if (j < IMAGES.length / 2) objectList.push(new BackgroundObject(image, posX1));
-        else objectList.push(new BackgroundObject(image, posX2));
+    addSectionsToArray() {
+        this.sections[`section_${this.section1Num}_xPos`] = this.section1Xpos;
+        this.sections[`section_${this.section2Num}_xPos`] = this.section2Xpos;
     }
 
 
-    addCloudObjects(image, posX1, posX2, objectList, IMAGES, j) {
-        if (j < IMAGES.length / 2) objectList.push(new Cloud(image, posX1));
-        else objectList.push(new Cloud(image, posX2));
+    addBackgroundObjects(image, objectList, IMAGES, j) {
+        if (j < IMAGES.length / 2) objectList.push(new BackgroundObject(image, this.section1Xpos));
+        else objectList.push(new BackgroundObject(image, this.section2Xpos));
+    }
+
+
+    addCloudObjects(image, objectList, IMAGES, j) {
+        if (j < IMAGES.length / 2) objectList.push(new Cloud(image, this.section1Xpos));
+        else objectList.push(new Cloud(image, this.section2Xpos));
     }
 }
