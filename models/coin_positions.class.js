@@ -1,20 +1,36 @@
 class CoinPositions {
     COINS = [];
     level = level1;
-    levelSectionOne = this.level.end_level / 5 * 1;
-    levelSectionTwo = this.level.end_level / 5 * 2;
-    levelSectionThree = this.level.end_level / 5 * 3;
-    levelSectionFour = this.level.end_level / 5 * 3;
 
     constructor() {
-        this.arch();
-        this.horizontalLine();
-        this.verticalLine();
+        this.setForms();
     }
 
 
-    arch() {
-        let x = this.level.sections['section_1_xPos'] + 350; // Circle center x
+    /**
+     * This function iterated through the level sections
+     * and call the diffrent forms for the respective section.
+     */
+    setForms() {
+        for (let section in this.level.sections) {
+            if (section.includes('section_1') || section.includes('section_4')) {
+                this.arch(this.level.sections[section] + 350);
+            } else if (section.includes('section_2') || section.includes('section_5')) {
+                this.zigZagHorizontalLine(this.level.sections[section] - 10);
+            } else if (section.includes('section_3')) {
+                this.verticalLine(this.level.sections[section] + 75);
+            }
+        };
+    }
+
+
+    /**
+     * This function orgenizes the coins in an arch form
+     * and add this to the COIN array.
+     * @param {number} section is the x coordinate from the level section.
+     */
+    arch(section) {
+        let x = section; // Circle center x
         let y = 250; // Circle center y
         let radius = 100; // Radius from arch
         let startAngle = 90; // Start angle 
@@ -33,30 +49,41 @@ class CoinPositions {
     }
 
 
-    horizontalLine() {
-        let x = this.level.sections['section_2_xPos'];
-        let y = 50;
-        let length = 4;
-        let dinstace = 75;
+    /**
+     * This function organize the coins in an zig zag horizontal line
+     * and add this to the COIN array.
+     * @param {number} section is the x coordinate from the level section.
+     */
+    zigZagHorizontalLine(section) {
+        let x = section; // Start from the first coin in x
+        let y = 50; // Start from the first coin in y
+        let length = 13; // Number of coins
+        let incrementX = 50; // Increment step in x
+        let incrementY = 50; // Increment step in y
 
-        for (let j = 0; j < 2; j++) {
-            for (let i = 0; i < length; i++) {
-                let xPos = x + dinstace * i;
-
-                this.COINS.push(new Coin(xPos, y));
+        for (let i = 0; i < length; i++) {
+            if (i % 2 != 0) {
+                y += incrementY;
             }
 
-            x += 200;
-            y += 100;
+            this.COINS.push(new Coin(x, y));
+
+            x += incrementX;
+            y = 50;
         }
     }
 
 
-    verticalLine() {
-        let x = this.level.sections['section_3_xPos'];
-        let y = 50;
-        let length = 2;
-        let dinstace = 75;
+    /**
+     * This function organize the coins in multiple vertical lines
+     * and add this to the COIN arry.
+     * @param {number} section is the x coordinate from the level section.
+     */
+    verticalLine(section) {
+        let x = section; // Start from the first coin in x
+        let y = 50; // Start from the frist coin in y
+        let length = 3; // Number of coins in one strand
+        let dinstace = 75; // Dinstance from strand to strand
 
         for (let j = 0; j < 3; j++) {
             for (let i = 0; i < length; i++) {

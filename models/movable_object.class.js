@@ -1,5 +1,5 @@
 class MovableObject extends DrawableObject {
-    speed = 0.15;
+    speed = 0.05;
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
@@ -48,10 +48,10 @@ class MovableObject extends DrawableObject {
 
 
     isColliding(mO) {
-        return this.imgTopRightCorner(this) > this.imgTopLeftCorner(mO) && 
-               this.imgTopLeftCorner(this) < this.imgTopRightCorner(mO) &&
-               this.imgBottomRightCorner(this) > this.imgBottomLeftCorner(mO) && 
-               this.imgBottomLeftCorner(this) < this.imgBottomRightCorner(mO);
+        return this.imgRightSite(this) > this.imgLeftSite(mO) && 
+               this.imgLeftSite(this) < this.imgRightSite(mO) &&
+               this.imgBottom(this) > this.imgTop(mO) && 
+               this.imgTop(this) < this.imgBottom(mO);
         //return this.x + this.width > mO.x && 
         //       this.x < mO.x + mO.width &&
         //       this.y + this.height > mO.y && 
@@ -59,22 +59,31 @@ class MovableObject extends DrawableObject {
     }
 
 
-    imgTopRightCorner(object) {
+    isCollidingOnTheTop(mO) {
+        return this.imgRightSite(this) > this.imgLeftSite(mO) && 
+               this.imgLeftSite(this) < this.imgRightSite(mO) &&
+               this.imgBottom(this) > this.imgTop(mO) && 
+               this.imgTop(this) < this.imgBottom(mO) &&
+               this.isAboveGround();
+    }
+
+
+    imgRightSite(object) {
         return object.x + object.offsetX + object.width * object.scaleWPercent;
     }
 
 
-    imgTopLeftCorner(object) {
+    imgLeftSite(object) {
         return object.x + object.offsetX;
     }
 
 
-    imgBottomRightCorner(object) {
+    imgBottom(object) {
         return object.y + object.offsetY + object.height * object.scaleHPercent;
     }
 
 
-    imgBottomLeftCorner(object) {
+    imgTop(object) {
         return object.y + object.offsetY;
     }
 

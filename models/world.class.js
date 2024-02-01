@@ -3,6 +3,7 @@ class World {
     character = new Character();
     statusbar = new Statusbar();
     coins = new CoinPositions();
+    check_collisions = new CheckCollisions();
     canvas;
     ctx; // Context for canvas
     keyboard;
@@ -15,34 +16,35 @@ class World {
 
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        //this.checkCollisions();
     }
 
 
-    checkCollisions() {
-        setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusbar.setHealth(this.character.energy);
-                }
-            });
+    //checkCollisions() {
+    //    setInterval(() => {
+    //        this.level.enemies.forEach((enemy) => {
+    //            if (this.character.isColliding(enemy)) {
+    //                this.character.hit();
+    //                this.statusbar.setHealth(this.character.energy);
+    //            }
+    //        });
 
-        }, 1000 / 3);
+    //    }, 1000 / 3);
 
-        setInterval(() => {
-            this.coins.COINS.forEach((coin) => {
-                if (this.character.isColliding(coin)) {
-                    this.coins.COINS.splice(this.coins.COINS.indexOf(coin), 1);
-                    this.statusbar.setCounterCoin();
-                }
-            })
-        }, 1000 / 60);
-    }
+    //    setInterval(() => {
+    //        this.coins.COINS.forEach((coin) => {
+    //            if (this.character.isColliding(coin)) {
+    //                this.coins.COINS.splice(this.coins.COINS.indexOf(coin), 1);
+    //                this.statusbar.setCounterCoin();
+    //            }
+    //        })
+    //    }, 1000 / 60);
+    //}
 
 
     setWorld() {
         this.character.world = this;
+        this.check_collisions.world = this;
     }
 
 

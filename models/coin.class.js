@@ -17,6 +17,9 @@ class Coin extends MovableObject {
     }
 
 
+    /**
+     * This function animate the coin images at an interval.
+     */
     animation() {
         setInterval(() => {
             this.animateImages(this.IMAGES.IMAGES_COINS);
@@ -24,6 +27,9 @@ class Coin extends MovableObject {
     }
 
 
+    /**
+     * This function rotates the coins at an intervall.
+     */
     rotate() {
         setInterval(() => {
             if (!this.otherDirection) {
