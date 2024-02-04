@@ -4,6 +4,7 @@ class World {
     statusbar = new Statusbar();
     coins = new CoinPositions();
     check_collisions = new CheckCollisions();
+    bottle = new Bottle();
     canvas;
     ctx; // Context for canvas
     keyboard;
@@ -16,30 +17,7 @@ class World {
 
         this.draw();
         this.setWorld();
-        //this.checkCollisions();
     }
-
-
-    //checkCollisions() {
-    //    setInterval(() => {
-    //        this.level.enemies.forEach((enemy) => {
-    //            if (this.character.isColliding(enemy)) {
-    //                this.character.hit();
-    //                this.statusbar.setHealth(this.character.energy);
-    //            }
-    //        });
-
-    //    }, 1000 / 3);
-
-    //    setInterval(() => {
-    //        this.coins.COINS.forEach((coin) => {
-    //            if (this.character.isColliding(coin)) {
-    //                this.coins.COINS.splice(this.coins.COINS.indexOf(coin), 1);
-    //                this.statusbar.setCounterCoin();
-    //            }
-    //        })
-    //    }, 1000 / 60);
-    //}
 
 
     setWorld() {
@@ -75,9 +53,10 @@ class World {
 
     afterTheCamera() {
         this.addObjectListToMap(this.level.backgroundObjects);
-        this.addObjectListToMap(this.level.enemies);
         this.addObjectListToMap(this.coins.COINS);
+        this.addObjectListToMap(this.level.enemies);
         this.addObjectToMap(this.character);
+        this.addObjectToMap(this.bottle);
     }
 
 

@@ -11,7 +11,6 @@ class DrawableObject extends Sound{
     scaleWPercent = 0;
     scaleHPercent = 0;
 
-
     // Declaration for img objects
     img;
     imgCache = {};
@@ -19,12 +18,20 @@ class DrawableObject extends Sound{
     currentImage = 0; // For image animation
     numberText; // Numbers in Statusbar
 
+    /**
+     * This function load the image in the image cache.
+     * @param {string} path the current image path.
+     */
     loadImage(path) {
         this.img = new Image(); // this.img = document.getElementById('image') <img id="image">
         this.img.src = path; // <img id="image" src="path">
     }
 
 
+    /**
+     * This function load multiple images in the image cach.
+     * @param {array} arr list from image paths.
+     */
     loadImages(arr) {
         for (let index in arr) {
             arr[index].forEach(path => {
@@ -36,18 +43,33 @@ class DrawableObject extends Sound{
     }
 
 
+    /**
+     * This function set the width and height from an image.
+     * @param {number} width is the width from the image.
+     * @param {number} percDiffHeight is the height from the image.
+     */
     setImgDimensions(width, percDiffHeight) {
         this.width = width;                        // Default width image
         this.height = this.width * percDiffHeight; // Default height image
     }
 
 
+    /**
+     * This function set the start coordinates for the image in the canvas.
+     * @param {number} x coordinate for the image.
+     * @param {number} y coordinate for the image.
+     */
     setImgCoordinates(x, y = this.y - this.height) {
         this.x = x; // Start value for img position
         this.y = y; // Does the same
     }
 
 
+    /**
+     * This function set the scale percent for the bounding box for the image.
+     * @param {number} scalePercWidth the percent for the bounding box width.
+     * @param {number} scalePercHeight the percent for the bounding box height.
+     */
     setImgScalePercentage(scalePercWidth, scalePercHeight) {
         this.scaleWPercent = scalePercWidth; // Percent value to scale the image in width
         this.scaleHPercent = scalePercHeight; // Does the same only in height
@@ -56,6 +78,10 @@ class DrawableObject extends Sound{
     }
 
 
+    /**
+     * This function calculate the offset point from the coordinates for the bounding box,
+     * when using the scale percent.
+     */
     setOffsetCoordinates() {
         // Calculate the diffrenz between default and scale value
         let diffToWidht = this.width - (this.width * this.scaleWPercent);
@@ -70,10 +96,19 @@ class DrawableObject extends Sound{
     }
 
 
+    /**
+     * This function draw the image in the canvas.
+     * @param {object} ctx is the image object.
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+
+    /**
+     * This function draw text in the canvas for the statusbar and the endboss healthbar.
+     * @param {object} ctx is the image object.
+     */
     drawText(ctx) {
         if (this instanceof Icon) {
             ctx.font = '48px Boogaloo-Regular';
@@ -83,8 +118,9 @@ class DrawableObject extends Sound{
     }
 
 
+    // Delete if the project finished ##########
     drawRectBounding(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Coin || this instanceof BackgroundObject) {
+        if (this instanceof Character || this instanceof Bottle) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';
@@ -95,6 +131,7 @@ class DrawableObject extends Sound{
     }
 
 
+    // Delete if the project finished ##########
     drawRectBounding2(ctx) {
         if (this instanceof BackgroundObject) {
             ctx.beginPath();
