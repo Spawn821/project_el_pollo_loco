@@ -2,6 +2,7 @@ class Bottle extends MovableObject {
     speedX = 0;
     speedY = 0;
     acceleration = 2.5;
+    throwDistance = 0;
 
     IMAGES = {
         IMAGES_BOTTLE_ROTATION: [
@@ -21,23 +22,23 @@ class Bottle extends MovableObject {
         ]
     };
 
-    constructor() {
+    constructor(x, y, distance) {
         super().loadImage('../graphics/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(75, 1); // width, percent for height = width * height
-        this.setImgCoordinates(200); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.7, 0.7) // percentage scale from width and height
-
+        this.setImgCoordinates(x, y); // coordinates x, y calculate less height
+        this.setImgScalePercentage(0.6, 0.6) // percentage scale from width and height
+    
+        this.throwDistance = distance;
+        this.throw();
         this.rotation();
-        //this.splash();
-        this.fly();
     }
 
 
     rotation() {
         setInterval(() => {
-            this.animateImages(this.IMAGES.IMAGES_BOTTLE_ROTATION);
-        }, 1000 / 25);
+                this.animateImages(this.IMAGES.IMAGES_BOTTLE_ROTATION);
+        }, 1000 / 10);
     }
 
 
@@ -48,14 +49,16 @@ class Bottle extends MovableObject {
     }
 
 
-    fly() {
-        this.speedX = 25;
-        this.speedY = 25;
+    throw() {
+        this.speedY = 20;
+        this.applyGravity();
+
         setInterval(() => {
-            this.x += 2.5;
-            this.y -= this.speedY;
-            this.speedX -= this.acceleration;
-            this.speedY -= this.acceleration;
-        }, 1000 / 15);
+            if (this.otherDirection) {
+                this.x -= this.throwDistance;
+            } else {
+                this.x += this.throwDistance;
+            }
+        }, 1000 / 25);
     }
 }

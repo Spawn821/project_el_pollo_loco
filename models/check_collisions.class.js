@@ -3,9 +3,10 @@ class CheckCollisions {
     isDead = [];
 
     constructor() {
+        this.throwChicken();
+        this.jumpOnChicken();
         this.character();
         this.coins();
-        this.chicken();
     }
 
 
@@ -19,6 +20,22 @@ class CheckCollisions {
     }
 
 
+    throwChicken() {
+        setInterval(() => {
+            this.world.level.enemies.forEach((enemy) => {
+                this.world.bottles.forEach((bottle) => {
+                    if (bottle.isColliding(enemy)) {
+                        if (this.checkDeadIndex(enemy) == -1) {
+                            console.log('Throw chicken!');
+                            enemy.dead();
+                        }
+                    }
+                });
+            });
+        }, 1000 / 60);
+    }
+
+
     /**
      * This function check if an enemy colliding with the character and
      * died in the process.
@@ -26,7 +43,7 @@ class CheckCollisions {
      * the enemy death animation is shown.
      * The 'isDead' array become a new entry.
      */
-    chicken() {
+    jumpOnChicken() {
         setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
                 if (this.world.character.isCollidingOnTop(enemy)) {

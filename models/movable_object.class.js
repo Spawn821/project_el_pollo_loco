@@ -2,7 +2,7 @@ class MovableObject extends DrawableObject {
     speed = 0.05;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5; 
+    acceleration = 2.5;
     energy = 100;
     lastHit = 0;
 
@@ -17,18 +17,23 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             } else if (this.isOnGround) {
-                this.y = 128.75; // The Character always has the same y coordinate after jumping
+                this.y = this.startPosY; // The Character always has the same y coordinate after jumping
             }
         }, 1000 / 25);
     }
 
 
     /**
-     * This function check if the fixed character pos. lower.
+     * This function checks the start position in y against the is position and
+     * ensures that thrown objects simply fall.
      * @returns true or false.
      */
     isAboveGround() {
-        return this.y < 128.75;
+        if (this instanceof Bottle) {
+            return true;
+        } else {
+            return this.y < this.startPosY;
+        }
     }
 
 
@@ -37,7 +42,7 @@ class MovableObject extends DrawableObject {
      * @returns true or false.
      */
     isOnGround() {
-        return this.y > 128.75;
+        return this.y > this.startPosY;
     }
 
 

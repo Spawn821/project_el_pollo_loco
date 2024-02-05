@@ -18,7 +18,7 @@ class Chicken extends MovableObject {
         super().loadImage('../graphics/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(75, 1.02); // width, percent for height = width * height
-        this.setImgCoordinates(250 + Math.random() * 500); // coordinates x, y calculate less height
+        this.setImgCoordinates(450 + Math.random() * 500); // coordinates x, y calculate less height
         this.setImgScalePercentage(1, 1) // percentage scale from width and height
         this.animation();
         //this.move();

@@ -9,7 +9,6 @@ function init() {
 
 
 window.addEventListener('keydown', (event) => {
-    console.log(event.key);
     if (event.key == 'ArrowLeft') {
         keyboard.LEFT = true;
     } else if (event.key == 'ArrowRight') {
@@ -22,6 +21,10 @@ window.addEventListener('keydown', (event) => {
         keyboard.SPACE = true;
     } else if (event.key == 'a') {
         keyboard.a = true;
+    } else if (event.key == 's') {
+        keyboard.s = true;
+    } else if (event.key == 'd') {
+        keyboard.d = true;
     }
 });
 
@@ -37,7 +40,11 @@ window.addEventListener('keyup', (event) => {
         keyboard.DOWN = false;
     } else if (event.key == ' ') {
         keyboard.SPACE = false;
-    } else if (event.key == a) {
+    } else if (event.key == 'a') {
         keyboard.a = false;
+    } else if (event.key == 's') {
+        keyboard.s = false;
+    } else if (event.key == 'd') {
+        keyboard.d = false;
     }
 });

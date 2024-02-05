@@ -4,5 +4,7 @@ class Keyboard {
     UP = false;
     DOWN = false;
     SPACE = false; // Jump
-    a = false; // Attack
+    a = false; // Attack low distance
+    s = false; // Attack middle distance
+    d = false; // Attack high dinstance
 }

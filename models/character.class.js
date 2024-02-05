@@ -60,14 +60,15 @@ class Character extends MovableObject {
         super().loadImage('../graphics/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(125, 1.97); // width, percent for height = width * height
-        this.setImgCoordinates(50); // coordinates x, y calculate less height
+        this.setImgCoordinates(200); // coordinates x, y calculate less height
         this.setImgScalePercentage(0.65, 0.60) // percentage scale from width and height
 
         this.end_walking = this.level.sections['section_6_xPos'] + 720 - this.width;
-        this.end_camera = this.level.sections['section_6_xPos'] + 50;
+        this.end_camera = this.level.sections['section_6_xPos'] + 200;
 
         this.animation();
         this.move();
+        this.throwBottle();
         this.moveCamera();
         this.applyGravity();
 
@@ -113,10 +114,30 @@ class Character extends MovableObject {
     }
 
 
+    throwBottle() {
+        setInterval(() => {
+            if (this.world.keyboard.a) {
+                this.createBottle(10);
+            } else if (this.world.keyboard.s) {
+                this.createBottle(20);
+            } else if (this.world.keyboard.d) {
+                this.createBottle(30);
+            }
+        }, 1000 / 10);
+    }
+
+
+    createBottle(distance) {
+        let bottle = new Bottle(this.x + this.offsetX, this.y + this.offsetY, distance);
+        bottle.otherDirection = this.otherDirection;
+        this.world.bottles.push(bottle);
+    }
+
+
     moveCamera() {
         setInterval(() => {
-            if (this.x > 50 && this.x < this.end_camera) {
-                this.world.camera_x = -this.x + 50;
+            if (this.x > 200 && this.x < this.end_camera) {
+                this.world.camera_x = -this.x + 200;
             }
         }, 1000 / 60)
     }

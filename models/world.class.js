@@ -4,7 +4,7 @@ class World {
     statusbar = new Statusbar();
     coins = new CoinPositions();
     check_collisions = new CheckCollisions();
-    bottle = new Bottle();
+    bottles = [];
     canvas;
     ctx; // Context for canvas
     keyboard;
@@ -56,7 +56,7 @@ class World {
         this.addObjectListToMap(this.coins.COINS);
         this.addObjectListToMap(this.level.enemies);
         this.addObjectToMap(this.character);
-        this.addObjectToMap(this.bottle);
+        this.addObjectListToMap(this.bottles);
     }
 
 

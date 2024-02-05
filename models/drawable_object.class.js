@@ -4,6 +4,7 @@ class DrawableObject extends Sound{
     y = 375;
     offsetX = 0;
     offsetY = 0;
+    startPosY = 0;
 
     // Values for canvas and images
     width = 720;
@@ -62,6 +63,7 @@ class DrawableObject extends Sound{
     setImgCoordinates(x, y = this.y - this.height) {
         this.x = x; // Start value for img position
         this.y = y; // Does the same
+        this.startPosY = y;
     }
 
 

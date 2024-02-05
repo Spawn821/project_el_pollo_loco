@@ -7,7 +7,6 @@ class Statusbar {
                             270, 10, 65, 1.06, 0);
 
     setCounterBottle() {
-
     }
 
 
