@@ -62,20 +62,37 @@ class Character extends MovableObject {
         this.setImgDimensions(125, 1.97); // width, percent for height = width * height
         this.setImgCoordinates(200); // coordinates x, y calculate less height
         this.setImgScalePercentage(0.65, 0.60) // percentage scale from width and height
+        this.setValues();
+        this.startTheEngine();
+    }
 
+
+    /**
+     * This function sets all values for the start or the later course of the game.
+     */
+    setValues() {
         this.end_walking = this.level.sections['section_6_xPos'] + 720 - this.width;
         this.end_camera = this.level.sections['section_6_xPos'] + 200;
+        this.speed = 5;
+        this.energy = 100;
+    }
 
+
+    /**
+     * This function starts all intervals.
+     */
+    startTheEngine() {
         this.animation();
         this.move();
         this.throwBottle();
         this.moveCamera();
         this.applyGravity();
-
-        this.speed = 5;
     }
 
 
+    /**
+     * This function controlls all animations from walk, to jump ...
+     */
     animation() {
         setInterval(() => {
             if (this.isDead()) {
@@ -95,6 +112,9 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * This function lets the character move.
+     */
     move() {
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.end_walking) {
@@ -114,6 +134,9 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * This function starts the various throwing distances.
+     */
     throwBottle() {
         setInterval(() => {
             if (this.world.keyboard.a) {
@@ -127,6 +150,10 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * This function create a new bottle for throwing.
+     * @param {number} distance is the throwing distance.
+     */
     createBottle(distance) {
         let bottle = new Bottle(this.x + this.offsetX, this.y + this.offsetY, distance);
         bottle.otherDirection = this.otherDirection;
@@ -134,6 +161,9 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * This function controlls the camera movement.
+     */
     moveCamera() {
         setInterval(() => {
             if (this.x > 200 && this.x < this.end_camera) {

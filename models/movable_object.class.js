@@ -1,9 +1,10 @@
 class MovableObject extends DrawableObject {
     speed = 0.05;
+    saveSpeed = 0;
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
-    energy = 100;
+    energy = 0;
     lastHit = 0;
 
     /**

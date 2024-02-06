@@ -120,9 +120,26 @@ class DrawableObject extends Sound{
     }
 
 
+    drawEnergyBar(ctx) {
+        if (this instanceof Chicken) {
+            ctx.beginPath()
+            ctx.lineWidth = '3.5';
+            ctx.strokeStyle = 'black';
+            ctx.moveTo(this.x + this.width / 2, this.y + 20);
+            ctx.lineTo(this.x + this.width / 2 + this.calculateEnergyBar(), this.y + 20);
+            ctx.stroke();
+        }
+    }
+
+
+    calculateEnergyBar() {
+        return ((30) * (this.energy / 10)); // 30 is 100 procent from drawn energy.
+    }
+
+
     // Delete if the project finished ##########
     drawRectBounding(ctx) {
-        if (this instanceof Character || this instanceof Bottle) {
+        if (this instanceof Bottle) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';

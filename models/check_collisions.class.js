@@ -1,12 +1,28 @@
 class CheckCollisions {
     world;
     isDead = [];
+    thrownBottles = [];
 
     constructor() {
         this.throwChicken();
         this.jumpOnChicken();
         this.character();
         this.coins();
+    }
+
+
+    /**
+     * This function start a dead animation and delete the enemy from the game.
+     * @param {object} enemy is the current enemy.
+     */
+    enemyIsDead(enemy) {
+        if (enemy.isDead()) {
+            enemy.flat();
+            this.isDead.push(enemy);
+            setTimeout(() => {
+                this.world.level.enemies.splice(this.world.level.enemies.indexOf(enemy), 1);
+            }, 1000);
+        }
     }
 
 
@@ -20,15 +36,25 @@ class CheckCollisions {
     }
 
 
+    /**
+     * This function check whether there is an entry in the array 'thrownBottles'.
+     * @param {object} bottle is the current bottle.
+     * @returns -1 or the entry.
+     */
+    checkThrownBottles(bottle) {
+        return this.thrownBottles.indexOf(bottle);
+    }
+
+
+    /**
+     * This function check if an enemy affected with a bottle.
+     */
     throwChicken() {
         setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
                 this.world.bottles.forEach((bottle) => {
-                    if (bottle.isColliding(enemy)) {
-                        if (this.checkDeadIndex(enemy) == -1) {
-                            console.log('Throw chicken!');
-                            enemy.dead();
-                        }
+                    if (bottle.isColliding(enemy) && this.checkThrownBottles(bottle) == -1) {
+                        this.affectedWithBottle(bottle, enemy);
                     }
                 });
             });
@@ -37,27 +63,48 @@ class CheckCollisions {
 
 
     /**
-     * This function check if an enemy colliding with the character and
-     * died in the process.
-     * The enemy entry is deleted from the enemy array and
-     * the enemy death animation is shown.
-     * The 'isDead' array become a new entry.
+     * This function start the hurt animation from the affected enemy and reduce the energy.
+     * The affected bottle added to the already thrown bottles.
+     * @param {object} bottle is the current bottle.
+     * @param {object} enemy is the current enemy.
+     */
+    affectedWithBottle(bottle, enemy) {
+        this.thrownBottles.push(bottle);
+        if (this.checkDeadIndex(enemy) == -1) {
+            enemy.hit();
+            enemy.affected();
+            this.enemyIsDead(enemy);
+        }
+    }
+
+
+    /**
+     * This function check if the character jumped on an enemy.
      */
     jumpOnChicken() {
         setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
                 if (this.world.character.isCollidingOnTop(enemy)) {
-                    if (this.checkDeadIndex(enemy) == -1) {
-                        enemy.dead();
-                        this.isDead.push(enemy);
-                        setTimeout(() => {
-                            this.world.level.enemies.splice(this.world.level.enemies.indexOf(enemy), 1);
-                        }, 1000);
-                        this.world.character.jump();
-                    }
+                    this.affectedWithJump(enemy);
                 }
             });
         }, 1000 / 60);
+    }
+
+
+    /**
+     * This function start the hurt animation from the enemy who was jumped on and
+     * reduce the energy.
+     * The character automatically jumps into the air.
+     * @param {object} enemy is the current enemy.
+     */
+    affectedWithJump(enemy) {
+        if (this.checkDeadIndex(enemy) == -1) {
+            enemy.hit();
+            enemy.flat();
+            this.enemyIsDead(enemy);
+            this.world.character.jump();
+        }
     }
 
 

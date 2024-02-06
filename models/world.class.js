@@ -76,6 +76,7 @@ class World {
         movableObject.drawRectBounding(this.ctx);
         movableObject.drawRectBounding2(this.ctx);
         movableObject.drawText(this.ctx);
+        movableObject.drawEnergyBar(this.ctx);
 
         if (movableObject.otherDirection) {
             this.removeMirrorImage(movableObject);

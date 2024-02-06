@@ -27,7 +27,7 @@ class Bottle extends MovableObject {
         this.loadImages(this.IMAGES);
         this.setImgDimensions(75, 1); // width, percent for height = width * height
         this.setImgCoordinates(x, y); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.6, 0.6) // percentage scale from width and height
+        this.setImgScalePercentage(0.5, 0.5) // percentage scale from width and height
     
         this.throwDistance = distance;
         this.throw();
