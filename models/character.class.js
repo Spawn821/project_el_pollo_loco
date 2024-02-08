@@ -97,7 +97,7 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.isDead()) {
                 this.animateImages(this.IMAGES.IMAGES_DEAD);
-            } else if (this.isHurt()) {
+            } else if (this.isHurt(0.25)) {
                 this.animateImages(this.IMAGES.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.animateImages(this.IMAGES.IMAGES_JUMPING);

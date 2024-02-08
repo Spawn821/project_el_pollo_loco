@@ -99,7 +99,7 @@ class CheckCollisions {
      * @param {object} enemy is the current enemy.
      */
     affectedWithJump(enemy) {
-        if (this.checkDeadIndex(enemy) == -1) {
+        if (this.checkDeadIndex(enemy) == -1 && !enemy.isHurt(1)) {
             enemy.hit();
             enemy.flat();
             this.enemyIsDead(enemy);
@@ -116,7 +116,7 @@ class CheckCollisions {
         setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
                 if (this.world.character.isColliding(enemy)) {
-                    if (this.checkDeadIndex(enemy) == -1) {
+                    if (this.checkDeadIndex(enemy) == -1 && !enemy.isHurt(1)) {
                         this.world.character.hit();
                         this.world.statusbar.setHealth(this.world.character.energy);
                     }

@@ -124,7 +124,7 @@ class DrawableObject extends Sound{
         if (this instanceof Chicken) {
             ctx.beginPath()
             ctx.lineWidth = '3.5';
-            ctx.strokeStyle = 'black';
+            this.energy == 10 ? ctx.strokeStyle = 'black' : ctx.strokeStyle = 'red';
             ctx.moveTo(this.x + this.width / 2, this.y + 20);
             ctx.lineTo(this.x + this.width / 2 + this.calculateEnergyBar(), this.y + 20);
             ctx.stroke();
@@ -139,7 +139,7 @@ class DrawableObject extends Sound{
 
     // Delete if the project finished ##########
     drawRectBounding(ctx) {
-        if (this instanceof Bottle) {
+        if (this instanceof Character || this instanceof Chicken) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';
@@ -152,7 +152,7 @@ class DrawableObject extends Sound{
 
     // Delete if the project finished ##########
     drawRectBounding2(ctx) {
-        if (this instanceof BackgroundObject) {
+        if (false) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';

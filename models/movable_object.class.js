@@ -61,10 +61,10 @@ class MovableObject extends DrawableObject {
      * This function check how much time has passed since the last hit.
      * @returns true or false.
      */
-    isHurt() {
+    isHurt(duration) {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
-        return timepassed < 0.25;
+        return timepassed < duration; // 0.25
     }
 
 
@@ -112,7 +112,7 @@ class MovableObject extends DrawableObject {
         return this.imgRightSite(this) > this.imgLeftSite(mO) &&
             this.imgLeftSite(this) < this.imgRightSite(mO) &&
             this.imgBottom(this) > this.imgTop(mO) &&
-            this.imgBottom(this) != this.imgBottom(mO) &&
+            this.y < this.startPosY &&
             this.speedY < 0;
     }
 

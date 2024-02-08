@@ -18,10 +18,10 @@ class Chicken extends MovableObject {
         super().loadImage('../graphics/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(75, 1.02); // width, percent for height = width * height
-        this.setImgCoordinates(450 + Math.random() * 500); // coordinates x, y calculate less height
+        this.setImgCoordinates(450 + Math.random() * 600); // coordinates x, y calculate less height
         this.setImgScalePercentage(0.8, 0.8) // percentage scale from width and height
-        this.startTheEngine();
         this.setValues();
+        this.startTheEngine();
     }
 
 
@@ -61,7 +61,8 @@ class Chicken extends MovableObject {
      * This function starts an hurt animtion and let the enemy bounces briefly.
      */
     affected() {
-        this.speedY = 10;
+        this.stopWalking();
+        this.speedY = 15;
         this.applyGravity();
     }
 
@@ -72,9 +73,14 @@ class Chicken extends MovableObject {
      * If the energy not zero the walking animtion restarted.
      */
     flat() {
+        this.stopWalking();
+        this.animateImages(this.IMAGES.IMAGES_DEAD);
+    }
+
+
+    stopWalking() {
         this.speed = 0;
         clearInterval(this.animationIntervall);
-        this.animateImages(this.IMAGES.IMAGES_DEAD);
         if (this.energy > 0) {
             setTimeout(() => {
                 this.animation();
