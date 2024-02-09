@@ -89,9 +89,14 @@ class DrawableObject extends Sound{
         let diffToWidht = this.width - (this.width * this.scaleWPercent);
         let diffToHeight = this.height - (this.height * this.scaleHPercent);
 
-        this.offsetX = diffToWidht / 2;
+        if (this instanceof BottleToCollect) {
+            this.offsetX = diffToWidht / 2 + 7.5;
+        } else {
+            this.offsetX = diffToWidht / 2;
+        }
+
         if (this instanceof Character || this instanceof Endboss) {
-            this.offsetY = diffToHeight; // For the character image
+            this.offsetY = diffToHeight - 7.5; // For the character image
         } else {
             this.offsetY = diffToHeight / 2; // For all other pictures
         }
@@ -139,7 +144,7 @@ class DrawableObject extends Sound{
 
     // Delete if the project finished ##########
     drawRectBounding(ctx) {
-        if (this instanceof Character || this instanceof Chicken) {
+        if (this instanceof Character || this instanceof BottleToCollect) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';

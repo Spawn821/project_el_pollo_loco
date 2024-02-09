@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 0;
     lastHit = 0;
+    applyGravityInterval;
 
     /**
      * This function controlls the gravity if the character jump.
@@ -13,7 +14,7 @@ class MovableObject extends DrawableObject {
      * increasing speed to the ground.
      */
     applyGravity() {
-        setInterval(() => {
+        this.applyGravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;

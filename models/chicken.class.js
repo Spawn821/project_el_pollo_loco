@@ -40,7 +40,7 @@ class Chicken extends MovableObject {
      */
     startTheEngine() {
         this.animation();
-        this.move();
+        //this.move();
     }
 
 
@@ -78,6 +78,10 @@ class Chicken extends MovableObject {
     }
 
 
+    /**
+     * This function stop walking from the enemy.
+     * Set the speed to 0 and stop the walking animation.
+     */
     stopWalking() {
         this.speed = 0;
         clearInterval(this.animationIntervall);

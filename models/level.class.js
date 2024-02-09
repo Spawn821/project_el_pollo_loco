@@ -3,20 +3,19 @@ class Level {
     clouds = [];
     air;
     enemies;
-    bottle;
-    health;
-    coin;
+    bottlesToCollect = [];
     section1Xpos;
     section2Xpos;
     section1Num = 1;
     section2Num = 2;
     sections = {};
 
-    constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air, enemies) {
+    constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air, enemies, bottlesToCollect) {
         this.backgroundObjects = this.loadObjects(IMAGES_BACKGROUND, 'background');
         this.clouds = this.loadObjects(IMAGES_CLOUD, 'cloud');
         this.air = air;
         this.enemies = enemies;
+        this.bottlesToCollect = bottlesToCollect;
     }
 
 
@@ -25,7 +24,7 @@ class Level {
         this.sections = [];
         let objectList = [];
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 5; i++) {
             objectList = this.addObjects(objectList, IMAGES, category);
 
             this.setXCoordinates();

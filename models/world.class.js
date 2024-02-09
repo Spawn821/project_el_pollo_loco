@@ -57,6 +57,7 @@ class World {
         this.addObjectListToMap(this.level.enemies);
         this.addObjectToMap(this.character);
         this.addObjectListToMap(this.bottles);
+        this.addObjectListToMap(this.level.bottlesToCollect);
     }
 
 

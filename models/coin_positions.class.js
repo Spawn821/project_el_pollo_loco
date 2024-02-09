@@ -13,14 +13,27 @@ class CoinPositions {
      */
     setForms() {
         for (let section in this.level.sections) {
-            if (section.includes('section_1') || section.includes('section_4')) {
+            this.assignSections(section);
+            if (this.assignSections(section) == 1) {
                 this.arch(this.level.sections[section] + 350);
-            } else if (section.includes('section_2') || section.includes('section_5')) {
+            } else if (this.assignSections(section) == 2) {
                 this.zigZagHorizontalLine(this.level.sections[section] - 10);
-            } else if (section.includes('section_3')) {
+            } else if (this.assignSections(section) == 0) {
                 this.verticalLine(this.level.sections[section] + 75);
             }
         };
+    }
+
+
+    /**
+     * This function determines numbers from 0 to 3 to assign
+     * the coin shapes to the level secions.
+     * @param {object} section is the current section.
+     * @returns 0 to 3.
+     */
+    assignSections(section) {
+        let number = Number(section.split('_')[1]);
+        return number % 3;
     }
 
 

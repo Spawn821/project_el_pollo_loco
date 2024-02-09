@@ -61,7 +61,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES);
         this.setImgDimensions(125, 1.97); // width, percent for height = width * height
         this.setImgCoordinates(200); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.65, 0.60) // percentage scale from width and height
+        this.setImgScalePercentage(0.65, 0.55) // percentage scale from width and height
         this.setValues();
         this.startTheEngine();
     }
@@ -139,12 +139,14 @@ class Character extends MovableObject {
      */
     throwBottle() {
         setInterval(() => {
-            if (this.world.keyboard.a) {
-                this.createBottle(10);
-            } else if (this.world.keyboard.s) {
-                this.createBottle(20);
-            } else if (this.world.keyboard.d) {
-                this.createBottle(30);
+            if (this.world.statusbar.bottleIcon.numberText > 0) {
+                if (this.world.keyboard.a) {
+                    this.createBottle(10);
+                } else if (this.world.keyboard.s) {
+                    this.createBottle(15);
+                } else if (this.world.keyboard.d) {
+                    this.createBottle(20);
+                }
             }
         }, 1000 / 10);
     }
@@ -158,6 +160,7 @@ class Character extends MovableObject {
         let bottle = new Bottle(this.x + this.offsetX, this.y + this.offsetY, distance);
         bottle.otherDirection = this.otherDirection;
         this.world.bottles.push(bottle);
+        this.world.statusbar.decreaseCounterBottle();
     }
 
 

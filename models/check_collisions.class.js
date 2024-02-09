@@ -8,6 +8,7 @@ class CheckCollisions {
         this.jumpOnChicken();
         this.character();
         this.coins();
+        this.bottles();
     }
 
 
@@ -23,6 +24,17 @@ class CheckCollisions {
                 this.world.level.enemies.splice(this.world.level.enemies.indexOf(enemy), 1);
             }, 1000);
         }
+    }
+
+
+    /**
+     * This function remove the affected.
+     * @param {*} bottle 
+     */
+    removeBottle(bottle) {
+        setTimeout(() => {
+            this.world.bottles.splice(this.world.bottles.indexOf(bottle), 1);
+        }, 500);
     }
 
 
@@ -71,6 +83,10 @@ class CheckCollisions {
     affectedWithBottle(bottle, enemy) {
         this.thrownBottles.push(bottle);
         if (this.checkDeadIndex(enemy) == -1) {
+            bottle.stopThrow();
+            bottle.startY = enemy.startY;
+            bottle.splash();
+            this.removeBottle(bottle);
             enemy.hit();
             enemy.affected();
             this.enemyIsDead(enemy);
@@ -136,6 +152,22 @@ class CheckCollisions {
                 if (this.world.character.isColliding(coin)) {
                     this.world.coins.COINS.splice(this.world.coins.COINS.indexOf(coin), 1);
                     this.world.statusbar.setCounterCoin();
+                }
+            })
+        }, 1000 / 60);
+    }
+
+
+    /**
+     * This function check if the character collided with a bollte on the ground and
+     * collect this in the statusbar form the character.
+     */
+    bottles() {
+        setInterval(() => {
+            this.world.level.bottlesToCollect.forEach((bottle) => {
+                if (this.world.character.isColliding(bottle)) {
+                    this.world.level.bottlesToCollect.splice(this.world.level.bottlesToCollect.indexOf(bottle), 1);
+                    this.world.statusbar.increaseCounterBottle();
                 }
             })
         }, 1000 / 60);

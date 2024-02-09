@@ -21,4 +21,17 @@ const level1 = new Level(
         //new Chicken(),
         //new Endboss()
     ],
+
+    [
+        new BottleToCollect(),
+        new BottleToCollect(),
+        new BottleToCollect(),
+        new BottleToCollect(),
+        new BottleToCollect(),
+        new BottleToCollect(),
+        new BottleToCollect(),
+        new BottleToCollect(),
+        new BottleToCollect(),
+        new BottleToCollect()
+    ]
 );
