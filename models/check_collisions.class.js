@@ -164,9 +164,9 @@ class CheckCollisions {
      */
     bottles() {
         setInterval(() => {
-            this.world.level.bottlesToCollect.forEach((bottle) => {
+            this.world.bottlesToCollect.BOTTLES.forEach((bottle) => {
                 if (this.world.character.isColliding(bottle)) {
-                    this.world.level.bottlesToCollect.splice(this.world.level.bottlesToCollect.indexOf(bottle), 1);
+                    this.world.bottlesToCollect.BOTTLES.splice(this.world.bottlesToCollect.BOTTLES.indexOf(bottle), 1);
                     this.world.statusbar.increaseCounterBottle();
                 }
             })

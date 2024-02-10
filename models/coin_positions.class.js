@@ -8,32 +8,41 @@ class CoinPositions {
 
 
     /**
-     * This function iterated through the level sections
-     * and call the diffrent forms for the respective section.
+     * This function iterated through the level sections and
+     * call the diffrent forms for the respective section.
      */
     setForms() {
+        let currentForm = 0;
+
         for (let section in this.level.sections) {
-            this.assignSections(section);
-            if (this.assignSections(section) == 1) {
-                this.arch(this.level.sections[section] + 350);
-            } else if (this.assignSections(section) == 2) {
-                this.zigZagHorizontalLine(this.level.sections[section] - 10);
-            } else if (this.assignSections(section) == 0) {
-                this.verticalLine(this.level.sections[section] + 75);
-            }
-        };
+            let currentSection = this.level.sections[section];
+            let number = currentForm % 3
+
+            this.selectForm(number, currentSection);
+
+            currentForm++;
+        }
     }
 
 
     /**
-     * This function determines numbers from 0 to 3 to assign
-     * the coin shapes to the level secions.
-     * @param {object} section is the current section.
-     * @returns 0 to 3.
+     * This function call the diffrent coin forms for
+     * the diffrent level sections.
+     * @param {number} number is the coin form.
+     * @param {number} section is the x coordinate for the section.
      */
-    assignSections(section) {
-        let number = Number(section.split('_')[1]);
-        return number % 3;
+    selectForm(number, section) {
+        switch(number) {
+            case 0:
+                this.arch(section + 350);
+                break;
+            case 1:
+                this.zigZagHorizontalLine(section - 10);
+                break;
+            case 2:
+                this.verticalLine(section + 75);
+                break;
+        };
     }
 
 

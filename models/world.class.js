@@ -3,6 +3,7 @@ class World {
     character = new Character();
     statusbar = new Statusbar();
     coins = new CoinPositions();
+    bottlesToCollect = new BottlePositions();
     check_collisions = new CheckCollisions();
     bottles = [];
     canvas;
@@ -54,10 +55,10 @@ class World {
     afterTheCamera() {
         this.addObjectListToMap(this.level.backgroundObjects);
         this.addObjectListToMap(this.coins.COINS);
+        this.addObjectListToMap(this.bottlesToCollect.BOTTLES);
         this.addObjectListToMap(this.level.enemies);
         this.addObjectToMap(this.character);
         this.addObjectListToMap(this.bottles);
-        this.addObjectListToMap(this.level.bottlesToCollect);
     }
 
 

@@ -64,9 +64,10 @@ class Bottle extends MovableObject {
      * This function shows the splash animation when the bottle collided with an enemy.
      */
     splash() {
+        this.currentImage = 0;
         setInterval(() => {
             this.animateImages(this.IMAGES.IMAGES_BOTTLE_SPLASH);
-        }, 1000 / 10);
+        }, 1000 / 8);
     }
 
 

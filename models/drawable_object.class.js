@@ -125,6 +125,10 @@ class DrawableObject extends Sound{
     }
 
 
+    /**
+     * This function create the energy bar for the enemys.
+     * @param {object} ctx is the current enemy.
+     */
     drawEnergyBar(ctx) {
         if (this instanceof Chicken) {
             ctx.beginPath()
@@ -144,7 +148,7 @@ class DrawableObject extends Sound{
 
     // Delete if the project finished ##########
     drawRectBounding(ctx) {
-        if (this instanceof Character || this instanceof BottleToCollect) {
+        if (this instanceof Endboss) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';
