@@ -1,4 +1,11 @@
 class Endboss extends MovableObject {
+    walkIntervall;
+    alertIntervall;
+    attackIntervall;
+    hurtIntervall;
+    deadIntervall;
+    collisionWhitCharacter = false;
+
     IMAGES = {
         IMAGES_WALK: [
             '../graphics/4_enemie_boss_chicken/1_walk/G1.png',
@@ -47,28 +54,70 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES);
         this.setImgDimensions(300, 1.16); // width, percent for height = width * height
         this.setImgCoordinates(720 - this.width); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.65, 0.8) // percentage scale from width and height
+        this.setImgScalePercentage(0.50, 0.8) // percentage scale from width and height
         this.setValues();
-        this.startTheEngine();
+        this.animation();
 
     }
+
 
     setValues() {
         this.speed = 1.5;
-    }
-
-
-    startTheEngine() {
-        this.animation();
-        //this.move();
+        this.energy = 30;
     }
 
 
     animation() {
         setInterval(() => {
             this.animateImages(this.IMAGES.IMAGES_WALK);
-            //this.animateImages(this.IMAGES.IMAGES_ALERT);
+            this.animateImages(this.IMAGES.IMAGES_ALERT);
+            if (this.collisionWhitCharacter) {
+                this.animateImages(this.IMAGES.IMAGES_ATTACK);
+            } else if (this.isDead()) {
+                this.animateImages(this.IMAGES.IMAGES_DEAD);
+            } else if (this.isHurt(1)) {
+                this.animateImages(this.IMAGES.IMAGES_HURT);
+            }
         }, 1000 / 8);
+    }
+
+
+    animationWalk() {
+        this.walkIntervall = setInterval(() => {
+            this.animateImages(this.IMAGES.IMAGES_WALK);
+        }, 1000 / 8);
+    }
+
+
+    animationAlert() {
+        this.alertIntervall = setInterval(() => {
+            this.animateImages(this.IMAGES.IMAGES_ALERT);
+        }, 1000 / 8);
+
+    }
+
+
+    animationAttack() {
+        this.attackIntervall = setInterval(() => {
+            this.animateImages(this.IMAGES.IMAGES_ATTACK);
+        }, 1000 / 8);
+
+    }
+
+
+    animationHurt() {
+        this.hurtIntervall = setInterval(() => {
+            this.animateImages(this.IMAGES.IMAGES_HURT);
+        }, 1000 / 8);
+
+    }
+
+
+    animationDead() {
+        this.deadIntervall = setInterval(() => {
+            this.animateImages(this.IMAGES.IMAGES_DEAD);
+        }, 1000 / 8);
+
     }
 
 

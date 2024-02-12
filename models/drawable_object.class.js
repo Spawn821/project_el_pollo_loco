@@ -120,7 +120,11 @@ class DrawableObject extends Sound{
         if (this instanceof Icon) {
             ctx.font = '48px Boogaloo-Regular';
             ctx.fillStyle = 'white';
-            ctx.fillText(this.numberText, this.x + 55, this.y + 55);
+            if (this.img.src.includes('endboss')) {
+                ctx.fillText(this.numberText, this.x + 75, this.y + 55);
+            } else {
+                ctx.fillText(this.numberText, this.x + 55, this.y + 55);
+            }
         }
     }
 

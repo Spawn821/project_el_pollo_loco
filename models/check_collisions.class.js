@@ -9,6 +9,7 @@ class CheckCollisions {
         this.character();
         this.coins();
         this.bottles();
+        this.endboss();
     }
 
 
@@ -88,9 +89,24 @@ class CheckCollisions {
             bottle.splash();
             this.removeBottle(bottle);
             enemy.hit();
-            enemy.affected();
-            this.enemyIsDead(enemy);
+
+            if (enemy instanceof Chicken) {
+                this.affectedChickenWithBottle(enemy);
+            } else if (enemy instanceof Endboss) {
+                this.affectedEndbossWithBottle(enemy);
+            }
         }
+    }
+
+
+    affectedChickenWithBottle(enemy) {
+        enemy.affected();
+        this.enemyIsDead(enemy);
+    }
+
+
+    affectedEndbossWithBottle(enemy) {
+        this.world.statusbar.setEndbossHealth(enemy.energy);
     }
 
 
@@ -170,6 +186,21 @@ class CheckCollisions {
                     this.world.statusbar.increaseCounterBottle();
                 }
             })
+        }, 1000 / 60);
+    }
+
+
+    endboss() {
+        setInterval(() => {
+            this.world.level.enemies.forEach((enemy) => {
+                if (enemy instanceof Endboss) {
+                    if (enemy.isColliding(this.world.character)){
+                        enemy.collisionWhitCharacter = !this.world.character.isHurt();
+                    } else {
+                        enemy.collisionWhitCharacter = this.world.character.isHurt();
+                    }
+                }
+            });
         }, 1000 / 60);
     }
 }
