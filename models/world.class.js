@@ -1,5 +1,6 @@
 class World {
-    level = level1;
+    levelBackground = level1Background;
+    levelEnemies = level1Enemies;
     character = new Character();
     statusbar = new Statusbar();
     coins = new CoinPositions();
@@ -44,8 +45,8 @@ class World {
 
 
     beforTheCamera() {
-        this.addObjectToMap(this.level.air);
-        this.addObjectListToMap(this.level.clouds);
+        this.addObjectToMap(this.levelBackground.air);
+        this.addObjectListToMap(this.levelBackground.clouds);
         this.addObjectToMap(this.statusbar.bottleIcon);
         this.addObjectToMap(this.statusbar.healthIcon);
         this.addObjectToMap(this.statusbar.coinIcon);
@@ -54,10 +55,10 @@ class World {
 
 
     afterTheCamera() {
-        this.addObjectListToMap(this.level.backgroundObjects);
+        this.addObjectListToMap(this.levelBackground.backgroundObjects);
         this.addObjectListToMap(this.coins.COINS);
         this.addObjectListToMap(this.bottlesToCollect.BOTTLES);
-        this.addObjectListToMap(this.level.enemies);
+        this.addObjectListToMap(this.levelEnemies.enemies);
         this.addObjectToMap(this.character);
         this.addObjectListToMap(this.bottles);
     }

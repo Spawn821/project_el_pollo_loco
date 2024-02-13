@@ -1,19 +1,17 @@
-class Level {
+class LevelBackground {
     backgroundObjects = [];
     clouds = [];
     air;
-    enemies;
     section1Xpos;
     section2Xpos;
     section1Num;
     section2Num;
     sections = {};
 
-    constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air, enemies) {
+    constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air) {
         this.backgroundObjects = this.loadObjects(IMAGES_BACKGROUND, 'background');
         this.clouds = this.loadObjects(IMAGES_CLOUD, 'cloud');
         this.air = air;
-        this.enemies = enemies;
     }
 
 

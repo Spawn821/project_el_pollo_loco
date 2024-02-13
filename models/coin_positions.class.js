@@ -1,6 +1,6 @@
 class CoinPositions {
     COINS = [];
-    level = level1;
+    levelBackground = level1Background;
 
     constructor() {
         this.setForms();
@@ -14,8 +14,8 @@ class CoinPositions {
     setForms() {
         let currentForm = 0;
 
-        for (let section in this.level.sections) {
-            let currentSection = this.level.sections[section];
+        for (let section in this.levelBackground.sections) {
+            let currentSection = this.levelBackground.sections[section];
             let number = currentForm % 3
 
             this.selectForm(number, currentSection);

@@ -1,6 +1,6 @@
 class Character extends MovableObject {
+    levelBackground = level1Background;
     world;
-    level = level1;
     end_walking;
     end_camera;
 
@@ -71,10 +71,20 @@ class Character extends MovableObject {
      * This function sets all values for the start or the later course of the game.
      */
     setValues() {
-        this.end_walking = this.level.sections['section_6_xPos'] + 720 - this.width;
-        this.end_camera = this.level.sections['section_6_xPos'] + 200;
+        this.end_walking = this.levelBackground.sections[this.lastSection()] + 720 - this.width;
+        this.end_camera = this.levelBackground.sections[this.lastSection()] + 200;
         this.speed = 5;
         this.energy = 100;
+    }
+
+
+    lastSection() {
+        let lastSection;
+        for (let section in this.levelBackground.sections) {
+            lastSection = section;
+        }
+
+        return lastSection;
     }
 
 

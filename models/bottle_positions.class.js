@@ -1,6 +1,6 @@
 class BottlePositions {
     BOTTLES = [];
-    level = level1;
+    levelBackground = level1Background;
 
     IMAGES = [
         '../graphics/6_salsa_bottle/1_salsa_bottle_on_ground.png',
@@ -17,8 +17,8 @@ class BottlePositions {
      * call the form in which the bottles should be arranged for each section.
      */
     setLine() {
-        for (let section in this.level.sections) {
-            let currentSection = this.level.sections[section];
+        for (let section in this.levelBackground.sections) {
+            let currentSection = this.levelBackground.sections[section];
 
             this.line(currentSection);
         }

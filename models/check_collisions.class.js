@@ -22,7 +22,7 @@ class CheckCollisions {
             enemy.flat();
             this.isDead.push(enemy);
             setTimeout(() => {
-                this.world.level.enemies.splice(this.world.level.enemies.indexOf(enemy), 1);
+                this.world.levelEnemies.enemies.splice(this.world.levelEnemies.enemies.indexOf(enemy), 1);
             }, 1000);
         }
     }
@@ -64,7 +64,7 @@ class CheckCollisions {
      */
     throwChicken() {
         setInterval(() => {
-            this.world.level.enemies.forEach((enemy) => {
+            this.world.levelEnemies.enemies.forEach((enemy) => {
                 this.world.bottles.forEach((bottle) => {
                     if (bottle.isColliding(enemy) && this.checkThrownBottles(bottle) == -1) {
                         this.affectedWithBottle(bottle, enemy);
@@ -115,7 +115,7 @@ class CheckCollisions {
      */
     jumpOnChicken() {
         setInterval(() => {
-            this.world.level.enemies.forEach((enemy) => {
+            this.world.levelEnemies.enemies.forEach((enemy) => {
                 if (this.world.character.isCollidingOnTop(enemy)) {
                     this.affectedWithJump(enemy);
                 }
@@ -146,7 +146,7 @@ class CheckCollisions {
      */
     character() {
         setInterval(() => {
-            this.world.level.enemies.forEach((enemy) => {
+            this.world.levelEnemies.enemies.forEach((enemy) => {
                 if (this.world.character.isColliding(enemy)) {
                     if (this.checkDeadIndex(enemy) == -1 && !enemy.isHurt(1)) {
                         this.world.character.hit();
@@ -192,7 +192,7 @@ class CheckCollisions {
 
     endboss() {
         setInterval(() => {
-            this.world.level.enemies.forEach((enemy) => {
+            this.world.levelEnemies.enemies.forEach((enemy) => {
                 if (enemy instanceof Endboss) {
                     if (enemy.isColliding(this.world.character)){
                         enemy.collisionWhitCharacter = !this.world.character.isHurt();

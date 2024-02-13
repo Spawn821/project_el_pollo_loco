@@ -1,10 +1,12 @@
 class Endboss extends MovableObject {
-    walkIntervall;
-    alertIntervall;
-    attackIntervall;
-    hurtIntervall;
-    deadIntervall;
+    levelBackground = level1Background;
     collisionWhitCharacter = false;
+    sinceAlert = new Date().getTime();
+    moveIntervall;
+    leftSideReached = false;
+    rightSideReached = true;
+    walkingDistance = 0;
+    startPosX = 0;
 
     IMAGES = {
         IMAGES_WALK: [
@@ -53,77 +55,95 @@ class Endboss extends MovableObject {
         super().loadImage('../graphics/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(300, 1.16); // width, percent for height = width * height
-        this.setImgCoordinates(720 - this.width); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.50, 0.8) // percentage scale from width and height
         this.setValues();
+        this.setImgCoordinates(this.startPosX); // coordinates x, y calculate less height
+        this.setImgScalePercentage(0.50, 0.8) // percentage scale from width and height
         this.animation();
+        this.startTheEngine();
 
     }
 
 
     setValues() {
         this.speed = 1.5;
+        this.saveSpeed = this.speed;
         this.energy = 30;
+        this.walkingDistance = 720;
+        this.startPosX = this.levelBackground.sections[this.lastSection()] + 720 - this.width;
+    }
+
+
+    lastSection() {
+        let lastSection;
+        for (let section in this.levelBackground.sections) {
+            lastSection = section;
+        }
+
+        return lastSection;
+    }
+
+
+    startTheEngine() {
+        this.move();
     }
 
 
     animation() {
         setInterval(() => {
-            this.animateImages(this.IMAGES.IMAGES_WALK);
-            this.animateImages(this.IMAGES.IMAGES_ALERT);
-            if (this.collisionWhitCharacter) {
+            if (this.isAlert()) {
+                this.animateImages(this.IMAGES.IMAGES_ALERT);
+                this.speed = 0;
+            } else if (this.collisionWhitCharacter) {
                 this.animateImages(this.IMAGES.IMAGES_ATTACK);
+                this.speed = 0;
             } else if (this.isDead()) {
                 this.animateImages(this.IMAGES.IMAGES_DEAD);
+                this.speed = 0;
             } else if (this.isHurt(1)) {
                 this.animateImages(this.IMAGES.IMAGES_HURT);
+                this.speed = 0;
+            } else {
+                this.animateImages(this.IMAGES.IMAGES_WALK);
+                this.speed = this.saveSpeed;
             }
         }, 1000 / 8);
     }
 
 
-    animationWalk() {
-        this.walkIntervall = setInterval(() => {
-            this.animateImages(this.IMAGES.IMAGES_WALK);
-        }, 1000 / 8);
-    }
-
-
-    animationAlert() {
-        this.alertIntervall = setInterval(() => {
-            this.animateImages(this.IMAGES.IMAGES_ALERT);
-        }, 1000 / 8);
-
-    }
-
-
-    animationAttack() {
-        this.attackIntervall = setInterval(() => {
-            this.animateImages(this.IMAGES.IMAGES_ATTACK);
-        }, 1000 / 8);
-
-    }
-
-
-    animationHurt() {
-        this.hurtIntervall = setInterval(() => {
-            this.animateImages(this.IMAGES.IMAGES_HURT);
-        }, 1000 / 8);
-
-    }
-
-
-    animationDead() {
-        this.deadIntervall = setInterval(() => {
-            this.animateImages(this.IMAGES.IMAGES_DEAD);
-        }, 1000 / 8);
-
+    isAlert() {
+        let timepassed = new Date().getTime() - this.sinceAlert;
+        timepassed = timepassed / 1000
+        return timepassed < 5;
     }
 
 
     move() {
-        setInterval(() => {
-            this.moveLeft();
+        this.moveIntervall = setInterval(() => {
+            if (!this.leftSideReached) {
+                this.moveLeft();
+                this.runningDirectionRight();
+            } else if (!this.rightSideReached) {
+                this.moveRight();
+                this.runningDirectionLeft();
+            }
         }, 1000 / 60);
+    }
+
+
+    runningDirectionRight() {
+        if (this.x == this.startPosX - this.walkingDistance + this.width) {
+            this.leftSideReached = true;
+            this.rightSideReached = false;
+            this.otherDirection = true;
+        }
+    }
+
+
+    runningDirectionLeft() {
+        if (this.x == this.startPosX) {
+            this.leftSideReached = false;
+            this.rightSideReached = true;
+            this.otherDirection = false;
+        }
     }
 }
