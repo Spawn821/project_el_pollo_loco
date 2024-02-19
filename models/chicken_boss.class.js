@@ -1,12 +1,7 @@
-class Endboss extends MovableObject {
-    levelBackground = level1Background;
+class ChickenBoss extends MovableObject {
+
     collisionWhitCharacter = false;
-    sinceAlert = new Date().getTime();
-    moveIntervall;
-    leftSideReached = false;
-    rightSideReached = true;
-    walkingDistance = 0;
-    startPosX = 0;
+    sinceAlert;
 
     IMAGES = {
         IMAGES_WALK: [
@@ -51,16 +46,13 @@ class Endboss extends MovableObject {
         ]
     };
 
-    constructor() {
+    constructor(x) {
         super().loadImage('../graphics/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(300, 1.16); // width, percent for height = width * height
-        this.setValues();
-        this.setImgCoordinates(this.startPosX); // coordinates x, y calculate less height
+        this.setImgCoordinates(x - this.width); // coordinates x, y calculate less height
         this.setImgScalePercentage(0.50, 0.8) // percentage scale from width and height
-        this.animation();
-        this.startTheEngine();
-
+        this.setValues();
     }
 
 
@@ -68,27 +60,19 @@ class Endboss extends MovableObject {
         this.speed = 1.5;
         this.saveSpeed = this.speed;
         this.energy = 30;
-        this.walkingDistance = 720;
-        this.startPosX = this.levelBackground.sections[this.lastSection()] + 720 - this.width;
-    }
-
-
-    lastSection() {
-        let lastSection;
-        for (let section in this.levelBackground.sections) {
-            lastSection = section;
-        }
-
-        return lastSection;
+        this.walkingDistance = 300;
+        this.startPosX = this.x;
     }
 
 
     startTheEngine() {
-        this.move();
+        this.animation();
+        this.movement();
     }
 
 
     animation() {
+        this.sinceAlert = new Date().getTime();
         setInterval(() => {
             if (this.isAlert()) {
                 this.animateImages(this.IMAGES.IMAGES_ALERT);
@@ -113,37 +97,18 @@ class Endboss extends MovableObject {
     isAlert() {
         let timepassed = new Date().getTime() - this.sinceAlert;
         timepassed = timepassed / 1000
-        return timepassed < 5;
+        return timepassed < 2;
     }
 
 
-    move() {
-        this.moveIntervall = setInterval(() => {
-            if (!this.leftSideReached) {
-                this.moveLeft();
-                this.runningDirectionRight();
-            } else if (!this.rightSideReached) {
-                this.moveRight();
-                this.runningDirectionLeft();
-            }
-        }, 1000 / 60);
+    movement() {
+        if (!this.runCrazyIntervall) this.runCrazy();
     }
 
 
-    runningDirectionRight() {
-        if (this.x == this.startPosX - this.walkingDistance + this.width) {
-            this.leftSideReached = true;
-            this.rightSideReached = false;
-            this.otherDirection = true;
-        }
-    }
+    stopMovement() {
+        clearInterval(this.runCrazyIntervall);
 
-
-    runningDirectionLeft() {
-        if (this.x == this.startPosX) {
-            this.leftSideReached = false;
-            this.rightSideReached = true;
-            this.otherDirection = false;
-        }
+        this.resetIntervallValues();
     }
 }

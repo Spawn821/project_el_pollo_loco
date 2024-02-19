@@ -1,4 +1,4 @@
-class BackgroundObject extends MovableObject {
+class Background extends MovableObject {
     constructor(image, x) {
         super().loadImage(image);
 

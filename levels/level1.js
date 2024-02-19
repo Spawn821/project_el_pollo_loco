@@ -1,31 +1,14 @@
-//const level1 = new Level(
-//    [
-//        '../graphics/5_background/layers/3_third_layer/1.png',
-//        '../graphics/5_background/layers/2_second_layer/1.png',
-//        '../graphics/5_background/layers/1_first_layer/1.png',
-//        '../graphics/5_background/layers/3_third_layer/2.png',
-//        '../graphics/5_background/layers/2_second_layer/2.png',
-//        '../graphics/5_background/layers/1_first_layer/2.png'
-//    ],
-//
-//    [
-//        '../graphics/5_background/layers/4_clouds/1.png',
-//        '../graphics/5_background/layers/4_clouds/2.png'
-//    ],
-//
-//    new BackgroundObject('../graphics/5_background/layers/air.png', 0),
-//
-//    [
-//        //new Chicken(),
-//        //new Chicken(),
-//        //new Chicken(),
-//        new Endboss()
-//    ]
-//);
+let level_1_background;
+let level_1_enemies;
 
+let levelLength = 1; // tow-steps starting with one (1, 3, 5...)
 
-const level1Background = new LevelBackground(
-    [
+let numberChickenSmall = 0; 
+let numberChickenNormal = 0;
+let numberChickenBoss = 1; // max 1
+
+let IMAGES = {
+    IMAGES_BACKGROUND: [
         '../graphics/5_background/layers/3_third_layer/1.png',
         '../graphics/5_background/layers/2_second_layer/1.png',
         '../graphics/5_background/layers/1_first_layer/1.png',
@@ -34,19 +17,16 @@ const level1Background = new LevelBackground(
         '../graphics/5_background/layers/1_first_layer/2.png'
     ],
 
-    [
+    IMAGES_CLOUD: [
         '../graphics/5_background/layers/4_clouds/1.png',
         '../graphics/5_background/layers/4_clouds/2.png'
     ],
 
-    new BackgroundObject('../graphics/5_background/layers/air.png', 0)
-)
-
-const level1Enemies = new LevelEnemies(
-    [
-        //new Chicken(),
-        //new Chicken(),
-        //new Chicken(),
-        new Endboss()
+    IMAGES_AIR: [
+        '../graphics/5_background/layers/air.png'
     ]
-)
+}
+
+
+level_1_background = new LevelBackground(levelLength, IMAGES);
+level_1_enemies = new LevelEnemies(numberChickenSmall, numberChickenNormal, numberChickenBoss);

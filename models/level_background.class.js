@@ -1,17 +1,21 @@
-class LevelBackground {
-    backgroundObjects = [];
-    clouds = [];
-    air;
+class LevelBackground extends LevelObject {
+    BACKGROUNDS = [];
+    CLOUDS = [];
+    AIR;
+
     section1Xpos;
     section2Xpos;
     section1Num;
     section2Num;
     sections = {};
 
-    constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air) {
-        this.backgroundObjects = this.loadObjects(IMAGES_BACKGROUND, 'background');
-        this.clouds = this.loadObjects(IMAGES_CLOUD, 'cloud');
-        this.air = air;
+    constructor(levelLength, IMAGES) {
+        super();
+        this.levelLength = levelLength;
+        this.IMAGES = IMAGES;
+        this.BACKGROUNDS = this.loadObjects(this.IMAGES.IMAGES_BACKGROUND, 'background');
+        this.CLOUDS = this.loadObjects(this.IMAGES.IMAGES_CLOUD, 'cloud');
+        this.AIR = new Background(this.IMAGES.IMAGES_AIR, 0);
     }
 
 
@@ -27,7 +31,7 @@ class LevelBackground {
         this.sections = {};
         let objectList = [];
 
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < this.levelLength; i++) {
             objectList = this.addObjects(objectList, IMAGES, category);
 
             this.setXCoordinates();
@@ -68,9 +72,9 @@ class LevelBackground {
             let image = IMAGES[j];
 
             if (category == 'background') {
-                this.addBackgroundObjects(image, objectList, IMAGES, j);
+                this.addBackground(image, objectList, IMAGES, j);
             } else {
-                this.addCloudObjects(image, objectList, IMAGES, j);
+                this.addCloud(image, objectList, IMAGES, j);
             }
         }
 
@@ -96,9 +100,9 @@ class LevelBackground {
      * @param {array} IMAGES is a list from image paths.
      * @param {index} j is the index number from the image array.
      */
-    addBackgroundObjects(image, objectList, IMAGES, j) {
-        if (j < IMAGES.length / 2) objectList.push(new BackgroundObject(image, this.section1Xpos));
-        else objectList.push(new BackgroundObject(image, this.section2Xpos));
+    addBackground(image, objectList, IMAGES, j) {
+        if (j < IMAGES.length / 2) objectList.push(new Background(image, this.section1Xpos));
+        else objectList.push(new Background(image, this.section2Xpos));
     }
 
 
@@ -109,7 +113,7 @@ class LevelBackground {
      * @param {array} IMAGES is a list from image paths.
      * @param {index} j is the index number from the image array.
      */
-    addCloudObjects(image, objectList, IMAGES, j) {
+    addCloud(image, objectList, IMAGES, j) {
         if (j < IMAGES.length / 2) objectList.push(new Cloud(image, this.section1Xpos));
         else objectList.push(new Cloud(image, this.section2Xpos));
     }

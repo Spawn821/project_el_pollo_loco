@@ -1,8 +1,13 @@
 class Character extends MovableObject {
-    levelBackground = level1Background;
+
+    levelBackground = level_1_background;
+    lastLevelSection = 0;
     world;
-    end_walking;
     end_camera;
+    chickenBossAppears = false;
+    walkingLimitLeft = 0;
+    walkingLimitRight = 0;
+    bossFightStarted = false;
 
     IMAGES = {
         IMAGES_IDLE: [
@@ -71,9 +76,11 @@ class Character extends MovableObject {
      * This function sets all values for the start or the later course of the game.
      */
     setValues() {
-        this.end_walking = this.levelBackground.sections[this.lastSection()] + 720 - this.width;
-        this.end_camera = this.levelBackground.sections[this.lastSection()] + 200;
+        this.lastLevelSection = this.levelBackground.sections[this.lastSection()];
+        this.walkingLimitRight = this.lastLevelSection + 720 - this.width;
+        this.end_camera = this.lastLevelSection + 200;
         this.speed = 5;
+        this.saveSpeed = this.speed;
         this.energy = 100;
     }
 
@@ -127,12 +134,12 @@ class Character extends MovableObject {
      */
     move() {
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.end_walking) {
+            if (this.world.keyboard.RIGHT && this.x < this.walkingLimitRight) {
                 this.moveRight();
                 this.otherDirection = false;
             }
 
-            if (this.world.keyboard.LEFT && this.x > 0) {
+            if (this.world.keyboard.LEFT && this.x > this.walkingLimitLeft) {
                 this.moveLeft();
                 this.otherDirection = true;
             }
@@ -179,9 +186,44 @@ class Character extends MovableObject {
      */
     moveCamera() {
         setInterval(() => {
-            if (this.x > 200 && this.x < this.end_camera) {
+            if (this.x + 300 > this.end_camera) {
+                this.moveCameraToTheBoss();
+            } else if (this.x > 200 && this.x < this.end_camera && !this.chickenBossAppears) {
                 this.world.camera_x = -this.x + 200;
             }
         }, 1000 / 60)
+    }
+
+
+    moveCameraToTheBoss() {
+        this.chickenBossAppears = true;
+        this.walkingLimitLeft = this.lastLevelSection;
+
+        if (this.world.camera_x > -this.end_camera + 200) {
+            this.world.camera_x -= 2;
+
+            this.moveCharacterToTheBoss();
+        }
+    }
+
+
+    moveCharacterToTheBoss() {
+        this.speed = 1;
+
+        if (this.world.camera_x > -this.end_camera + 250) {
+            this.world.keyboard.RIGHT = true;
+        } else {
+            this.world.keyboard.RIGHT = false;
+            this.speed = this.saveSpeed;
+            this.startTheBossFight();
+        }
+    }
+
+
+    startTheBossFight() {
+        if (!this.bossFightStarted) {
+            this.world.levelEnemies.ENEMIES[this.world.levelEnemies.ENEMIES.length - 1].startTheEngine();
+            this.bossFightStarted = true;
+        }
     }
 }

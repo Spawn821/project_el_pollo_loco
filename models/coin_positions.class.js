@@ -1,6 +1,6 @@
 class CoinPositions {
     COINS = [];
-    levelBackground = level1Background;
+    levelBackground = level_1_background;
 
     constructor() {
         this.setForms();

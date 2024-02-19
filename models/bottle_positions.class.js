@@ -1,6 +1,6 @@
 class BottlePositions {
     BOTTLES = [];
-    levelBackground = level1Background;
+    levelBackground = level_1_background;
 
     IMAGES = [
         '../graphics/6_salsa_bottle/1_salsa_bottle_on_ground.png',

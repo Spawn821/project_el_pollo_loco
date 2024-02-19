@@ -5,6 +5,7 @@ class DrawableObject extends Sound{
     offsetX = 0;
     offsetY = 0;
     startPosY = 0;
+    startPosX = 0;
 
     // Values for canvas and images
     width = 720;
@@ -95,7 +96,7 @@ class DrawableObject extends Sound{
             this.offsetX = diffToWidht / 2;
         }
 
-        if (this instanceof Character || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof ChickenBoss) {
             this.offsetY = diffToHeight - 7.5; // For the character image
         } else {
             this.offsetY = diffToHeight / 2; // For all other pictures
@@ -134,7 +135,7 @@ class DrawableObject extends Sound{
      * @param {object} ctx is the current enemy.
      */
     drawEnergyBar(ctx) {
-        if (this instanceof Chicken) {
+        if (this instanceof ChickenNormal) {
             ctx.beginPath()
             ctx.lineWidth = '3.5';
             this.energy == 10 ? ctx.strokeStyle = 'black' : ctx.strokeStyle = 'red';
@@ -152,7 +153,7 @@ class DrawableObject extends Sound{
 
     // Delete if the project finished ##########
     drawRectBounding(ctx) {
-        if (this instanceof Endboss) {
+        if (this instanceof ChickenBoss) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';

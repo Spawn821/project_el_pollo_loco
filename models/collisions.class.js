@@ -1,4 +1,5 @@
-class CheckCollisions {
+class Collisions {
+
     world;
     isDead = [];
     thrownBottles = [];
@@ -19,10 +20,9 @@ class CheckCollisions {
      */
     enemyIsDead(enemy) {
         if (enemy.isDead()) {
-            enemy.flat();
             this.isDead.push(enemy);
             setTimeout(() => {
-                this.world.levelEnemies.enemies.splice(this.world.levelEnemies.enemies.indexOf(enemy), 1);
+                this.world.levelEnemies.ENEMIES.splice(this.world.levelEnemies.ENEMIES.indexOf(enemy), 1);
             }, 1000);
         }
     }
@@ -64,7 +64,7 @@ class CheckCollisions {
      */
     throwChicken() {
         setInterval(() => {
-            this.world.levelEnemies.enemies.forEach((enemy) => {
+            this.world.levelEnemies.ENEMIES.forEach((enemy) => {
                 this.world.bottles.forEach((bottle) => {
                     if (bottle.isColliding(enemy) && this.checkThrownBottles(bottle) == -1) {
                         this.affectedWithBottle(bottle, enemy);
@@ -89,24 +89,17 @@ class CheckCollisions {
             bottle.splash();
             this.removeBottle(bottle);
             enemy.hit();
+            this.enemyIsDead(enemy);
 
-            if (enemy instanceof Chicken) {
-                this.affectedChickenWithBottle(enemy);
-            } else if (enemy instanceof Endboss) {
-                this.affectedEndbossWithBottle(enemy);
+            if (enemy instanceof ChickenBoss) {
+                this.affectedChickenBossWithBottle(enemy);
             }
         }
     }
 
 
-    affectedChickenWithBottle(enemy) {
-        enemy.affected();
-        this.enemyIsDead(enemy);
-    }
-
-
-    affectedEndbossWithBottle(enemy) {
-        this.world.statusbar.setEndbossHealth(enemy.energy);
+    affectedChickenBossWithBottle(enemy) {
+        this.world.statusbar.setChickenBossHealth(enemy.energy);
     }
 
 
@@ -115,7 +108,7 @@ class CheckCollisions {
      */
     jumpOnChicken() {
         setInterval(() => {
-            this.world.levelEnemies.enemies.forEach((enemy) => {
+            this.world.levelEnemies.ENEMIES.forEach((enemy) => {
                 if (this.world.character.isCollidingOnTop(enemy)) {
                     this.affectedWithJump(enemy);
                 }
@@ -133,7 +126,6 @@ class CheckCollisions {
     affectedWithJump(enemy) {
         if (this.checkDeadIndex(enemy) == -1 && !enemy.isHurt(1)) {
             enemy.hit();
-            enemy.flat();
             this.enemyIsDead(enemy);
             this.world.character.jump();
         }
@@ -146,7 +138,7 @@ class CheckCollisions {
      */
     character() {
         setInterval(() => {
-            this.world.levelEnemies.enemies.forEach((enemy) => {
+            this.world.levelEnemies.ENEMIES.forEach((enemy) => {
                 if (this.world.character.isColliding(enemy)) {
                     if (this.checkDeadIndex(enemy) == -1 && !enemy.isHurt(1)) {
                         this.world.character.hit();
@@ -192,8 +184,8 @@ class CheckCollisions {
 
     endboss() {
         setInterval(() => {
-            this.world.levelEnemies.enemies.forEach((enemy) => {
-                if (enemy instanceof Endboss) {
+            this.world.levelEnemies.ENEMIES.forEach((enemy) => {
+                if (enemy instanceof ChickenBoss) {
                     if (enemy.isColliding(this.world.character)){
                         enemy.collisionWhitCharacter = !this.world.character.isHurt();
                     } else {

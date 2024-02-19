@@ -7,6 +7,13 @@ class MovableObject extends DrawableObject {
     energy = 0;
     lastHit = 0;
     applyGravityInterval;
+    leftSideReached = false;
+    rightSideReached = true;
+    walkingDistance = 0;
+    movementNumber = 0;
+    runLeftIntervall;
+    runCrazyIntervall;
+    jumpAttackIntervall;
 
     /**
      * This function controlls the gravity if the character jump.
@@ -18,7 +25,7 @@ class MovableObject extends DrawableObject {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
-            } else if (this.isOnGround) {
+            } else if (this.isOnGround()) {
                 this.y = this.startPosY; // The Character always has the same y coordinate after jumping
             }
         }, 1000 / 25);
@@ -157,6 +164,13 @@ class MovableObject extends DrawableObject {
     }
 
 
+    resetIntervallValues() {
+        this.runLeftIntervall = undefined;
+        this.runCrazyIntervall = undefined;
+        this.jumpAttackIntervall = undefined;
+    }
+
+
     /**
      * This function lets the images move to the right.
      */
@@ -173,6 +187,44 @@ class MovableObject extends DrawableObject {
     }
 
 
+    runLeft() {
+        this.runLeftIntervall = setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60);
+    }
+
+
+    runCrazy() {
+        this.runCrazyIntervall = setInterval(() => {
+            if (!this.leftSideReached) {
+                this.moveLeft();
+                this.runningDirectionRight();
+            } else if (!this.rightSideReached) {
+                this.moveRight();
+                this.runningDirectionLeft();
+            }
+        }, 1000 / 60);
+    }
+
+
+    runningDirectionRight() {
+        if (this.x <= this.startPosX - this.walkingDistance) {
+            this.leftSideReached = true;
+            this.rightSideReached = false;
+            this.otherDirection = true;
+        }
+    }
+
+
+    runningDirectionLeft() {
+        if (this.x >= this.startPosX) {
+            this.leftSideReached = false;
+            this.rightSideReached = true;
+            this.otherDirection = false;
+        }
+    }
+
+
     /**
      * This function set the jump height and
      * set the image counter to zero for a clean jump animation.
@@ -180,5 +232,12 @@ class MovableObject extends DrawableObject {
     jump() {
         this.speedY = 25;
         this.currentImage = 0; // For a clean jump animation
+    }
+
+
+    jumpAttack() {
+        this.jumpAttackIntervall = setInterval(() => {
+            this.jump();
+        }, 2000 + Math.random() * 1000);
     }
 }
