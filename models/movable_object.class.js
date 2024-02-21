@@ -1,19 +1,32 @@
 class MovableObject extends DrawableObject {
+
+    // Movement speed
     speed = 0.05;
     saveSpeed = 0;
-    otherDirection = false;
+
+    // Character or enemy health
+    energy = 0;
+
+    // Current time for the current hit
+    lastHit = 0;
+
+    // For jumping
     speedY = 0;
     acceleration = 2.5;
-    energy = 0;
-    lastHit = 0;
     applyGravityInterval;
-    leftSideReached = false;
-    rightSideReached = true;
-    walkingDistance = 0;
-    movementNumber = 0;
+
+    // Move right or left
+    otherDirection = false;
+
+    // Diffrent movements
     runLeftIntervall;
     runCrazyIntervall;
     jumpAttackIntervall;
+    jumpAttackTime = 0;
+    movementNumber = 0;
+    walkingDistance = 0;
+    leftSideReached = false;
+    rightSideReached = true;
 
     /**
      * This function controlls the gravity if the character jump.
@@ -51,7 +64,7 @@ class MovableObject extends DrawableObject {
      * @returns true or false.
      */
     isOnGround() {
-        return this.y > this.startPosY;
+        return this.y >= this.startPosY;
     }
 
 
@@ -120,7 +133,8 @@ class MovableObject extends DrawableObject {
         return this.imgRightSite(this) > this.imgLeftSite(mO) &&
             this.imgLeftSite(this) < this.imgRightSite(mO) &&
             this.imgBottom(this) > this.imgTop(mO) &&
-            this.y < this.startPosY &&
+            this.imgTop(this) < this.imgTop(mO) &&
+            this.isAboveGround() &&
             this.speedY < 0;
     }
 
@@ -229,15 +243,15 @@ class MovableObject extends DrawableObject {
      * This function set the jump height and
      * set the image counter to zero for a clean jump animation.
      */
-    jump() {
-        this.speedY = 25;
+    jump(speedY = 22.5) {
+        this.speedY = speedY;
         this.currentImage = 0; // For a clean jump animation
     }
 
 
     jumpAttack() {
         this.jumpAttackIntervall = setInterval(() => {
-            this.jump();
-        }, 2000 + Math.random() * 1000);
+            this.jump(27.5);
+        }, this.jumpAttackTime);
     }
 }

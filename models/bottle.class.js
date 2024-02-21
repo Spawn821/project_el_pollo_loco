@@ -1,4 +1,5 @@
 class Bottle extends MovableObject {
+
     acceleration = 2.5;
     throwDistance = 0;
     rotationInterval;

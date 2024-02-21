@@ -8,6 +8,8 @@ class Character extends MovableObject {
     walkingLimitLeft = 0;
     walkingLimitRight = 0;
     bossFightStarted = false;
+    doubleJumpe = false;
+    lastAction;
 
     IMAGES = {
         IMAGES_IDLE: [
@@ -118,7 +120,7 @@ class Character extends MovableObject {
                 this.animateImages(this.IMAGES.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.animateImages(this.IMAGES.IMAGES_JUMPING);
-                this.jumping_sound.play();
+                //this.jumping_sound.play();
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.animateImages(this.IMAGES.IMAGES_WALKING);
                 this.walking_sound.play();
@@ -144,10 +146,24 @@ class Character extends MovableObject {
                 this.otherDirection = true;
             }
 
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.jump();
+            if (this.world.keyboard.SPACE) { //&& !this.isAboveGround()
+                this.makeDoubleJump();
             }
         }, 1000 / 60);
+    }
+
+
+    makeDoubleJump() {
+        if (this.isOnGround()) {
+            this.jump();
+            this.doubleJumpe = true;
+            this.lastAction = new Date().getTime();
+        } else if (this.isAction(0.5)) {
+            if (this.doubleJumpe) {
+                this.jump();
+                this.doubleJumpe = false;
+            }
+        }
     }
 
 
@@ -155,17 +171,25 @@ class Character extends MovableObject {
      * This function starts the various throwing distances.
      */
     throwBottle() {
+        this.lastAction = new Date().getTime();
         setInterval(() => {
             if (this.world.statusbar.bottleIcon.numberText > 0) {
                 if (this.world.keyboard.a) {
-                    this.createBottle(10);
+                    if (this.isAction(1)) this.createBottle(10);
                 } else if (this.world.keyboard.s) {
-                    this.createBottle(15);
+                    if (this.isAction(1)) this.createBottle(15);
                 } else if (this.world.keyboard.d) {
-                    this.createBottle(20);
+                    if (this.isAction(1)) this.createBottle(20);
                 }
             }
-        }, 1000 / 10);
+        }, 1000 / 60);
+    }
+
+
+    isAction(duration) {
+        let timepassed = new Date().getTime() - this.lastAction;
+        timepassed = timepassed / 1000;
+        return timepassed > duration;
     }
 
 
@@ -176,8 +200,11 @@ class Character extends MovableObject {
     createBottle(distance) {
         let bottle = new Bottle(this.x + this.offsetX, this.y + this.offsetY, distance);
         bottle.otherDirection = this.otherDirection;
+
         this.world.bottles.push(bottle);
         this.world.statusbar.decreaseCounterBottle();
+
+        this.lastAction = new Date().getTime();
     }
 
 
@@ -223,6 +250,7 @@ class Character extends MovableObject {
     startTheBossFight() {
         if (!this.bossFightStarted) {
             this.world.levelEnemies.ENEMIES[this.world.levelEnemies.ENEMIES.length - 1].startTheEngine();
+            this.world.statusbar.createChickenBossStatus();
             this.bossFightStarted = true;
         }
     }

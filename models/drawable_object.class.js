@@ -1,4 +1,5 @@
 class DrawableObject extends Sound{
+
     // Coordinates for image position
     x;
     y = 375;
@@ -153,7 +154,7 @@ class DrawableObject extends Sound{
 
     // Delete if the project finished ##########
     drawRectBounding(ctx) {
-        if (this instanceof ChickenBoss) {
+        if (this instanceof ChickenBoss || this instanceof Character) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';

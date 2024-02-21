@@ -128,6 +128,10 @@ class Collisions {
             enemy.hit();
             this.enemyIsDead(enemy);
             this.world.character.jump();
+
+            if (enemy instanceof ChickenBoss) {
+                this.affectedChickenBossWithBottle(enemy);
+            }
         }
     }
 

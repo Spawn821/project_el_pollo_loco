@@ -3,6 +3,13 @@ class ChickenBoss extends MovableObject {
     collisionWhitCharacter = false;
     sinceAlert;
 
+    currentSpeed = 0;
+    speeds = [
+        2.5,
+        7.5,
+        5
+    ]
+
     IMAGES = {
         IMAGES_WALK: [
             '../graphics/4_enemie_boss_chicken/1_walk/G1.png',
@@ -49,18 +56,18 @@ class ChickenBoss extends MovableObject {
     constructor(x) {
         super().loadImage('../graphics/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.IMAGES);
-        this.setImgDimensions(300, 1.16); // width, percent for height = width * height
+        this.setImgDimensions(260, 1.16); // width, percent for height = width * height
         this.setImgCoordinates(x - this.width); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.50, 0.8) // percentage scale from width and height
+        this.setImgScalePercentage(0.5, 1) // percentage scale from width and height
         this.setValues();
     }
 
 
     setValues() {
-        this.speed = 1.5;
+        this.speed = this.speeds[0];
         this.saveSpeed = this.speed;
-        this.energy = 30;
-        this.walkingDistance = 300;
+        this.energy = 50;
+        this.walkingDistance = 720 - this.width;
         this.startPosX = this.x;
     }
 
@@ -72,7 +79,8 @@ class ChickenBoss extends MovableObject {
 
 
     animation() {
-        this.sinceAlert = new Date().getTime();
+        this.lastAlert();
+
         setInterval(() => {
             if (this.isAlert()) {
                 this.animateImages(this.IMAGES.IMAGES_ALERT);
@@ -94,10 +102,55 @@ class ChickenBoss extends MovableObject {
     }
 
 
+    lastAlert() {
+        this.sinceAlert = new Date().getTime();
+    }
+
+
     isAlert() {
         let timepassed = new Date().getTime() - this.sinceAlert;
         timepassed = timepassed / 1000
         return timepassed < 2;
+    }
+
+
+    runCrazy() {
+        this.runCrazyIntervall = setInterval(() => {
+            if (!this.leftSideReached) {
+                this.moveLeft();
+                this.runningDirectionRight();
+            } else if (!this.rightSideReached) {
+                this.moveRight();
+                this.runningDirectionLeft();
+            }
+            console.log(this.speed);
+        }, 1000 / 60);
+    }
+
+
+    runningDirectionRight() {
+        if (this.x <= this.startPosX - this.walkingDistance) {
+            this.leftSideReached = true;
+            this.rightSideReached = false;
+            this.otherDirection = true;
+            this.lastAlert();
+            this.currentSpeed++;
+            this.speed = this.speeds[this.currentSpeed % this.speeds.length];
+            this.saveSpeed = this.speed;
+        }
+    }
+
+
+    runningDirectionLeft() {
+        if (this.x >= this.startPosX) {
+            this.leftSideReached = false;
+            this.rightSideReached = true;
+            this.otherDirection = false;
+            this.lastAlert();
+            this.currentSpeed++;
+            this.speed = this.speeds[this.currentSpeed % this.speeds.length];
+            this.saveSpeed = this.speed;
+        }
     }
 
 

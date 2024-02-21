@@ -34,6 +34,7 @@ class ChickenNormal extends MovableObject {
         this.speed = 0.25 + Math.random() * 1;
         this.saveSpeed = this.speed;
         this.energy = 10;
+        this.jumpAttackTime = 2000 + Math.random() * 1000;
     }
 
 

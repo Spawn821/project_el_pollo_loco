@@ -50,7 +50,7 @@ class World {
         this.addObjectToMap(this.statusbar.bottleIcon);
         this.addObjectToMap(this.statusbar.healthIcon);
         this.addObjectToMap(this.statusbar.coinIcon);
-        this.addObjectToMap(this.statusbar.endbossHealthIcon);
+        if (this.statusbar.endbossHealthIcon) this.addObjectToMap(this.statusbar.endbossHealthIcon);
     }
 
 
