@@ -20,16 +20,15 @@ class ChickenSmall extends MovableObject {
         this.loadImage('../graphics/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(75, 1.03); // width, percent for height = width * height
-        this.setImgCoordinates(x + Math.random() * 600); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.8, 0.8) // percentage scale from width and height
+        this.setImgCoordinates(x + Math.random() * 400); // coordinates x, y calculate less height
+        this.setImgScalePercentage(0.6, 0.6) // percentage scale from width and height
         this.setValues();
         this.animation();
     }
 
 
     setValues() {
-        this.speed = 0.25 + Math.random() * 1;
-        this.saveSpeed = this.speed;
+        this.speed = 0.25 + Math.random() * 1.5;
         this.energy = 5;
         this.walkingDistance = 300;
         this.startPosX = this.x;
@@ -47,11 +46,9 @@ class ChickenSmall extends MovableObject {
             if (this.isDead() || this.isHurt(1)) {
                 this.stopMovement();
                 this.animateImages(this.IMAGES.IMAGES_DEAD);
-                this.speed = 0;
             } else {
                 this.movement();
                 this.animateImages(this.IMAGES.IMAGES_WALKING);
-                this.speed = this.saveSpeed;
             }
         }, 1000 / 6);
     }

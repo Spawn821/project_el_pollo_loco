@@ -1,4 +1,5 @@
-class LevelBackground extends LevelObject {
+class LevelBackground {
+
     BACKGROUNDS = [];
     CLOUDS = [];
     AIR;
@@ -8,14 +9,23 @@ class LevelBackground extends LevelObject {
     section1Num;
     section2Num;
     sections = {};
+    lastLevelSection;
 
     constructor(levelLength, IMAGES) {
-        super();
         this.levelLength = levelLength;
         this.IMAGES = IMAGES;
         this.BACKGROUNDS = this.loadObjects(this.IMAGES.IMAGES_BACKGROUND, 'background');
         this.CLOUDS = this.loadObjects(this.IMAGES.IMAGES_CLOUD, 'cloud');
         this.AIR = new Background(this.IMAGES.IMAGES_AIR, 0);
+
+        this.determineLastSection();
+    }
+
+
+    determineLastSection() {
+        for (let section in this.sections) {
+            this.lastLevelSection = this.sections[section];
+        }
     }
 
 

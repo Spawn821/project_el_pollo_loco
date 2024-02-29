@@ -5,6 +5,230 @@ body {
     justify-content: center;
 }
 
+.d-none {
+    display: none;
+}
+
+.trans-rot-plus-5 {
+    transform: rotate(5deg);
+}
+
+.trans-rot-minus-5 {
+    transform: rotate(-5deg);
+}
+
+h1 {
+    font-family: 'Boogaloo-Regular';
+    font-size: 48px;
+}
+
+.panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-play-pause {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+
+    box-sizing: border-box;
+    height: 32px;
+
+    border-color: transparent transparent transparent #202020;
+    transition: 100ms all ease;
+    will-change: border-width;
+    cursor: pointer;
+
+    border-style: solid;
+    border-width: 16px 0px 16px 32px;
+
+    &.pause {
+        border-style: double;
+        border-width: 0px 0px 0px 32px;
+    }
+}
+
+.control-info {
+    position: absolute;
+    left: calc(50% - 250px);
+    top: calc(50% - 150px);
+    background-image: url("../graphics/0_downloads/keyboard.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 500px;
+    height: 300px;
+    border-radius: 20px;
+}
+
 canvas {
-    background-color: black;    
+    background-color: black;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.menu {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: calc(100% - 48px);
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+
+    background-color: rgb(153, 68, 9);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+span {
+    font-family: 'Boogaloo-Regular';
+    font-size: 24px;
+}
+
+.options {
+    position: relative;
+    height: 40px;
+    width: 75px;
+
+    display: flex;
+    align-items: center;
+
+    border-radius: 8px;
+    padding-left: 8px;
+
+    transition: width 1s ease;
+
+    & .options-text {
+        z-index: 1;
+    }
+
+    & .option-arrow {
+        position: absolute;
+        left: 0px;
+
+        border: solid black;
+        border-width: 0 6px 6px 0;
+        display: inline-block;
+        padding: 6px;
+        transform: rotate(-45deg);
+
+        opacity: 0;
+        transition: left 1s, opacity 1s ease;
+    }
+
+    & .option-one,
+    .option-two,
+    .option-three {
+        position: absolute;
+        left: 0px;
+
+        opacity: 0;
+        transition: left 1s, opacity 1s, background-color ease;
+        text-wrap: nowrap;
+        background-color: transparent;
+        padding: 4px;
+        border-radius: 4px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgb(247, 189, 99) !important;
+        }
+    }
+}
+
+.options:hover {
+    width: 410px;
+
+    & .options-text {
+        cursor: pointer;
+        color: rgb(247, 189, 99);
+    }
+
+    & .option-arrow {
+        opacity: 1;
+        left: calc(70px + 8px);
+    }
+
+    & .option-one,
+    .option-two,
+    .option-three {
+        opacity: 1;
+        background-color: rgba(247, 189, 99, 0.7);
+    }
+
+    & .option-one {
+        left: calc(105px + 8px);
+    }
+
+    & .option-two {
+        left: calc(180px + 8px);
+    }
+
+    & .option-three {
+        left: calc(308px + 8px);
+    }
+}
+
+#start-main-screen {
+    position: absolute;
+    right: 40px;
+
+    &:hover {
+        cursor: pointer;
+        color: rgb(247, 189, 99);
+    }
+}
+
+.start-main-screen {
+    animation-name: start-main-screen-slide;
+    animation-duration: 1s;
+}
+
+
+@keyframes start-main-screen-slide {
+    0% {
+        right: 5px;
+    }
+
+    25% {
+        right: 75px;
+    }
+
+    45% {
+        right: 20px;
+    }
+
+    65% {
+        right: 60px;
+    }
+
+    75% {
+        right: 25px;
+    }
+
+    85% {
+        right: 55px;
+    }
+
+    90% {
+        right: 30px;
+    }
+
+    95% {
+        right: 50px;
+    }
+
+    97.5% {
+        right: 45px;
+    }
+
+    100% {
+        right: 40px;
+    }
 }

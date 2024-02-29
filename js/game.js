@@ -1,10 +1,31 @@
 let canvas;
+let start;
 let world;
 let keyboard = new Keyboard();
+let startGame = false;
+let pause = true;
 
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+}
+
+
+function changeGameStatus() {
+    if (!startGame) {
+        startGame = true;
+    } else {
+        startGame = false;
+    }
+}
+
+
+function changePauseStatus() {
+    if (pause) {
+        pause = false;
+    } else {
+        pause = true;
+    }
 }
 
 

@@ -1,10 +1,11 @@
-class Collisions {
+class Collisions extends Sound {
 
     world;
     isDead = [];
     thrownBottles = [];
 
     constructor() {
+        super();
         this.throwChicken();
         this.jumpOnChicken();
         this.character();
@@ -89,6 +90,7 @@ class Collisions {
             bottle.splash();
             this.removeBottle(bottle);
             enemy.hit();
+            this.jumpOnChickenSound();
             this.enemyIsDead(enemy);
 
             if (enemy instanceof ChickenBoss) {
@@ -126,6 +128,7 @@ class Collisions {
     affectedWithJump(enemy) {
         if (this.checkDeadIndex(enemy) == -1 && !enemy.isHurt(1)) {
             enemy.hit();
+            this.jumpOnChickenSound();
             this.enemyIsDead(enemy);
             this.world.character.jump();
 
@@ -160,9 +163,9 @@ class Collisions {
      */
     coins() {
         setInterval(() => {
-            this.world.coins.COINS.forEach((coin) => {
+            this.world.coinsToCollect.COINS.forEach((coin) => {
                 if (this.world.character.isColliding(coin)) {
-                    this.world.coins.COINS.splice(this.world.coins.COINS.indexOf(coin), 1);
+                    this.world.coinsToCollect.COINS.splice(this.world.coinsToCollect.COINS.indexOf(coin), 1);
                     this.world.statusbar.setCounterCoin();
                 }
             })
@@ -190,7 +193,7 @@ class Collisions {
         setInterval(() => {
             this.world.levelEnemies.ENEMIES.forEach((enemy) => {
                 if (enemy instanceof ChickenBoss) {
-                    if (enemy.isColliding(this.world.character)){
+                    if (enemy.isColliding(this.world.character)) {
                         enemy.collisionWhitCharacter = !this.world.character.isHurt();
                     } else {
                         enemy.collisionWhitCharacter = this.world.character.isHurt();

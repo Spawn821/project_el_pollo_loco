@@ -2,7 +2,6 @@ class MovableObject extends DrawableObject {
 
     // Movement speed
     speed = 0.05;
-    saveSpeed = 0;
 
     // Character or enemy health
     energy = 0;
@@ -134,6 +133,7 @@ class MovableObject extends DrawableObject {
             this.imgLeftSite(this) < this.imgRightSite(mO) &&
             this.imgBottom(this) > this.imgTop(mO) &&
             this.imgTop(this) < this.imgTop(mO) &&
+            this.imgBottom(this) < this.imgBottom(mO) &&
             this.isAboveGround() &&
             this.speedY < 0;
     }
@@ -203,19 +203,21 @@ class MovableObject extends DrawableObject {
 
     runLeft() {
         this.runLeftIntervall = setInterval(() => {
-            this.moveLeft();
+            if (startGame && pause) this.moveLeft();
         }, 1000 / 60);
     }
 
 
     runCrazy() {
         this.runCrazyIntervall = setInterval(() => {
-            if (!this.leftSideReached) {
-                this.moveLeft();
-                this.runningDirectionRight();
-            } else if (!this.rightSideReached) {
-                this.moveRight();
-                this.runningDirectionLeft();
+            if (startGame && pause) {
+                if (!this.leftSideReached) {
+                    this.moveLeft();
+                    this.runningDirectionRight();
+                } else if (!this.rightSideReached) {
+                    this.moveRight();
+                    this.runningDirectionLeft();
+                }
             }
         }, 1000 / 60);
     }
@@ -226,6 +228,10 @@ class MovableObject extends DrawableObject {
             this.leftSideReached = true;
             this.rightSideReached = false;
             this.otherDirection = true;
+
+            if (this instanceof ChickenBoss) {
+                this.lastAlert();
+            }
         }
     }
 
@@ -235,6 +241,10 @@ class MovableObject extends DrawableObject {
             this.leftSideReached = false;
             this.rightSideReached = true;
             this.otherDirection = false;
+
+            if (this instanceof ChickenBoss) {
+                this.lastAlert();
+            }
         }
     }
 
@@ -251,7 +261,7 @@ class MovableObject extends DrawableObject {
 
     jumpAttack() {
         this.jumpAttackIntervall = setInterval(() => {
-            this.jump(27.5);
+            if (startGame && pause) this.jump(27.5);
         }, this.jumpAttackTime);
     }
 }

@@ -1,11 +1,16 @@
 class World {
-    levelBackground = level_1_background;
-    levelEnemies = level_1_enemies;
+
+    // Objects
+    mainScreen = new MainScreen();
     character = new Character();
     statusbar = new Statusbar();
-    coins = new CoinPositions();
+    coinsToCollect = new CoinPositions();
     bottlesToCollect = new BottlePositions();
     collisions = new Collisions();
+
+    // Values
+    levelBackground = level.background;
+    levelEnemies = level.enemies;
     bottles = [];
     canvas;
     ctx; // Context for canvas
@@ -29,18 +34,29 @@ class World {
 
 
     draw() {
+        if (pause) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.beforeTheCamera();
-        this.ctx.translate(this.camera_x, 0);
-        this.afterTheCamera();
-        this.ctx.translate(-this.camera_x, 0);
+            this.isGameStarted();
+        }
 
-       // draw() wird immer wieder aufgerufen
+        // draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(() => {
             self.draw();
         });
+    }
+
+
+    isGameStarted() {
+        if (!startGame) {
+            this.addObjectToMap(this.mainScreen)
+        } else {
+            this.beforeTheCamera();
+            this.ctx.translate(this.camera_x, 0);
+            this.afterTheCamera();
+            this.ctx.translate(-this.camera_x, 0);
+        }
     }
 
 
@@ -56,7 +72,7 @@ class World {
 
     afterTheCamera() {
         this.addObjectListToMap(this.levelBackground.BACKGROUNDS);
-        this.addObjectListToMap(this.coins.COINS);
+        this.addObjectListToMap(this.coinsToCollect.COINS);
         this.addObjectListToMap(this.bottlesToCollect.BOTTLES);
         this.addObjectListToMap(this.levelEnemies.ENEMIES);
         this.addObjectToMap(this.character);

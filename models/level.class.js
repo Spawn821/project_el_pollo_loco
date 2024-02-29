@@ -1,20 +1,9 @@
-class Level extends LevelObject {
+class Level {
+    background;
+    enemies;
 
-    constructor(levelLength, IMAGES, numberChickenSmall, numberChickenNormal, numberBossChicken) {
-        super();
-        this.levelLength = levelLength;
-        this.IMAGES = IMAGES;
-        this.numberChickenSmall = numberChickenSmall;
-        this.numberChickenNormal = numberChickenNormal;
-        this.numberBossChicken = numberBossChicken;
-
-        //this.background = new LevelBackground();
-        this.enemeies = new LevelEnemies();
-    }
-
-
-    setLevel() {
-        this.background.level = this;
-        this.enemeies.level = this;
+    constructor(levelLength, IMAGES, numberChickenSmall, numberChickenNormal, numberChickenBoss) {
+        this.background = new LevelBackground(levelLength, IMAGES);
+        this.enemies = new LevelEnemies(numberChickenSmall, numberChickenNormal, numberChickenBoss, this.background);
     }
 }

@@ -1,10 +1,8 @@
-let level_1_background;
-let level_1_enemies;
-
+let level;
 let levelLength = 1; // tow-steps starting with one (1, 3, 5...)
 
-let numberChickenSmall = 0; 
-let numberChickenNormal = 0;
+let numberChickenSmall = 3;
+let numberChickenNormal = 3;
 let numberChickenBoss = 1; // max 1
 
 let IMAGES = {
@@ -28,5 +26,4 @@ let IMAGES = {
 }
 
 
-level_1_background = new LevelBackground(levelLength, IMAGES);
-level_1_enemies = new LevelEnemies(numberChickenSmall, numberChickenNormal, numberChickenBoss);
+level = new Level(levelLength, IMAGES, numberChickenSmall, numberChickenNormal, numberChickenBoss);

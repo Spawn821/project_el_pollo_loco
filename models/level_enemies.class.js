@@ -1,15 +1,15 @@
-class LevelEnemies extends LevelObject {
+class LevelEnemies {
     ENEMIES = [];
-    levelBackground = level_1_background;
     chickenSmallAlreadySet = 0;
     chickenNormalAlreadySet = 0;
     chickenBossAlreadySet = 0;
+    background;
 
-    constructor(numberChickenSmall, numberChickenNormal, numberChickenBoss) {
-        super();
+    constructor(numberChickenSmall, numberChickenNormal, numberChickenBoss, background) {
         this.numberChickenSmall = numberChickenSmall;
         this.numberChickenNormal = numberChickenNormal;
         this.numberChickenBoss = numberChickenBoss;
+        this.background = background;
 
         this.setEnemies();
     }
@@ -18,11 +18,13 @@ class LevelEnemies extends LevelObject {
     setEnemies() {
         let index = 0;
 
-        for (let section in this.levelBackground.sections) {
-            let currentSection = this.levelBackground.sections[section];
+        for (let section in this.background.sections) {
+            let currentSection = this.background.sections[section];
 
-            this.addEnemie('small', this.chickenSmallAlreadySet, this.numberChickenSmall, currentSection + 350);
-            this.addEnemie('normal', this.chickenNormalAlreadySet, this.numberChickenNormal, currentSection + 350);
+            if (section != this.background.lastLevelSection) {
+                this.addEnemie('small', this.chickenSmallAlreadySet, this.numberChickenSmall, currentSection + 350);
+                this.addEnemie('normal', this.chickenNormalAlreadySet, this.numberChickenNormal, currentSection + 350);
+            }
 
             if (this.endbossConditions(index)) {
                 this.addEnemie('boss', this.chickenBossAlreadySet, this.numberChickenBoss, currentSection + 720);
@@ -34,7 +36,7 @@ class LevelEnemies extends LevelObject {
 
 
     endbossConditions(index) {
-        return  this.levelBackground.levelLength * 2 - 1 == index;
+        return this.background.levelLength * 2 - 1 == index;
     }
 
 
@@ -53,7 +55,7 @@ class LevelEnemies extends LevelObject {
     enemieSelection(size, section, movementNumber) {
         let enemie;
 
-        switch(size) {
+        switch (size) {
             case 'small':
                 enemie = new ChickenSmall(section, movementNumber);
                 this.chickenSmallAlreadySet++;

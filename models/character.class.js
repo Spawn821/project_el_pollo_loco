@@ -1,6 +1,6 @@
 class Character extends MovableObject {
 
-    levelBackground = level_1_background;
+    levelBackground = level.background;
     lastLevelSection = 0;
     world;
     end_camera;
@@ -68,7 +68,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES);
         this.setImgDimensions(125, 1.97); // width, percent for height = width * height
         this.setImgCoordinates(200); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.65, 0.55) // percentage scale from width and height
+        this.setImgScalePercentage(0.4, 0.5) // percentage scale from width and height
         this.setValues();
         this.startTheEngine();
     }
@@ -120,10 +120,9 @@ class Character extends MovableObject {
                 this.animateImages(this.IMAGES.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.animateImages(this.IMAGES.IMAGES_JUMPING);
-                //this.jumping_sound.play();
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.animateImages(this.IMAGES.IMAGES_WALKING);
-                this.walking_sound.play();
+                this.walkingSound();
             } else {
                 this.animateImages(this.IMAGES.IMAGES_IDLE);
             }
@@ -146,22 +145,26 @@ class Character extends MovableObject {
                 this.otherDirection = true;
             }
 
-            if (this.world.keyboard.SPACE) { //&& !this.isAboveGround()
-                this.makeDoubleJump();
-            }
+            this.doubleJump();
         }, 1000 / 60);
     }
 
 
-    makeDoubleJump() {
+    doubleJump() {
         if (this.isOnGround()) {
-            this.jump();
-            this.doubleJumpe = true;
-            this.lastAction = new Date().getTime();
-        } else if (this.isAction(0.5)) {
-            if (this.doubleJumpe) {
+            if (this.world.keyboard.SPACE) {
                 this.jump();
-                this.doubleJumpe = false;
+                this.doubleJumpe = true;
+                this.lastAction = new Date().getTime();
+                this.jumpingSound();
+            }
+        } else {
+            if (this.world.keyboard.SPACE && this.isAction(0.5)) {
+                if (this.doubleJumpe) {
+                    this.jump();
+                    this.doubleJumpe = false;
+                    this.jumpingSound();
+                }
             }
         }
     }

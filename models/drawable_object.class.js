@@ -98,7 +98,7 @@ class DrawableObject extends Sound{
         }
 
         if (this instanceof Character || this instanceof ChickenBoss) {
-            this.offsetY = diffToHeight - 7.5; // For the character image
+            this.offsetY = diffToHeight - 20; // For the character image
         } else {
             this.offsetY = diffToHeight / 2; // For all other pictures
         }
@@ -152,9 +152,46 @@ class DrawableObject extends Sound{
     }
 
 
+    drawButton(ctx) {
+        ctx.fillStyle = this.fillColor;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        ctx.fillStyle = this.fillColor;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = '24px Boogaloo-Regular';
+        ctx.fillText(this.text, this.x - this.width / 2, this.y - this.height / 2);
+        ctx.style = 'cursor: pointer';
+    }
+
+
+    drawPlayIcon(ctx) {
+        ctx.beginPath();
+        ctx.moveTo(700, 50);
+        ctx.lineTo(660, 70);
+        ctx.lineTo(660, 30);
+        ctx.fill();
+    }
+
+
+    drawPauseIcon(ctx) {
+        ctx.beginPath();
+        ctx.lineWidth = '7.5';
+        ctx.moveTo(600, 30);
+        ctx.lineTo(600, 70);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.lineWidth = '7.5';
+        ctx.moveTo(615, 30);
+        ctx.lineTo(615, 70);
+        ctx.stroke();
+    }
+
+
     // Delete if the project finished ##########
     drawRectBounding(ctx) {
-        if (this instanceof ChickenBoss || this instanceof Character) {
+        if (this instanceof ChickenBoss || this instanceof Character || this instanceof ChickenNormal) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';
