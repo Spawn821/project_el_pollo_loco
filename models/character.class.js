@@ -114,17 +114,19 @@ class Character extends MovableObject {
      */
     animation() {
         setInterval(() => {
-            if (this.isDead()) {
-                this.animateImages(this.IMAGES.IMAGES_DEAD);
-            } else if (this.isHurt(0.25)) {
-                this.animateImages(this.IMAGES.IMAGES_HURT);
-            } else if (this.isAboveGround()) {
-                this.animateImages(this.IMAGES.IMAGES_JUMPING);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.animateImages(this.IMAGES.IMAGES_WALKING);
-                this.walkingSound();
-            } else {
-                this.animateImages(this.IMAGES.IMAGES_IDLE);
+            if (!pause) {
+                if (this.isDead()) {
+                    this.animateImages(this.IMAGES.IMAGES_DEAD);
+                } else if (this.isHurt(0.25)) {
+                    this.animateImages(this.IMAGES.IMAGES_HURT);
+                } else if (this.isAboveGround()) {
+                    this.animateImages(this.IMAGES.IMAGES_JUMPING);
+                } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                    this.animateImages(this.IMAGES.IMAGES_WALKING);
+                    this.walkingSound();
+                } else {
+                    this.animateImages(this.IMAGES.IMAGES_IDLE);
+                }
             }
         }, 1000 / 10);
     }

@@ -23,6 +23,6 @@ class MainScreen extends MovableObject {
     animation() {
         setInterval(() => {
             this.animateImages(this.IMAGES.IMAGES_START);
-        }, 1500)
+        }, 1000)
     }
 }

@@ -1,21 +1,36 @@
 let canvas;
 let start;
+let screen;
 let world;
 let keyboard = new Keyboard();
 let startGame = false;
-let pause = true;
+let pause = false;
+let loading = false;
 
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+    screen = new Screen(canvas);
 }
 
 
 function changeGameStatus() {
     if (!startGame) {
+        loading = true;
         startGame = true;
+        setTimeout(() => {
+            loading = false;
+            changeStartOrMainScreen();
+        }, 5000);
+        setLevel();
+        world = new World(canvas, keyboard);
     } else {
+        loading = true;
+        setTimeout(() => {
+            loading = false;
+            //changeStartOrMainScreen();
+        }, 5000);
         startGame = false;
+        pause = false;
     }
 }
 

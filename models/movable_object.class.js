@@ -34,11 +34,13 @@ class MovableObject extends DrawableObject {
      */
     applyGravity() {
         this.applyGravityInterval = setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
-            } else if (this.isOnGround()) {
-                this.y = this.startPosY; // The Character always has the same y coordinate after jumping
+            if (!pause) {
+                if (this.isAboveGround() || this.speedY > 0) {
+                    this.y -= this.speedY;
+                    this.speedY -= this.acceleration;
+                } else if (this.isOnGround()) {
+                    this.y = this.startPosY; // The Character always has the same y coordinate after jumping
+                }
             }
         }, 1000 / 25);
     }
@@ -203,14 +205,14 @@ class MovableObject extends DrawableObject {
 
     runLeft() {
         this.runLeftIntervall = setInterval(() => {
-            if (startGame && pause) this.moveLeft();
+            if (startGame && !pause && !loading) this.moveLeft();
         }, 1000 / 60);
     }
 
 
     runCrazy() {
         this.runCrazyIntervall = setInterval(() => {
-            if (startGame && pause) {
+            if (startGame && !pause && !loading) {
                 if (!this.leftSideReached) {
                     this.moveLeft();
                     this.runningDirectionRight();
@@ -261,7 +263,7 @@ class MovableObject extends DrawableObject {
 
     jumpAttack() {
         this.jumpAttackIntervall = setInterval(() => {
-            if (startGame && pause) this.jump(27.5);
+            if (startGame && !pause && !loading) this.jump(27.5);
         }, this.jumpAttackTime);
     }
 }

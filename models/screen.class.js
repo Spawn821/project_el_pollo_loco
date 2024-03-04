@@ -1,40 +1,33 @@
-class Screen {
-    startScreen = new StartScreen()
-    button = new Button('Start', '#FFFFFF', '#00FF00');
+class Screen extends Draw {
+
+    mainScreen = new MainScreen()
+    loadingScreen = new LoadingScreen();
     canvas;
     ctx;
 
     constructor(canvas) {
+        super();
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
 
         this.draw();
-        this.mouseMove();
     }
 
 
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.addObjectToMap(this.startScreen);
-        //this.button.drawButton(this.ctx);
-        //this.button.drawPlayIcon(this.ctx);
-        //this.button.drawPauseIcon(this.ctx);
+        if (!startGame && !pause && !loading) {
+            this.clearCanvas();
+            this.addObjectToMap(this.mainScreen);
+            console.log('Start screen!   ' + loading);
+        } else if (loading) {
+            this.clearCanvas();
+            this.addObjectToMap(this.loadingScreen);
+            console.log('Loading!   ' + loading);
+        }
 
         let self = this;
         requestAnimationFrame(() => {
             self.draw();
         });
-    }
-
-
-    addObjectToMap(movableObject) {
-        movableObject.draw(this.ctx);
-        //movableObject.drawButton(this.ctx);
-    }
-
-
-    mouseMove() {
-        this.ctx.style = 'cursor: pointer';
     }
 }

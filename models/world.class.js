@@ -1,7 +1,6 @@
-class World {
+class World extends Draw {
 
     // Objects
-    mainScreen = new MainScreen();
     character = new Character();
     statusbar = new Statusbar();
     coinsToCollect = new CoinPositions();
@@ -18,6 +17,7 @@ class World {
     camera_x = 0;
 
     constructor(canvas, keyboard) {
+        super();
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
@@ -34,10 +34,12 @@ class World {
 
 
     draw() {
-        if (pause) {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-            this.isGameStarted();
+        if (startGame && !pause && !loading) {
+            this.clearCanvas();
+            this.applyColor();
+            console.log('Start game!');
+        } else {
+            console.log('Pause!');
         }
 
         // draw() wird immer wieder aufgerufen
@@ -48,15 +50,11 @@ class World {
     }
 
 
-    isGameStarted() {
-        if (!startGame) {
-            this.addObjectToMap(this.mainScreen)
-        } else {
-            this.beforeTheCamera();
-            this.ctx.translate(this.camera_x, 0);
-            this.afterTheCamera();
-            this.ctx.translate(-this.camera_x, 0);
-        }
+    applyColor() {
+        this.beforeTheCamera();
+        this.ctx.translate(this.camera_x, 0);
+        this.afterTheCamera();
+        this.ctx.translate(-this.camera_x, 0);
     }
 
 
@@ -80,40 +78,4 @@ class World {
     }
 
 
-    addObjectListToMap(movableObjectList) {
-        movableObjectList.forEach(movableObject => {
-            this.addObjectToMap(movableObject);
-        });
-    }
-
-
-    addObjectToMap(movableObject) {
-        if (movableObject.otherDirection) {
-            this.mirrorImage(movableObject);
-        }
-
-        movableObject.draw(this.ctx);
-        movableObject.drawRectBounding(this.ctx);
-        movableObject.drawRectBounding2(this.ctx);
-        movableObject.drawText(this.ctx);
-        movableObject.drawEnergyBar(this.ctx);
-
-        if (movableObject.otherDirection) {
-            this.removeMirrorImage(movableObject);
-        }
-    }
-
-
-    mirrorImage(movableObject) {
-        this.ctx.save();
-        this.ctx.translate(movableObject.width, 0);
-        this.ctx.scale(-1, 1);
-        movableObject.x = movableObject.x * -1;
-    }
-
-
-    removeMirrorImage(movableObject) {
-        movableObject.x = movableObject.x * -1;
-        this.ctx.restore();
-    }
 }
