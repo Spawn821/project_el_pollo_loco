@@ -26,6 +26,6 @@ let IMAGES = {
 }
 
 
-function setLevel() {
+function setLevel1() {
     level = new Level(levelLength, IMAGES, numberChickenSmall, numberChickenNormal, numberChickenBoss);
 }

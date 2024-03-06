@@ -1,46 +1,28 @@
+// HTML
 let canvas;
-let start;
+let buttonGameStatus;
+let buttonPause;
+
+// Objects
 let screen;
 let world;
 let keyboard = new Keyboard();
+
+// Boolean
 let startGame = false;
 let pause = false;
 let loading = false;
 
 function init() {
+    buttonGameStatus = document.getElementById('button-game-status');
+    buttonPause = document.getElementById('button-play-pause');
     canvas = document.getElementById('canvas');
+    setScreen();
+}
+
+
+function setScreen() {
     screen = new Screen(canvas);
-}
-
-
-function changeGameStatus() {
-    if (!startGame) {
-        loading = true;
-        startGame = true;
-        setTimeout(() => {
-            loading = false;
-            changeStartOrMainScreen();
-        }, 5000);
-        setLevel();
-        world = new World(canvas, keyboard);
-    } else {
-        loading = true;
-        setTimeout(() => {
-            loading = false;
-            //changeStartOrMainScreen();
-        }, 5000);
-        startGame = false;
-        pause = false;
-    }
-}
-
-
-function changePauseStatus() {
-    if (pause) {
-        pause = false;
-    } else {
-        pause = true;
-    }
 }
 
 

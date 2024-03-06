@@ -59,7 +59,7 @@
     <h1>El pollo loco</h1>
 
     <div class="panel">
-        <div id="button-play-pause" class="button-play-pause d-none" onclick="changePlayOrPause(), changePauseStatus()"></div>
+        <div id="button-play-pause" class="button-play-pause d-none" onclick="changePauseStatus()"></div>
 
         <div id="control-info" class="control-info d-none">
         </div>
@@ -78,7 +78,7 @@
                 <span class="option-three">Impressum</span>
             </div>
 
-            <span id="start-main-screen" onclick="changeStartOrMainScreen(), changeGameStatus(), showOrHidePlayPause()">Start</span>
+            <button id="button-game-status" onclick="changeGameStatus()">Start</button>
         </div>
     </div>
 

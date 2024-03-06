@@ -191,7 +191,7 @@ class DrawableObject extends Sound{
 
     // Delete if the project finished ##########
     drawRectBounding(ctx) {
-        if (this instanceof ChickenBoss || this instanceof Character || this instanceof ChickenNormal) {
+        if (false) {
             ctx.beginPath();
             ctx.lineWidth = '2.5';
             ctx.strokeStyle = 'green';

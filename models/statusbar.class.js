@@ -23,7 +23,7 @@ class Statusbar {
 
     createChickenBossStatus() {
         this.endbossHealthIcon = new Icon('../graphics/7_statusbars/3_icons/icon_health_endboss.png',
-            565, 10, 80, 1.02, 30);
+            500, 10, 80, 1.02, 30);
     }
 
 

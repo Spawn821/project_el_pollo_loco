@@ -37,9 +37,6 @@ class World extends Draw {
         if (startGame && !pause && !loading) {
             this.clearCanvas();
             this.applyColor();
-            console.log('Start game!');
-        } else {
-            console.log('Pause!');
         }
 
         // draw() wird immer wieder aufgerufen

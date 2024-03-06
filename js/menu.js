@@ -1,13 +1,16 @@
 function showOrHidePlayPause() {
-    let button = document.getElementById('button-play-pause');
-    button.classList.toggle('d-none');
+    buttonPause.classList.toggle('d-none');
 }
 
 
-function changePlayOrPause() {
-    let button = document.getElementById('button-play-pause');
-
-    button.classList.toggle('pause');
+function changePauseStatus(reset = false) {
+    if (pause || reset) {
+        pause = false;
+        buttonPause.classList.remove('pause');
+    } else {
+        pause = true;
+        buttonPause.classList.add('pause');
+    }
 }
 
 
@@ -18,25 +21,10 @@ function openOrCloseControlInfo() {
 }
 
 
-function changeStartOrMainScreen() {
-    let text = document.getElementById('start-main-screen');
-    let button = document.getElementById('button-play-pause');
-
-    if (text.innerHTML == 'Start') {
-        text.innerHTML = 'Loading';
-    } else if (text.innerHTML == 'Loading') {
-        text.innerHTML = 'Main screen';
-        setLevel();
-    } else {
-        text.innerHTML = 'Start';
-        button.classList.remove('pause');
-        //clearAllIntervals();
-        //screen = new Screen(canvas);
-    }
-
-    text.classList.add('start-main-screen');
+function letTheTextShape() {
+    buttonGameStatus.classList.add('button-game-status-animation');
     setTimeout(() => {
-        text.classList.remove('start-main-screen');
+        buttonGameStatus.classList.remove('button-game-status-animation');
     }, 1000);
 }
 
@@ -44,11 +32,53 @@ function changeStartOrMainScreen() {
 function clearAllIntervals() {
     for (let i = 1; i < 999; i++) {
         window.clearInterval(i);
-        console.log(i);
     }
 }
 
 
-function isolateFromOderEvents(e) {
-    e.stopPropagation();
+function changeGameStatus() {
+    if (!startGame) {
+        switchToGame();
+    } else {
+        clearAllIntervals();
+        setTimeout(switchToMainScreen, 250);
+    }
+}
+
+
+function switchToGame() {
+    startGame = true;
+    switchToLoadingScreen('Main screen');
+    letTheTextShape();
+    setLevel1();
+    world = new World(canvas, keyboard);
+    setTimeout(showOrHidePlayPause, 5000);
+}
+
+
+function switchToLoadingScreen(status) {
+    // Loding active
+    loading = true;
+    buttonGameStatus.innerHTML = 'Loading';
+    buttonGameStatus.classList.add('button-game-status-disabled');
+    buttonPause.ponter
+
+    // Loading deactivate
+    setTimeout(() => {
+        loading = false;
+        buttonGameStatus.innerHTML = status;
+        buttonGameStatus.classList.remove('button-game-status-disabled');
+        letTheTextShape();
+    }, 5000);
+}
+
+
+function switchToMainScreen() {
+    changePauseStatus(true);
+    showOrHidePlayPause();
+    startGame = false;
+    pause = false;
+    switchToLoadingScreen('Start');
+    letTheTextShape();
+    setScreen();
 }

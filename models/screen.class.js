@@ -18,11 +18,9 @@ class Screen extends Draw {
         if (!startGame && !pause && !loading) {
             this.clearCanvas();
             this.addObjectToMap(this.mainScreen);
-            console.log('Start screen!   ' + loading);
         } else if (loading) {
             this.clearCanvas();
             this.addObjectToMap(this.loadingScreen);
-            console.log('Loading!   ' + loading);
         }
 
         let self = this;

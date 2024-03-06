@@ -86,7 +86,7 @@ canvas {
     border-bottom-right-radius: 20px;
 }
 
-span {
+span, button {
     font-family: 'Boogaloo-Regular';
     font-size: 24px;
 }
@@ -131,7 +131,6 @@ span {
         opacity: 0;
         transition: left 1s, opacity 1s, background-color ease;
         text-wrap: nowrap;
-        background-color: transparent;
         padding: 4px;
         border-radius: 4px;
 
@@ -175,9 +174,12 @@ span {
     }
 }
 
-#start-main-screen {
+#button-game-status {
     position: absolute;
     right: 40px;
+    border: unset;
+    background-color: unset;
+    outline: unset;
 
     &:hover {
         cursor: pointer;
@@ -185,13 +187,18 @@ span {
     }
 }
 
-.start-main-screen {
-    animation-name: start-main-screen-slide;
+.button-game-status-disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.button-game-status-animation {
+    animation-name: button-game-status-slide;
     animation-duration: 1s;
 }
 
 
-@keyframes start-main-screen-slide {
+@keyframes button-game-status-slide {
     0% {
         right: 5px;
     }
