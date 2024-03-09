@@ -54,28 +54,41 @@
     <script src="levels/level1.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="init(), includeHTML()">
 
     <h1>El pollo loco</h1>
 
     <div class="panel">
         <div id="button-play-pause" class="button-play-pause d-none" onclick="changePauseStatus()"></div>
 
-        <div id="control-info" class="control-info d-none">
+        <!-- How controll the game -->
+        <div id="control-info" class="info-window control-info">
         </div>
 
+        <!-- Privacy policy -->
+        <div id="privacy_policy_html" class="info-window privacy_policy_info privacy_policy-background" w3-include-html="privacy_policy.html">
+
+        </div>
+
+        <!-- Privacy policy -->
+        <div id="impressum_html" class="info-window impressum_info impressum-background" w3-include-html="Impressum.html">
+
+        </div>
+
+        <!-- Show the game -->
         <canvas id="canvas" width="720" height="400">
 
         </canvas>
 
+        <!-- Menu bar -->
         <div class="menu">
 
-            <div id="options" class="options">
-                <span class="options-text">Options</span>
+            <div id="options-area" class="options-area">
+                <span id="button-options" class="options-text" onclick="openOrCloseOptions()">Options</span>
                 <span class="option-arrow"></span>
-                <span class="option-one" onclick="openOrCloseControlInfo()">Control</span>
-                <span class="option-two">Privacy policy</span>
-                <span class="option-three">Impressum</span>
+                <span id="option-button-one" class="option-one" onclick="selectedOption('control-info')">Control</span>
+                <span id="option-button-two" class="option-two" onclick="selectedOption('privacy_policy_html')">Privacy policy</span>
+                <span id="option-button-three" class="option-three" onclick="selectedOption('impressum_html')">Impressum</span>
             </div>
 
             <button id="button-game-status" onclick="changeGameStatus()">Start</button>
