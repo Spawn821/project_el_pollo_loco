@@ -11,26 +11,32 @@ class Sound {
 
 
     jumpingSound() {
-        //this.startSound(this.jumping_sound);
+        this.startSound(this.jumping_sound);
     }
 
 
     collectCoinSound() {
-        //this.startSound(this.collect_coin_sound);
+        this.startSound(this.collect_coin_sound);
     }
 
 
     jumpOnChickenSound() {
-        //this.startSound(this.jump_on_chicken_sound);
+        this.startSound(this.jump_on_chicken_sound);
     }
 
 
     backgroundSound() {
-        //this.startSound(this.background_sound);
+        this.background_sound.load();
+        this.background_sound.play();
 
-     //   this.background_sound.addEventListener('ended', () => {
-     //       this.startSound(this.background_sound);
-     //   }, false)
+        this.background_sound.addEventListener('ended', () => {
+            this.startSound(this.background_sound);
+        }, false)
+    }
+
+
+    backgroundSoundPause() {
+        this.background_sound.pause();
     }
 
 

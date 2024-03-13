@@ -48,10 +48,8 @@ function selectedOption(currentOption) {
         let optionWindow = document.getElementById(option);
 
         if (option == currentOption) {
-            optionWindow.classList.add('open-info-window')
             addClassToOption(option, optionWindow);
         } else {
-            optionWindow.classList.remove('open-info-window')
             removeClassFromOption(option, optionWindow);
         }
     });
@@ -129,7 +127,7 @@ function changeGameStatus() {
         switchToGame();
     } else {
         clearAllIntervals();
-        setTimeout(switchToMainScreen, 250);
+        switchToMainScreen();
     }
 }
 
@@ -163,9 +161,11 @@ function switchToLoadingScreen(status) {
 
 function switchToMainScreen() {
     changePauseStatus(true);
-    showOrHidePlayPause();
+    if (!buttonPause.classList.contains('d-none')) showOrHidePlayPause();
     startGame = false;
     pause = false;
+    gameEnd = false;
+    startMovie = false;
     switchToLoadingScreen('Start');
     letTheTextShape();
     setScreen();
@@ -176,4 +176,9 @@ function clearAllIntervals() {
     for (let i = 1; i < 999; i++) {
         window.clearInterval(i);
     }
+}
+
+
+function removeFocus(button) {
+    button.blur()
 }

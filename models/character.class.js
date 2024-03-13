@@ -83,7 +83,7 @@ class Character extends MovableObject {
         this.end_camera = this.lastLevelSection + 200;
         this.speed = 5;
         this.saveSpeed = this.speed;
-        this.energy = 100;
+        this.energy = 10;
     }
 
 
@@ -113,10 +113,13 @@ class Character extends MovableObject {
      * This function controlls all animations from walk, to jump ...
      */
     animation() {
+        let deadMovement = false;
         setInterval(() => {
             if (!pause) {
                 if (this.isDead()) {
                     this.animateImages(this.IMAGES.IMAGES_DEAD);
+                    if (!deadMovement) deadMovement = this.deadAnimation();
+                    setTimeout(() => gameEnd = true, 5000);
                 } else if (this.isHurt(0.25)) {
                     this.animateImages(this.IMAGES.IMAGES_HURT);
                 } else if (this.isAboveGround()) {
@@ -129,6 +132,14 @@ class Character extends MovableObject {
                 }
             }
         }, 1000 / 10);
+    }
+
+
+    deadAnimation() {
+        this.world.keyboard.tabKeyToJump();
+        setTimeout(() => this.world.keyboard.resetKeys(), 250);
+        startMovie = true;
+        return true;
     }
 
 
@@ -243,12 +254,24 @@ class Character extends MovableObject {
         this.speed = 1;
 
         if (this.world.camera_x > -this.end_camera + 250) {
-            this.world.keyboard.RIGHT = true;
+            startMovie = true;
+            this.world.keyboard.holdKeyToGoRight();
+            this.clearNormalAndSmallEnemies();
         } else {
-            this.world.keyboard.RIGHT = false;
+            startMovie = false;
+            this.world.keyboard.resetKeys();
             this.speed = this.saveSpeed;
             this.startTheBossFight();
         }
+    }
+
+
+    clearNormalAndSmallEnemies() {
+        this.world.levelEnemies.ENEMIES.forEach((enemy) => {
+            if (!(enemy instanceof ChickenBoss)) {
+                this.world.levelEnemies.ENEMIES.splice(this.world.levelEnemies.ENEMIES.indexOf(enemy), 1);
+            }
+        });
     }
 
 

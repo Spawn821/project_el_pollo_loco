@@ -27,6 +27,8 @@ class MovableObject extends DrawableObject {
     leftSideReached = false;
     rightSideReached = true;
 
+    collidingInY = 1000; // Default, higher than canvas hight
+
     /**
      * This function controlls the gravity if the character jump.
      * Decreasing speed above the ground and
@@ -39,10 +41,19 @@ class MovableObject extends DrawableObject {
                     this.y -= this.speedY;
                     this.speedY -= this.acceleration;
                 } else if (this.isOnGround()) {
-                    this.y = this.startPosY; // The Character always has the same y coordinate after jumping
+                    this.cancelGravity();
                 }
             }
         }, 1000 / 25);
+    }
+
+
+    cancelGravity() {
+        if (this instanceof Bottle) {
+            this.y = this.startPosY + 75 < this.collidingInY ? this.startPosY + 75 : this.collidingY;
+        } else {
+            this.y = this.startPosY; // The Character always has the same y coordinate after jumping
+        }
     }
 
 
@@ -53,9 +64,9 @@ class MovableObject extends DrawableObject {
      */
     isAboveGround() {
         if (this instanceof Bottle) {
-            return true;
+            return this.startPosY + 75 < this.collidingInY ? this.y < this.startPosY + 75 : this.y < this.collidingY;// || this.Y <= this.enemyPosY;
         } else {
-            return this.y < this.startPosY;
+            return this.isDead() ? true : this.y < this.startPosY;
         }
     }
 
@@ -65,7 +76,11 @@ class MovableObject extends DrawableObject {
      * @returns true or false.
      */
     isOnGround() {
-        return this.y >= this.startPosY;
+        if (this instanceof Bottle) {
+            return this.startPosY + 75 < this.collidingInY ? this.y >= this.startPosY + 75 : this.y >= this.collidingY;
+        } else {
+            return this.y >= this.startPosY;
+        }
     }
 
 
@@ -74,8 +89,10 @@ class MovableObject extends DrawableObject {
      * set the current time for the hit.
      */
     hit() {
-        if (this.energy > 0) this.energy -= 5;
-        this.lastHit = new Date().getTime();
+        if (!pause) {
+            if (this.energy > 0) this.energy -= 5;
+            this.lastHit = new Date().getTime();
+        }
     }
 
 
@@ -84,9 +101,11 @@ class MovableObject extends DrawableObject {
      * @returns true or false.
      */
     isHurt(duration) {
-        let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 1000;
-        return timepassed < duration; // 0.25
+        if (!pause) {
+            let timepassed = new Date().getTime() - this.lastHit;
+            timepassed = timepassed / 1000;
+            return timepassed < duration; // 0.25
+        }
     }
 
 
@@ -191,7 +210,9 @@ class MovableObject extends DrawableObject {
      * This function lets the images move to the right.
      */
     moveRight() {
-        this.x += this.speed;
+        if (startGame && !pause && !loading) {
+            this.x += this.speed;
+        }
     }
 
 
@@ -199,7 +220,9 @@ class MovableObject extends DrawableObject {
      * This function lets the imges move to the left.
      */
     moveLeft() {
-        this.x -= this.speed;
+        if (startGame && !pause && !loading) {
+            this.x -= this.speed;
+        }
     }
 
 

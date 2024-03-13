@@ -47,27 +47,17 @@ class Bottle extends MovableObject {
      */
     startTheEngine() {
         this.throw();
-        this.rotation();
+        this.animation();
     }
 
 
-    /**
-     * This function shows the rotations animation when the bottle has been thrown.
-     */
-    rotation() {
-        this.rotationInterval = setInterval(() => {
-                this.animateImages(this.IMAGES.IMAGES_BOTTLE_ROTATION);
-        }, 1000 / 10);
-    }
-
-
-    /**
-     * This function shows the splash animation when the bottle collided with an enemy.
-     */
-    splash() {
-        this.currentImage = 0;
+    animation() {
         setInterval(() => {
-            this.animateImages(this.IMAGES.IMAGES_BOTTLE_SPLASH);
+            if (this.isOnGround()) {
+                this.animateImages(this.IMAGES.IMAGES_BOTTLE_SPLASH);
+            } else {
+                this.animateImages(this.IMAGES.IMAGES_BOTTLE_ROTATION);
+            }
         }, 1000 / 8);
     }
 
@@ -80,21 +70,13 @@ class Bottle extends MovableObject {
         this.applyGravity();
 
         this.throwDistanceInterval = setInterval(() => {
-            if (this.otherDirection) {
-                this.x -= this.throwDistance;
-            } else {
-                this.x += this.throwDistance;
+            if (!pause && !this.isOnGround()) {
+                if (this.otherDirection) {
+                    this.x -= this.throwDistance;
+                } else {
+                    this.x += this.throwDistance;
+                }
             }
         }, 1000 / 25);
-    }
-
-
-    /**
-     * This function stop all throw animations.
-     */
-    stopThrow() {
-        clearInterval(this.applyGravityInterval);
-        clearInterval(this.throwDistanceInterval);
-        clearInterval(this.rotationInterval);
     }
 }

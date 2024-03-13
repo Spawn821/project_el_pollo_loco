@@ -7,6 +7,7 @@ class Collisions extends Sound {
     constructor() {
         super();
         this.throwChicken();
+        this.bottleOnGround();
         this.jumpOnChicken();
         this.character();
         this.coins();
@@ -85,9 +86,7 @@ class Collisions extends Sound {
     affectedWithBottle(bottle, enemy) {
         this.thrownBottles.push(bottle);
         if (this.checkDeadIndex(enemy) == -1) {
-            bottle.stopThrow();
-            bottle.startY = enemy.startY;
-            bottle.splash();
+            bottle.collidingY = enemy.y;
             this.removeBottle(bottle);
             enemy.hit();
             this.jumpOnChickenSound();
@@ -105,6 +104,17 @@ class Collisions extends Sound {
     }
 
 
+    bottleOnGround() {
+        setInterval(() => {
+            this.world.bottles.forEach((bottle) => {
+                if (bottle.isOnGround() && this.checkThrownBottles(bottle) == -1) {
+                    this.removeBottle(bottle);
+                }
+            });
+        }, 1000 / 60)
+    }
+
+
     /**
      * This function check if the character jumped on an enemy.
      */
@@ -112,7 +122,7 @@ class Collisions extends Sound {
         setInterval(() => {
             this.world.levelEnemies.ENEMIES.forEach((enemy) => {
                 if (this.world.character.isCollidingOnTop(enemy)) {
-                    this.affectedWithJump(enemy);
+                    if (!this.world.character.isDead()) this.affectedWithJump(enemy);
                 }
             });
         }, 1000 / 60);

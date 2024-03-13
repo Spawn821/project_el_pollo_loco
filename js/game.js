@@ -12,6 +12,8 @@ let keyboard = new Keyboard();
 let startGame = false;
 let pause = false;
 let loading = false;
+let gameEnd = false;
+let startMovie = false
 
 function init() {
     buttonGameStatus = document.getElementById('button-game-status');
@@ -27,22 +29,20 @@ function setScreen() {
 
 
 window.addEventListener('keydown', (event) => {
-    if (event.key == 'ArrowLeft') {
-        keyboard.LEFT = true;
-    } else if (event.key == 'ArrowRight') {
-        keyboard.RIGHT = true;
-    } else if (event.key == 'ArrowUp') {
-        keyboard.UP = true;
-    } else if (event.key == 'ArrowDown') {
-        keyboard.DOWN = true;
-    } else if (event.key == ' ') {
-        keyboard.SPACE = true;
-    } else if (event.key == 'a') {
-        keyboard.a = true;
-    } else if (event.key == 's') {
-        keyboard.s = true;
-    } else if (event.key == 'd') {
-        keyboard.d = true;
+    if (!startMovie) {
+        if (event.key == 'ArrowLeft') {
+            keyboard.LEFT = true;
+        } else if (event.key == 'ArrowRight') {
+            keyboard.RIGHT = true;
+        } else if (event.key == ' ') {
+            keyboard.SPACE = true;
+        } else if (event.key == 'a') {
+            keyboard.a = true;
+        } else if (event.key == 's') {
+            keyboard.s = true;
+        } else if (event.key == 'd') {
+            keyboard.d = true;
+        }
     }
 });
 
@@ -52,10 +52,6 @@ window.addEventListener('keyup', (event) => {
         keyboard.LEFT = false;
     } else if (event.key == 'ArrowRight') {
         keyboard.RIGHT = false;
-    } else if (event.key == 'ArrowUp') {
-        keyboard.UP = false;
-    } else if (event.key == 'ArrowDown') {
-        keyboard.DOWN = false;
     } else if (event.key == ' ') {
         keyboard.SPACE = false;
     } else if (event.key == 'a') {

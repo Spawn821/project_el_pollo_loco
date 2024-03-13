@@ -32,6 +32,8 @@
 
     <!-- The heirs from movable object -->
     <script src="models/main_screen.calss.js"></script>
+    <script src="models/game_over_screen.class.js"></script>
+    <script src="models/you_lost_screen.class.js"></script>
     <script src="models/loading_screen.class.js"></script>
     <script src="models/background.class.js"></script>
     <script src="models/cloud.class.js"></script>
@@ -91,7 +93,7 @@
                 <span id="option-button-three" class="option-three" onclick="selectedOption('impressum_html')">Impressum</span>
             </div>
 
-            <button id="button-game-status" onclick="changeGameStatus()">Start</button>
+            <button id="button-game-status" onclick="changeGameStatus()" onfocus="removeFocus(this)">Start</button>
         </div>
     </div>
 

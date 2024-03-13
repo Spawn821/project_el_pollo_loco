@@ -76,19 +76,20 @@ class ChickenBoss extends MovableObject {
 
     animation() {
         setInterval(() => {
-            if (this.isAlert()) {
-                this.stopMovement()
-                this.animateImages(this.IMAGES.IMAGES_ALERT);
-            } else if (this.collisionWhitCharacter) {
+            if (this.collisionWhitCharacter) {
                 this.stopMovement()
                 this.animateImages(this.IMAGES.IMAGES_ATTACK);
             } else if (this.isDead()) {
                 this.stopMovement()
                 this.animateImages(this.IMAGES.IMAGES_DEAD);
+                setTimeout(() => gameEnd = true, 2000);
             } else if (this.isHurt(1)) {
                 this.speed += 0.05;
                 this.stopMovement()
                 this.animateImages(this.IMAGES.IMAGES_HURT);
+            } else if (this.isAlert()) {
+                this.stopMovement()
+                this.animateImages(this.IMAGES.IMAGES_ALERT);
             } else {
                 this.animateImages(this.IMAGES.IMAGES_WALK);
                 this.movement();

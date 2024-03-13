@@ -22,6 +22,10 @@ canvas {
     background-color: black;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+
+    &:focus {
+        border: black;
+    }
 }
 
 ::-webkit-scrollbar {
@@ -187,20 +191,15 @@ canvas {
 
 .info-window {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
+    left: 50%;
+    top: 50%;
     width: 0px;
     height: 0px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     transition: 1s ease;
-    will-change: height;
-    overflow-y: scroll;
-}
-
-.open-info-window {
-    border: solid 8px black;
+    will-change: width, height, overflow-y;
+    overflow-y: hidden;
 }
 
 .control-info {
@@ -211,16 +210,20 @@ canvas {
 }
 
 .open-control-info {
-    width: calc(720px - 16px);
-    height: calc(400px - 16px);
+    width: 720px;
+    height: 400px;
+    left: 0;
+    top: 0;
 }
 
 .open-privacy_policy-impressum {
-    width: calc(720px - 32px - 16px);
-    height: calc(400px - 16px);
-    background-color: white;
+    width: calc(720px - 32px);
+    height: 400px;
+    left: 0;
+    top: 0;
     padding-left: 16px;
     padding-right: 16px;
+    overflow-y: scroll;
 }
 
 .privacy_policy-background {
@@ -228,7 +231,7 @@ canvas {
 }
 
 .impressum-background {
-    background-color: rgba(199, 103, 88);
+    background-color: rgba(208, 224, 232);
 }
 
 #button-game-status {
