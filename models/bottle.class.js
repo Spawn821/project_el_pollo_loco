@@ -7,24 +7,24 @@ class Bottle extends MovableObject {
 
     IMAGES = {
         IMAGES_BOTTLE_ROTATION: [
-            '../graphics/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
-            '../graphics/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
-            '../graphics/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
-            '../graphics/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
+            'graphics/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
+            'graphics/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
+            'graphics/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
+            'graphics/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
         ],
 
         IMAGES_BOTTLE_SPLASH: [
-            '../graphics/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
-            '../graphics/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
-            '../graphics/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
-            '../graphics/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
-            '../graphics/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
-            '../graphics/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
+            'graphics/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
+            'graphics/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
+            'graphics/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
+            'graphics/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
+            'graphics/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
+            'graphics/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
         ]
     };
 
     constructor(x, y, distance) {
-        super().loadImage('../graphics/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
+        super().loadImage('graphics/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(75, 1); // width, percent for height = width * height
         this.setImgCoordinates(x, y); // coordinates x, y calculate less height
@@ -53,7 +53,7 @@ class Bottle extends MovableObject {
 
     animation() {
         setInterval(() => {
-            if (this.isOnGround()) {
+            if (this.isOnGround() || this.colliding) {
                 this.animateImages(this.IMAGES.IMAGES_BOTTLE_SPLASH);
             } else {
                 this.animateImages(this.IMAGES.IMAGES_BOTTLE_ROTATION);
@@ -70,7 +70,7 @@ class Bottle extends MovableObject {
         this.applyGravity();
 
         this.throwDistanceInterval = setInterval(() => {
-            if (!pause && !this.isOnGround()) {
+            if (!pause && !this.isOnGround() && !this.colliding) {
                 if (this.otherDirection) {
                     this.x -= this.throwDistance;
                 } else {

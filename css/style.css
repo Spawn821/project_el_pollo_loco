@@ -1,9 +1,11 @@
 body {
+    height: 100dvh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 0;
 }
+
 
 h1,
 h2,
@@ -16,16 +18,6 @@ span,
 button {
     font-family: 'Boogaloo-Regular';
     font-size: 24px;
-}
-
-canvas {
-    background-color: black;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-
-    &:focus {
-        border: black;
-    }
 }
 
 ::-webkit-scrollbar {
@@ -45,9 +37,76 @@ canvas {
     height: 8px;
 }
 
+
+
+/* --------------- */
+/* GENERIC CLASSES */
+/* --------------- */
+
 .d-none {
+    display: none !important;
+}
+
+.scale {
+    transform: scale(1.1);
+}
+
+
+
+/* ---------- */
+/* SMARTPHONE */
+/* ---------- */
+
+.note-rotate-to-landscape {
     display: none;
 }
+
+.smartphone {
+    width: 300px;
+    height: 300px;
+
+    background-image: url('../graphics/0_downloads/smartphone.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    transform: rotate(0deg);
+
+    transition: 1s ease;
+    will-change: transform;
+}
+
+
+.smartphone-rotate {
+    transform: rotate(90deg);
+}
+
+
+
+/* ------- */
+/* WRAPPER */
+/* ------- */
+
+.wrapper {
+    width: 100dvw;
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url('../graphics/0_downloads/website_background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+/* ----- */
+/* PANEL */
+/* ----- */
 
 .panel {
     position: relative;
@@ -55,6 +114,12 @@ canvas {
     flex-direction: column;
     align-items: center;
 }
+
+
+
+/* ----------------- */
+/* FLY ON THE CANVAS */
+/* ----------------- */
 
 .button-play-pause {
     position: absolute;
@@ -77,6 +142,69 @@ canvas {
         border-width: 0px 0px 0px 32px;
     }
 }
+
+.info-window {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0px;
+    height: 0px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    transition: 1s ease;
+    will-change: width, height, overflow-y;
+    overflow-y: hidden;
+}
+
+.control-info {
+    background-image: url("../graphics/0_downloads/controll.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+}
+
+.open-control-info {
+    width: 720px;
+    height: 400px;
+    left: 0;
+    top: 0;
+}
+
+.open-privacy_policy-impressum {
+    width: calc(720px - 32px);
+    height: 400px;
+    left: 0;
+    top: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    overflow-y: scroll;
+}
+
+.privacy_policy-background {
+    background-color: rgb(248, 197, 103);
+}
+
+.impressum-background {
+    background-color: rgba(208, 224, 232);
+}
+
+
+
+/* ------ */
+/* CANVAS */
+/* ------ */
+
+canvas {
+    background-color: black;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+
+
+/* ---- */
+/* MENU */
+/* ---- */
 
 .menu {
     position: relative;
@@ -128,7 +256,8 @@ canvas {
         transform: rotate(-45deg);
 
         opacity: 0;
-        transition: left 1s, opacity 1s ease;
+        transition: 1s all ease;
+        will-change: left, opacity;
     }
 
     & .option-one,
@@ -138,7 +267,8 @@ canvas {
         left: 0px;
 
         opacity: 0;
-        transition: left 1s, opacity 1s, background-color ease;
+        transition: 1s all ease;
+        will-change: left, opacity;
         text-wrap: nowrap;
         padding: 4px;
         border-radius: 4px;
@@ -189,54 +319,10 @@ canvas {
     background-color: rgb(247, 189, 99) !important;
 }
 
-.info-window {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 0px;
-    height: 0px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    transition: 1s ease;
-    will-change: width, height, overflow-y;
-    overflow-y: hidden;
-}
-
-.control-info {
-    background-image: url("../graphics/0_downloads/controll.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-
-}
-
-.open-control-info {
-    width: 720px;
-    height: 400px;
-    left: 0;
-    top: 0;
-}
-
-.open-privacy_policy-impressum {
-    width: calc(720px - 32px);
-    height: 400px;
-    left: 0;
-    top: 0;
-    padding-left: 16px;
-    padding-right: 16px;
-    overflow-y: scroll;
-}
-
-.privacy_policy-background {
-    background-color: rgb(248, 197, 103);
-}
-
-.impressum-background {
-    background-color: rgba(208, 224, 232);
-}
-
 #button-game-status {
     position: absolute;
     right: 40px;
+
     border: unset;
     background-color: unset;
     outline: unset;
@@ -298,4 +384,127 @@ canvas {
     100% {
         right: 40px;
     }
+}
+
+
+
+/* ------- */
+/* GAMEBOY */
+/* ------- */
+
+.gameboy {
+    display: none;
+}
+
+/* gameboy left */
+
+.gameboy-left {
+    left: 0;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 20px;
+    padding-right: 30px;
+}
+
+.key-caps-area-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.key-caps-medium {
+    width: 64px;
+    height: 64px;
+}
+
+#arrow-left-key {
+    background-image: url('../graphics/0_downloads/arrow_left_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 56px;
+}
+
+#arrow-right-key {
+    background-image: url('../graphics/0_downloads/arrow_right_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: 40px;
+}
+
+/* gameboy right */
+
+.gameboy-right {
+    right: 0;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding-left: 30px;
+
+    &>button {
+        top: 8px;
+    }
+}
+
+.key-caps-area-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.key-caps-small-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    &>div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+    }
+}
+
+.key-caps-small {
+    width: 48px;
+    height: 48px;
+}
+
+.key-caps-large {
+    width: 112px;
+    height: 40px;
+    padding-top: 16px;
+}
+
+#s-key {
+    background-image: url('../graphics/0_downloads/s_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#a-key {
+    background-image: url('../graphics/0_downloads/a_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#d-key {
+    background-image: url('../graphics/0_downloads/d_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#space-key {
+    background-image: url('../graphics/0_downloads/space_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }

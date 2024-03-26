@@ -2,13 +2,13 @@ class ChickenSmall extends MovableObject {
 
     IMAGES = {
         IMAGES_WALKING: [
-            '../graphics/3_enemies_chicken/chicken_small/1_walk/1_w.png',
-            '../graphics/3_enemies_chicken/chicken_small/1_walk/2_w.png',
-            '../graphics/3_enemies_chicken/chicken_small/1_walk/3_w.png'
+            'graphics/3_enemies_chicken/chicken_small/1_walk/1_w.png',
+            'graphics/3_enemies_chicken/chicken_small/1_walk/2_w.png',
+            'graphics/3_enemies_chicken/chicken_small/1_walk/3_w.png'
         ],
 
         IMAGES_DEAD: [
-            '../graphics/3_enemies_chicken/chicken_small/2_dead/dead.png',
+            'graphics/3_enemies_chicken/chicken_small/2_dead/dead.png',
         ]
     };
 
@@ -17,7 +17,7 @@ class ChickenSmall extends MovableObject {
         super();
         this.movementNumber = movementNumber;
 
-        this.loadImage('../graphics/3_enemies_chicken/chicken_small/1_walk/1_w.png');
+        this.loadImage('graphics/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(75, 1.03); // width, percent for height = width * height
         this.setImgCoordinates(x + Math.random() * 400); // coordinates x, y calculate less height

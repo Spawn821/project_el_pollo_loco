@@ -35,6 +35,7 @@ class Collisions extends Sound {
      * @param {*} bottle 
      */
     removeBottle(bottle) {
+        this.thrownBottles.push(bottle);
         setTimeout(() => {
             this.world.bottles.splice(this.world.bottles.indexOf(bottle), 1);
         }, 500);
@@ -86,14 +87,15 @@ class Collisions extends Sound {
     affectedWithBottle(bottle, enemy) {
         this.thrownBottles.push(bottle);
         if (this.checkDeadIndex(enemy) == -1) {
-            bottle.collidingY = enemy.y;
+            bottle.colliding = bottle.isColliding(enemy);
             this.removeBottle(bottle);
             enemy.hit();
-            this.jumpOnChickenSound();
             this.enemyIsDead(enemy);
 
             if (enemy instanceof ChickenBoss) {
                 this.affectedChickenBossWithBottle(enemy);
+            } else {
+                this.world.sound.hitTheChickenSound();
             }
         }
     }
@@ -101,6 +103,7 @@ class Collisions extends Sound {
 
     affectedChickenBossWithBottle(enemy) {
         this.world.statusbar.setChickenBossHealth(enemy.energy);
+        this.world.sound.hitTheBossSound();
     }
 
 
@@ -111,7 +114,7 @@ class Collisions extends Sound {
                     this.removeBottle(bottle);
                 }
             });
-        }, 1000 / 60)
+        }, 1000 / 60);
     }
 
 
@@ -138,12 +141,13 @@ class Collisions extends Sound {
     affectedWithJump(enemy) {
         if (this.checkDeadIndex(enemy) == -1 && !enemy.isHurt(1)) {
             enemy.hit();
-            this.jumpOnChickenSound();
             this.enemyIsDead(enemy);
             this.world.character.jump();
 
             if (enemy instanceof ChickenBoss) {
                 this.affectedChickenBossWithBottle(enemy);
+            } else {
+                this.world.sound.hitTheChickenSound();
             }
         }
     }
@@ -190,7 +194,7 @@ class Collisions extends Sound {
     bottles() {
         setInterval(() => {
             this.world.bottlesToCollect.BOTTLES.forEach((bottle) => {
-                if (this.world.character.isColliding(bottle)) {
+                if (this.world.character.isColliding(bottle) && this.world.statusbar.bottleIcon.numberText < 10) {
                     this.world.bottlesToCollect.BOTTLES.splice(this.world.bottlesToCollect.BOTTLES.indexOf(bottle), 1);
                     this.world.statusbar.increaseCounterBottle();
                 }

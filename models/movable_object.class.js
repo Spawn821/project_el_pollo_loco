@@ -27,7 +27,7 @@ class MovableObject extends DrawableObject {
     leftSideReached = false;
     rightSideReached = true;
 
-    collidingInY = 1000; // Default, higher than canvas hight
+    colliding = false;
 
     /**
      * This function controlls the gravity if the character jump.
@@ -37,10 +37,10 @@ class MovableObject extends DrawableObject {
     applyGravity() {
         this.applyGravityInterval = setInterval(() => {
             if (!pause) {
-                if (this.isAboveGround() || this.speedY > 0) {
+                if ((this.isAboveGround() || this.speedY > 0) && !this.colliding) {
                     this.y -= this.speedY;
                     this.speedY -= this.acceleration;
-                } else if (this.isOnGround()) {
+                } else if (this.isOnGround() && !this.colliding) {
                     this.cancelGravity();
                 }
             }
@@ -50,7 +50,7 @@ class MovableObject extends DrawableObject {
 
     cancelGravity() {
         if (this instanceof Bottle) {
-            this.y = this.startPosY + 75 < this.collidingInY ? this.startPosY + 75 : this.collidingY;
+            this.y = 325;
         } else {
             this.y = this.startPosY; // The Character always has the same y coordinate after jumping
         }
@@ -64,9 +64,9 @@ class MovableObject extends DrawableObject {
      */
     isAboveGround() {
         if (this instanceof Bottle) {
-            return this.startPosY + 75 < this.collidingInY ? this.y < this.startPosY + 75 : this.y < this.collidingY;// || this.Y <= this.enemyPosY;
+            return this.y < 325;
         } else {
-            return this.isDead() ? true : this.y < this.startPosY;
+            return this instanceof Character && this.isDead() ? true : this.y < this.startPosY;
         }
     }
 
@@ -77,7 +77,7 @@ class MovableObject extends DrawableObject {
      */
     isOnGround() {
         if (this instanceof Bottle) {
-            return this.startPosY + 75 < this.collidingInY ? this.y >= this.startPosY + 75 : this.y >= this.collidingY;
+            return this.y >= 325;
         } else {
             return this.y >= this.startPosY;
         }

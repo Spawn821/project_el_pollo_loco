@@ -17,7 +17,7 @@ class CoinPositions {
             let currentSection = level.background.sections[section];
             let number = currentForm % 3
 
-            if (section != level.background.lastLevelSection) this.selectForm(number, currentSection);
+            if (currentSection != level.background.lastLevelSection) this.selectForm(number, currentSection);
 
             currentForm++;
         }

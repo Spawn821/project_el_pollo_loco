@@ -2,8 +2,8 @@ class BottlePositions {
     BOTTLES = [];
 
     IMAGES = [
-        '../graphics/6_salsa_bottle/1_salsa_bottle_on_ground.png',
-        '../graphics/6_salsa_bottle/2_salsa_bottle_on_ground.png'
+        'graphics/6_salsa_bottle/1_salsa_bottle_on_ground.png',
+        'graphics/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ];
 
 
@@ -19,7 +19,7 @@ class BottlePositions {
         for (let section in level.background.sections) {
             let currentSection = level.background.sections[section];
 
-            if (section != level.background.lastLevelSection) this.line(currentSection);
+            if (currentSection != level.background.lastLevelSection) this.line(currentSection);
         }
     }
 

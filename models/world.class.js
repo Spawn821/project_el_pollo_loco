@@ -6,9 +6,9 @@ class World extends Draw {
     coinsToCollect = new CoinPositions();
     bottlesToCollect = new BottlePositions();
     collisions = new Collisions();
-    backgroundSound = new Sound();
     gameOverScreen = new GameOverScreen();
     youLostScreen = new YouLostScreen();
+    sound = new Sound();
 
     // Values
     levelBackground = level.background;
@@ -24,7 +24,7 @@ class World extends Draw {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        //this.backgroundSound.backgroundSound();
+        this.sound.backgroundSoundPlay();
 
         this.draw();
         this.setWorld();
@@ -34,6 +34,7 @@ class World extends Draw {
     setWorld() {
         this.character.world = this;
         this.collisions.world = this;
+        this.statusbar.world = this;
     }
 
 
@@ -50,7 +51,6 @@ class World extends Draw {
         } else if (startGame && !pause && !loading) {
             this.clearCanvas();
             this.applyColor();
-
         }
 
         // draw() wird immer wieder aufgerufen
@@ -66,8 +66,6 @@ class World extends Draw {
         this.addObjectListToMap(this.levelBackground.CLOUDS);
         this.addObjectListToMap(this.levelBackground.BACKGROUNDS);
         buttonPause.classList.add('d-none');
-        //this.backgroundSound.backgroundSoundPause();
-        clearAllIntervals();
     }
 
 

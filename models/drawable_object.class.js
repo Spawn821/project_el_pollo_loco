@@ -1,4 +1,4 @@
-class DrawableObject extends Sound{
+class DrawableObject {
 
     // Coordinates for image position
     x;

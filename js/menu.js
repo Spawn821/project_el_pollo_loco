@@ -29,8 +29,10 @@ let optionButtonOne, optionButtonTwo, optionButtonThree;
 
 function openOrCloseOptions() {
     let optionsArea = document.getElementById('options-area');
+    let optionsAreaMobile = document.getElementById('options-area-mobile');
 
     optionsArea.classList.toggle('open-options');
+    optionsAreaMobile.classList.toggle('open-options-mobile');
 
     if (!optionsArea.classList.contains('open-options')) {
         selectedOption('option');
@@ -116,8 +118,10 @@ async function includeHTML() {
 
 function letTheTextShape() {
     buttonGameStatus.classList.add('button-game-status-animation');
+    buttonGameStatusMobile.classList.add('button-game-status-animation-mobile')
     setTimeout(() => {
         buttonGameStatus.classList.remove('button-game-status-animation');
+        buttonGameStatusMobile.classList.remove('button-game-status-animation-mobile')
     }, 1000);
 }
 
@@ -138,7 +142,7 @@ function switchToGame() {
     letTheTextShape();
     setLevel1();
     world = new World(canvas, keyboard);
-    setTimeout(showOrHidePlayPause, 5000);
+    setTimeout(() => showOrHidePlayPause(), 7500);
 }
 
 
@@ -147,20 +151,25 @@ function switchToLoadingScreen(status) {
     loading = true;
     buttonGameStatus.innerHTML = 'Loading';
     buttonGameStatus.classList.add('button-game-status-disabled');
-    buttonPause.ponter
+    buttonGameStatusMobile.querySelector('span').innerHTML = 'Loading';
+    buttonGameStatusMobile.classList.add('button-game-status-disabled');
+    buttonPause.pointer
 
     // Loading deactivate
     setTimeout(() => {
         loading = false;
         buttonGameStatus.innerHTML = status;
         buttonGameStatus.classList.remove('button-game-status-disabled');
+        buttonGameStatusMobile.querySelector('span').innerHTML = status;
+        buttonGameStatusMobile.classList.remove('button-game-status-disabled');
         letTheTextShape();
-    }, 5000);
+    }, 7500);
 }
 
 
 function switchToMainScreen() {
     changePauseStatus(true);
+    if (!gameEnd) world.sound.pauseSound();
     if (!buttonPause.classList.contains('d-none')) showOrHidePlayPause();
     startGame = false;
     pause = false;
@@ -169,6 +178,7 @@ function switchToMainScreen() {
     switchToLoadingScreen('Start');
     letTheTextShape();
     setScreen();
+    rotateSmartphone();
 }
 
 

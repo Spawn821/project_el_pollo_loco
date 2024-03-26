@@ -7,9 +7,11 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="css/fonts.css">
 
     <!-- No heirs -->
+    <script src="models/drawable_object.class.js"></script>
     <script src="models/draw.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="models/level_background.class.js"></script>
@@ -23,12 +25,9 @@
     <script src="models/screen.class.js"></script>
     <script src="models/world.class.js"></script>
 
-    <!-- The heirs from sound -->
-    <script src="models/drawable_object.class.js"></script>
 
     <!-- The heirs from drawable object -->
     <script src="models/movable_object.class.js"></script>
-    <script src="models/button.class.js"></script>
 
     <!-- The heirs from movable object -->
     <script src="models/main_screen.calss.js"></script>
@@ -58,43 +57,114 @@
 
 <body onload="init(), includeHTML()">
 
-    <h1>El pollo loco</h1>
+    <!-- Note rotate to landscape -->
+    <div class="note-rotate-to-landscape">
+        <div id="smartphone" class="smartphone"></div>
+    </div>
 
-    <div class="panel">
-        <div id="button-play-pause" class="button-play-pause d-none" onclick="changePauseStatus()"></div>
+    <!-- Wrapper -->
+    <div id="wrapper" class="wrapper">
 
-        <!-- How controll the game -->
-        <div id="control-info" class="info-window control-info">
+        <!-- Headline -->
+        <h1>El pollo loco</h1>
+
+        <!-- Panel -->
+        <div id="panel" class="panel">
+
+            <!-- Gameboy left hand -->
+            <section class="gameboy gameboy-left">
+
+                <div id="options-area-mobile" class="options-area-mobile">
+                    <span id="button-options-mobile" class="options-text-mobile"
+                        onclick="openOrCloseOptions()">Options</span>
+
+                    <div class="option-one-mobile">
+                        <span class="option-arrow-mobile"></span>
+                        <span onclick="selectedOption('control-info')">Control</span>
+                    </div>
+
+                    <div class="option-two-mobile">
+                        <span class="option-arrow-mobile"></span>
+                        <span onclick="selectedOption('privacy_policy_html')">Privacy
+                            policy</span>
+                    </div>
+
+                    <div class="option-three-mobile">
+                        <span class="option-arrow-mobile"></span>
+                        <span onclick="selectedOption('impressum_html')">Impressum</span>
+                    </div>
+                </div>
+
+                <div class="key-caps-area-left">
+                    <div id="arrow-left-key" class="key-caps-medium"></div>
+                    <div id="arrow-right-key" class="key-caps-medium"></div>
+                </div>
+
+            </section>
+
+            <!-- Play pause button -->
+            <div id="button-play-pause" class="button-play-pause d-none" onclick="changePauseStatus()"></div>
+
+            <!-- Info window 'how controll the game' -->
+            <div id="control-info" class="info-window control-info"></div>
+
+            <!-- Privacy policy -->
+            <div id="privacy_policy_html" class="info-window privacy_policy_info privacy_policy-background"
+                w3-include-html="privacy_policy.html"></div>
+
+            <!-- Impressum -->
+            <div id="impressum_html" class="info-window impressum_info impressum-background"
+                w3-include-html="impressum.html"></div>
+
+            <!-- Show the game -->
+            <canvas id="canvas" width="720" height="400">
+
+            </canvas>
+
+            <!-- Menu bar -->
+            <section class="menu">
+
+                <div id="options-area" class="options-area">
+                    <span id="button-options" class="options-text" onclick="openOrCloseOptions()">Options</span>
+                    <span class="option-arrow"></span>
+                    <span id="option-button-one" class="option-one"
+                        onclick="selectedOption('control-info')">Control</span>
+                    <span id="option-button-two" class="option-two"
+                        onclick="selectedOption('privacy_policy_html')">Privacy policy</span>
+                    <span id="option-button-three" class="option-three"
+                        onclick="selectedOption('impressum_html')">Impressum</span>
+                </div>
+
+                <button id="button-game-status" onclick="changeGameStatus()" onfocus="removeFocus(this)">Start</button>
+
+            </section>
+
+            <!-- Gameboy right hand -->
+            <section class="gameboy gameboy-right">
+
+                <button id="button-game-status-mobile" onclick="changeGameStatus()" onfocus="removeFocus(this)">
+                    <span id="button-game-status-mobile-text">Start</span>
+                </button>
+
+                <div class="key-caps-area-right">
+
+                    <div class="key-caps-small-layout">
+                        <div id="s-key" class="key-caps-small"></div>
+
+                        <div>
+                            <div id="a-key" class="key-caps-small"></div>
+                            <div id="d-key" class="key-caps-small"></div>
+                        </div>
+
+                    </div>
+
+                    <div id="space-key" class="key-caps-large"></div>
+                </div>
+
+            </section>
+
         </div>
 
-        <!-- Privacy policy -->
-        <div id="privacy_policy_html" class="info-window privacy_policy_info privacy_policy-background" w3-include-html="privacy_policy.html">
-
-        </div>
-
-        <!-- Privacy policy -->
-        <div id="impressum_html" class="info-window impressum_info impressum-background" w3-include-html="Impressum.html">
-
-        </div>
-
-        <!-- Show the game -->
-        <canvas id="canvas" width="720" height="400">
-
-        </canvas>
-
-        <!-- Menu bar -->
-        <div class="menu">
-
-            <div id="options-area" class="options-area">
-                <span id="button-options" class="options-text" onclick="openOrCloseOptions()">Options</span>
-                <span class="option-arrow"></span>
-                <span id="option-button-one" class="option-one" onclick="selectedOption('control-info')">Control</span>
-                <span id="option-button-two" class="option-two" onclick="selectedOption('privacy_policy_html')">Privacy policy</span>
-                <span id="option-button-three" class="option-three" onclick="selectedOption('impressum_html')">Impressum</span>
-            </div>
-
-            <button id="button-game-status" onclick="changeGameStatus()" onfocus="removeFocus(this)">Start</button>
-        </div>
     </div>
 
 </body>

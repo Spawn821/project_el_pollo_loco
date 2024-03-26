@@ -2,13 +2,13 @@ class ChickenNormal extends MovableObject {
 
     IMAGES = {
         IMAGES_WALKING: [
-            '../graphics/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
-            '../graphics/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
-            '../graphics/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
+            'graphics/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
+            'graphics/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
+            'graphics/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
         ],
 
         IMAGES_DEAD: [
-            '../graphics/3_enemies_chicken/chicken_normal/2_dead/dead.png',
+            'graphics/3_enemies_chicken/chicken_normal/2_dead/dead.png',
         ]
     };
 
@@ -17,7 +17,7 @@ class ChickenNormal extends MovableObject {
         super();
         this.movementNumber = movementNumber;
 
-        this.loadImage('../graphics/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+        this.loadImage('graphics/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(75, 1.02); // width, percent for height = width * height
         this.setImgCoordinates(x + Math.random() * 400); // coordinates x, y calculate less height
@@ -33,7 +33,7 @@ class ChickenNormal extends MovableObject {
     setValues() {
         this.speed = 0.25 + Math.random() * 1.5;
         this.energy = 10;
-        this.jumpAttackTime = 2000 + Math.random() * 1000;
+        this.jumpAttackTime = 2000;
     }
 
 
