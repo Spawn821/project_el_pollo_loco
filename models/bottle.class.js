@@ -1,10 +1,10 @@
 class Bottle extends MovableObject {
 
+    // For the runway
     acceleration = 2.5;
     throwDistance = 0;
-    rotationInterval;
-    throwDistanceInterval;
 
+    // All images for the object
     IMAGES = {
         IMAGES_BOTTLE_ROTATION: [
             'graphics/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -23,6 +23,12 @@ class Bottle extends MovableObject {
         ]
     };
 
+    /**
+     * This function set all start conditions for the object.
+     * @param {number} x is the start coordinate from the image.
+     * @param {number} y is the start coordinate from the image.
+     * @param {number} distance is throw dinstance from the bottle.
+     */
     constructor(x, y, distance) {
         super().loadImage('graphics/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES);
@@ -51,6 +57,9 @@ class Bottle extends MovableObject {
     }
 
 
+    /**
+     * This function controlls all animations from walk, to jump ...
+     */
     animation() {
         setInterval(() => {
             if (this.isOnGround() || this.colliding) {
@@ -69,7 +78,7 @@ class Bottle extends MovableObject {
         this.speedY = 20;
         this.applyGravity();
 
-        this.throwDistanceInterval = setInterval(() => {
+        setInterval(() => {
             if (!pause && !this.isOnGround() && !this.colliding) {
                 if (this.otherDirection) {
                     this.x -= this.throwDistance;

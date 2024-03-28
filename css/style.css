@@ -65,6 +65,12 @@ button {
     width: 300px;
     height: 300px;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
     background-image: url('../graphics/0_downloads/smartphone.png');
     background-size: contain;
     background-position: center;
@@ -74,6 +80,10 @@ button {
 
     transition: 1s ease;
     will-change: transform;
+
+    &>span {
+        transform: rotate(-16deg);
+    }
 }
 
 

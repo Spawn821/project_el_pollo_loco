@@ -94,6 +94,7 @@ class Collisions extends Sound {
 
             if (enemy instanceof ChickenBoss) {
                 this.affectedChickenBossWithBottle(enemy);
+                setTimeout(() => enemy.jumpOnTheCharacter(this.world.character.x), 1000);
             } else {
                 this.world.sound.hitTheChickenSound();
             }

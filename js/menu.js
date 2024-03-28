@@ -1,9 +1,18 @@
 // ### PAUSE THE GAME ###
+
+/**
+ * This function show or hide the play-pause button.
+ */
 function showOrHidePlayPause() {
     buttonPause.classList.toggle('d-none');
 }
 
 
+/**
+ * This function change the status from the play-puse button.
+ * @param {boolean} reset remove the pause status.
+ * @param {boolean} options set the pause status.
+ */
 function changePauseStatus(reset = false, options = false) {
     if ((pause || reset) && !options) {
         pause = false;
@@ -27,6 +36,11 @@ let optionIds = [
 
 let optionButtonOne, optionButtonTwo, optionButtonThree;
 
+/**
+ * This function open or close the option menu.
+ * If the options are opened during the game,
+ * the game is paused.
+ */
 function openOrCloseOptions() {
     let optionsArea = document.getElementById('options-area');
     let optionsAreaMobile = document.getElementById('options-area-mobile');
@@ -41,6 +55,11 @@ function openOrCloseOptions() {
     if (startGame && optionsArea.classList.contains('open-options')) changePauseStatus(false, true);
 }
 
+
+/**
+ * This function open or close the diffrent options in the options menu.
+ * @param {string} currentOption is the id from the current options element.
+ */
 function selectedOption(currentOption) {
     optionButtonOne = document.getElementById('option-button-one');
     optionButtonTwo = document.getElementById('option-button-two');
@@ -49,7 +68,7 @@ function selectedOption(currentOption) {
     optionIds.map((option) => {
         let optionWindow = document.getElementById(option);
 
-        if (option == currentOption) {
+        if (option == currentOption && !optionWindow.className.includes('open')) {
             addClassToOption(option, optionWindow);
         } else {
             removeClassFromOption(option, optionWindow);
@@ -57,6 +76,12 @@ function selectedOption(currentOption) {
     });
 }
 
+
+/**
+ * This function open an option from the options menu.
+ * @param {string} option is the id from the option.
+ * @param {object} optionWindow is the html element from the option.
+ */
 function addClassToOption(option, optionWindow) {
     switch (option) {
         case 'control-info':
@@ -74,6 +99,12 @@ function addClassToOption(option, optionWindow) {
     }
 }
 
+
+/**
+ * This function close an option from the options menu.
+ * @param {string} option is the id from the option.
+ * @param {object} optionWindow is the html element from the option.
+ */
 function removeClassFromOption(option, optionWindow) {
     switch (option) {
         case 'control-info':
@@ -90,6 +121,7 @@ function removeClassFromOption(option, optionWindow) {
             break;
     }
 }
+
 
 /**
  * This function includes HTML templates into a document.
@@ -116,9 +148,14 @@ async function includeHTML() {
 
 // ### MENU RIGHT AREA ###
 
+/**
+ * This function add and remove a class,
+ * that shapes the text on the right side.
+ */
 function letTheTextShape() {
     buttonGameStatus.classList.add('button-game-status-animation');
     buttonGameStatusMobile.classList.add('button-game-status-animation-mobile')
+
     setTimeout(() => {
         buttonGameStatus.classList.remove('button-game-status-animation');
         buttonGameStatusMobile.classList.remove('button-game-status-animation-mobile')
@@ -126,6 +163,9 @@ function letTheTextShape() {
 }
 
 
+/**
+ * This function start or end the game.
+ */
 function changeGameStatus() {
     if (!startGame) {
         switchToGame();
@@ -136,9 +176,12 @@ function changeGameStatus() {
 }
 
 
+/**
+ * This function start the game.
+ */
 function switchToGame() {
     startGame = true;
-    switchToLoadingScreen('Main screen');
+    startLoadingScreen('Main screen');
     letTheTextShape();
     setLevel1();
     world = new World(canvas, keyboard);
@@ -146,42 +189,67 @@ function switchToGame() {
 }
 
 
-function switchToLoadingScreen(status) {
-    // Loding active
+/**
+ * This function set the loading screen to start or end the game.
+ * @param {string} status is the 'Start' or 'Main screen'.
+ */
+function startLoadingScreen(status) {
     loading = true;
+
+    /* desktop */
     buttonGameStatus.innerHTML = 'Loading';
     buttonGameStatus.classList.add('button-game-status-disabled');
+
+    /* mobile */
     buttonGameStatusMobile.querySelector('span').innerHTML = 'Loading';
     buttonGameStatusMobile.classList.add('button-game-status-disabled');
-    buttonPause.pointer
 
-    // Loading deactivate
     setTimeout(() => {
-        loading = false;
-        buttonGameStatus.innerHTML = status;
-        buttonGameStatus.classList.remove('button-game-status-disabled');
-        buttonGameStatusMobile.querySelector('span').innerHTML = status;
-        buttonGameStatusMobile.classList.remove('button-game-status-disabled');
-        letTheTextShape();
+        endLoadingScreen(status);
     }, 7500);
 }
 
 
+/**
+ * This function close the loading screen.
+ * @param {string} status is the 'Start' or 'Main screen'.
+ */
+function endLoadingScreen(status) {
+    loading = false;
+
+    /* desktop */
+    buttonGameStatus.innerHTML = status;
+    buttonGameStatus.classList.remove('button-game-status-disabled');
+
+    /* mobile */
+    buttonGameStatusMobile.querySelector('span').innerHTML = status;
+    buttonGameStatusMobile.classList.remove('button-game-status-disabled');
+
+    letTheTextShape();
+}
+
+
+/**
+ * This function let the game end and switch to the main screen.
+ */
 function switchToMainScreen() {
     changePauseStatus(true);
+
     if (!gameEnd) world.sound.pauseSound();
     if (!buttonPause.classList.contains('d-none')) showOrHidePlayPause();
-    startGame = false;
-    pause = false;
-    gameEnd = false;
-    startMovie = false;
-    switchToLoadingScreen('Start');
+
+    startGame = false, pause = false ,gameEnd = false, startMovie = false;
+
+    startLoadingScreen('Start');
     letTheTextShape();
     setScreen();
     rotateSmartphone();
 }
 
 
+/**
+ * This function clear all intervals.
+ */
 function clearAllIntervals() {
     for (let i = 1; i < 999; i++) {
         window.clearInterval(i);
@@ -189,6 +257,10 @@ function clearAllIntervals() {
 }
 
 
+/**
+ * This function remove the focus on the button who starts the game.
+ * @param {*} button 
+ */
 function removeFocus(button) {
     button.blur()
 }

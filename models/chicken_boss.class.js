@@ -2,6 +2,8 @@ class ChickenBoss extends MovableObject {
 
     collisionWhitCharacter = false;
     sinceAlert;
+    jumpOnTheCharacterInterval;
+    xPosCharacter;
 
     IMAGES = {
         IMAGES_WALK: [
@@ -86,7 +88,7 @@ class ChickenBoss extends MovableObject {
                 this.speed += 0.05;
                 this.stopMovement()
                 this.animateImages(this.IMAGES.IMAGES_HURT);
-            } else if (this.isAlert()) {
+            } else if (this.isAlert() && !this.isDead()) {
                 this.stopMovement()
                 this.animateImages(this.IMAGES.IMAGES_ALERT);
             } else {
@@ -94,6 +96,21 @@ class ChickenBoss extends MovableObject {
                 this.movement();
             }
         }, 1000 / 8);
+    }
+
+
+    jumpOnTheCharacter(x) {
+        this.jump(27.5);
+
+        this.jumpOnTheCharacterInterval = setInterval(() => {
+            if (this.x >= x && !this.otherDirection) {
+                this.x -= 15;
+            } else if (this.x <= x && this.otherDirection) {
+                this.x += 15;
+            } else {
+                clearInterval(this.jumpOnTheCharacterInterval);
+            }
+        }, 1000 / 25);
     }
 
 

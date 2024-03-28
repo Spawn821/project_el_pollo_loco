@@ -16,6 +16,10 @@ let loading = false;
 let gameEnd = false;
 let startMovie = false
 
+/**
+ * This function initializes the start screen and
+ * all start parameters.
+ */
 function init() {
     buttonGameStatus = document.getElementById('button-game-status');
     buttonGameStatusMobile = document.getElementById('button-game-status-mobile');
@@ -27,10 +31,18 @@ function init() {
 }
 
 
+/**
+ * This function set the main/start screen.
+ */
 function setScreen() {
     screen = new Screen(canvas);
 }
 
+
+/**
+ * This function starts an interval that rotates
+ * the smarphone image in portrait mode.
+ */
 function rotateSmartphone() {
     let sizePortrait = window.matchMedia('(orientation: portrait)');
     let smartphone = document.getElementById('smartphone');
@@ -41,6 +53,10 @@ function rotateSmartphone() {
 }
 
 
+/**
+ * This function sets pressed buttons to true
+ * that the character can move.
+ */
 window.addEventListener('keydown', (event) => {
     if (!startMovie) {
         if (event.key == 'ArrowLeft') {
@@ -60,6 +76,10 @@ window.addEventListener('keydown', (event) => {
 });
 
 
+/**
+ * This function sets buttons to false
+ * that the character can no longer move.
+ */
 window.addEventListener('keyup', (event) => {
     if (event.key == 'ArrowLeft') {
         keyboard.LEFT = false;
@@ -77,6 +97,10 @@ window.addEventListener('keyup', (event) => {
 });
 
 
+/**
+ * This function also sets the buttons to true
+ * but ist responsible for touch operatioin.
+ */
 window.addEventListener('touchstart', (event) => {
     let key = document.getElementById(`${event.target.id}`);
     if (event.target.id.includes('key')) key.classList.add('scale');
@@ -99,6 +123,12 @@ window.addEventListener('touchstart', (event) => {
 });
 
 
+
+
+/**
+ * This function also sets the buttons to false
+ * but ist responsible for touch operatioin.
+ */
 window.addEventListener('touchend', (event) => {
     let key = document.getElementById(`${event.target.id}`);
     if (event.target.id.includes('key')) key.classList.remove('scale');

@@ -1,16 +1,27 @@
 class Character extends MovableObject {
 
+    // The whole class 'world'
+    world;
+
+    // Movement range
     levelBackground = level.background;
     lastLevelSection = 0;
-    world;
-    end_camera;
-    chickenBossAppears = false;
     walkingLimitLeft = 0;
     walkingLimitRight = 0;
-    bossFightStarted = false;
-    doubleJumpe = false;
-    lastAction;
+    end_camera = 0;
 
+    // Object
+    movie = new Movie();
+
+    // Timepassed
+    lastAction = 0;
+    fartTime = 35;
+
+    // Boolean
+    doubleJump = false;
+    chickenBossAppears = false;
+
+    // All images for the object
     IMAGES = {
         IMAGES_IDLE: [
             'graphics/2_character_pepe/1_idle/idle/I-1.png',
@@ -23,6 +34,19 @@ class Character extends MovableObject {
             'graphics/2_character_pepe/1_idle/idle/I-8.png',
             'graphics/2_character_pepe/1_idle/idle/I-9.png',
             'graphics/2_character_pepe/1_idle/idle/I-10.png'
+        ],
+
+        IMAGES_LONG_IDLE: [
+            'graphics/2_character_pepe/1_idle/long_idle/I-11.png',
+            'graphics/2_character_pepe/1_idle/long_idle/I-12.png',
+            'graphics/2_character_pepe/1_idle/long_idle/I-13.png',
+            'graphics/2_character_pepe/1_idle/long_idle/I-14.png',
+            'graphics/2_character_pepe/1_idle/long_idle/I-15.png',
+            'graphics/2_character_pepe/1_idle/long_idle/I-16.png',
+            'graphics/2_character_pepe/1_idle/long_idle/I-17.png',
+            'graphics/2_character_pepe/1_idle/long_idle/I-18.png',
+            'graphics/2_character_pepe/1_idle/long_idle/I-19.png',
+            'graphics/2_character_pepe/1_idle/long_idle/I-20.png',
         ],
 
         IMAGES_WALKING: [
@@ -63,6 +87,9 @@ class Character extends MovableObject {
         ]
     };
 
+    /**
+     * This function set all start conditions for the object.
+     */
     constructor() {
         super().loadImage('graphics/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES);
@@ -71,6 +98,7 @@ class Character extends MovableObject {
         this.setImgScalePercentage(0.4, 0.5) // percentage scale from width and height
         this.setValues();
         this.startTheEngine();
+        this.setCurrentActionTime();
     }
 
 
@@ -84,9 +112,15 @@ class Character extends MovableObject {
         this.speed = 5;
         this.saveSpeed = this.speed;
         this.energy = 100;
+        this.movie.character = this;
     }
 
 
+    /**
+     * This function set the coordinates for
+     * the last level section.
+     * @returns 
+     */
     lastSection() {
         let lastSection;
         for (let section in this.levelBackground.sections) {
@@ -102,6 +136,7 @@ class Character extends MovableObject {
      */
     startTheEngine() {
         this.animation();
+        this.animationIdle();
         this.move();
         this.throwBottle();
         this.moveCamera();
@@ -109,17 +144,20 @@ class Character extends MovableObject {
     }
 
 
+
+    // ### ANIMATION ###
+
     /**
-     * This function controlls all animations from walk, to jump ...
+     * This function controls animation pictures for
+     * hurt, jump and walk.
      */
     animation() {
         let runMovie = false;
+
         setInterval(() => {
-            if (!pause) {
+            if (!loading && !pause) {
                 if (this.isDead()) {
-                    this.animateImages(this.IMAGES.IMAGES_DEAD);
-                    if (!runMovie) runMovie = this.movieJumping();
-                    setTimeout(() => gameEnd = true, 3000);
+                    runMovie = this.dead(runMovie);
                 } else if (this.isHurt(0.25)) {
                     this.animateImages(this.IMAGES.IMAGES_HURT);
                 } else if (this.isAboveGround()) {
@@ -127,75 +165,109 @@ class Character extends MovableObject {
                 } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.animateImages(this.IMAGES.IMAGES_WALKING);
                     this.world.sound.walkingSound();
-                } else {
-                    this.animateImages(this.IMAGES.IMAGES_IDLE);
-                }
-
-                if (this.world.levelEnemies.ENEMIES.length == 0) {
-                    setTimeout(() => {
-                        if (!runMovie) runMovie = this.movieJumping();
-                        if (!gameEnd) this.winAnimation();
-                        if (this.x >= this.walkingLimitRight) {
-                            this.world.keyboard.resetKeys();
-                            gameEnd = true;
-                        }
-                    }, 1000);
                 }
             }
         }, 1000 / 10);
     }
 
 
-    movieJumping() {
-        startMovie = true;
-        this.world.keyboard.tabKeyToJump();
-        setTimeout(() => this.world.keyboard.resetKeys(), 250);
-        this.world.sound.pauseSound();
-        if (this.world.levelEnemies.ENEMIES.length == 0) setTimeout(() => this.world.sound.winSound(), 150);
-        return true;
-    }
-
-
-    winAnimation() {
-        this.walkingLimitRight = this.lastLevelSection + 720;
-        setTimeout(() => this.world.keyboard.holdKeyToGoRight(), 1000);
+    /**
+     * This function controls animation pictures for
+     * idle and long idle.
+     */
+    animationIdle() {
+        setInterval(() => {
+            if (!loading && !pause) {
+                if (this.isAction(15)) {
+                    this.longIdle();
+                } else if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+                    if (!this.isDead() && !this.isHurt(0.25)) {
+                        this.animateImages(this.IMAGES.IMAGES_IDLE);
+                    }
+                }
+            }
+        }, 1000 / 5)
     }
 
 
     /**
-     * This function lets the character move.
+     * This function controls animation pictures and
+     * movement for dead.
+     * @param {boolean} runMovie is the movie start or not.
+     * @returns true or false.
+     */
+    dead(runMovie) {
+        this.animateImages(this.IMAGES.IMAGES_DEAD);
+        if (!runMovie) runMovie = this.movie.movieJumping();
+        setTimeout(() => gameEnd = true, 3000);
+        return runMovie;
+    }
+
+
+    /**
+     * This function controls animation pictures and
+     * sound for long idle.
+     */
+    longIdle() {
+        this.animateImages(this.IMAGES.IMAGES_LONG_IDLE);
+        if (this.isAction(this.fartTime)) {
+            this.world.sound.fartSound();
+            this.fartTime += 20;
+        }
+    }
+
+
+
+    // ### MOVEMENTS ###
+
+    /**
+     * This function priorized whether the character
+     * walk left or right and jump.
      */
     move() {
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.walkingLimitRight) {
-                this.moveRight();
-                this.otherDirection = false;
+            if (!loading && !pause) {
+                if (this.world.keyboard.RIGHT && this.x < this.walkingLimitRight) {
+                    this.walkingMovement(false);
+                }
+    
+                if (this.world.keyboard.LEFT && this.x > this.walkingLimitLeft) {
+                    this.walkingMovement(true);
+                }
+    
+                this.jumpOrDoubleJump();
             }
-
-            if (this.world.keyboard.LEFT && this.x > this.walkingLimitLeft) {
-                this.moveLeft();
-                this.otherDirection = true;
-            }
-
-            this.doubleJump();
         }, 1000 / 60);
     }
 
 
-    doubleJump() {
+    /**
+     * This function let the character move left or right.
+     * @param {boolean} otherDirection mirror the character images
+     * to move left if is true.
+     */
+    walkingMovement(otherDirection) {
+        if (this.world.keyboard.RIGHT) this.moveRight();
+        if (this.world.keyboard.LEFT) this.moveLeft();
+        this.otherDirection = otherDirection;
+        if (!this.doubleJump) this.setCurrentActionTime();
+        this.resetFartTime();
+    }
+
+
+    /**
+     * This function priorized whether the character
+     * jump or double jump.
+     */
+    jumpOrDoubleJump() {
         if (this.isOnGround()) {
             if (this.world.keyboard.SPACE) {
-                this.jump();
-                this.doubleJumpe = true;
-                this.lastAction = new Date().getTime();
-                this.world.sound.jumpingSound();
+                this.jumpMovement(true);
             }
         } else {
             if (this.world.keyboard.SPACE && this.isAction(0.5)) {
-                if (this.doubleJumpe) {
-                    this.jump();
-                    this.doubleJumpe = false;
-                    this.world.sound.jumpingSound();
+                if (this.doubleJump) {
+                    this.jumpMovement(false);
                 }
             }
         }
@@ -203,28 +275,51 @@ class Character extends MovableObject {
 
 
     /**
+     * This function let the character jump and
+     * starts all conditions for it.
+     * @param {boolean} doubleJump let the character jump
+     * twice or not.
+     */
+    jumpMovement(doubleJump) {
+        this.jump();
+        this.doubleJump = doubleJump;
+        this.world.sound.jumpingSound();
+        if (this.doubleJump) this.setCurrentActionTime();
+        this.resetFartTime();
+    }
+
+
+
+    // ### BOTTLE ###
+
+    /**
      * This function starts the various throwing distances.
      */
     throwBottle() {
-        this.lastAction = new Date().getTime();
         setInterval(() => {
-            if (this.world.statusbar.bottleIcon.numberText > 0) {
-                if (this.world.keyboard.a) {
-                    if (this.isAction(1)) this.createBottle(10);
-                } else if (this.world.keyboard.s) {
-                    if (this.isAction(1)) this.createBottle(15);
-                } else if (this.world.keyboard.d) {
-                    if (this.isAction(1)) this.createBottle(20);
-                }
+            if (!loading && !pause) {
+                if (this.world.statusbar.bottleIcon.numberText > 0) {
+                    if (this.world.keyboard.a) {
+                        this.setBottle(10)
+                    } else if (this.world.keyboard.s) {
+                        this.setBottle(15);
+                    } else if (this.world.keyboard.d) {
+                        this.setBottle(20);
+                    }
+                }   
             }
         }, 1000 / 60);
     }
 
 
-    isAction(duration) {
-        let timepassed = new Date().getTime() - this.lastAction;
-        timepassed = timepassed / 1000;
-        return timepassed > duration;
+    /**
+     * This function set a new bottle.
+     * @param {number} distance is the throw distance.
+     */
+    setBottle(distance) {
+        if (this.world.bottles.length == 0) this.createBottle(distance);
+        this.setCurrentActionTime();
+        this.resetFartTime();
     }
 
 
@@ -238,10 +333,42 @@ class Character extends MovableObject {
 
         this.world.bottles.push(bottle);
         this.world.statusbar.decreaseCounterBottle();
+    }
 
+
+    /**
+     * This function reset the fart time for the long idle.
+     */
+    resetFartTime() {
+        this.fartTime = 35;
+    }
+
+
+
+    // ### CONTROL ACTION ###
+
+    /**
+     * This function set the current action time if walk, jump or throw.
+     */
+    setCurrentActionTime() {
         this.lastAction = new Date().getTime();
     }
 
+
+    /**
+     * This function evaluates the past.
+      * @param {number} duration is the pasttime.
+     * @returns true or false.
+     */
+    isAction(duration) {
+        let timepassed = new Date().getTime() - this.lastAction;
+        timepassed = timepassed / 1000;
+        return timepassed > duration;
+    }
+
+
+
+    // ### CAMERA ###
 
     /**
      * This function controlls the camera movement.
@@ -257,6 +384,9 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * This function automatically tracks the character to the boss.
+     */
     moveCameraToTheBoss() {
         this.chickenBossAppears = true;
         this.walkingLimitLeft = this.lastLevelSection;
@@ -264,43 +394,7 @@ class Character extends MovableObject {
         if (this.world.camera_x > -this.end_camera + 200) {
             this.world.camera_x -= 2;
 
-            this.moveCharacterToTheBoss();
-        }
-    }
-
-
-    moveCharacterToTheBoss() {
-        this.speed = 1;
-
-        if (this.world.camera_x > -this.end_camera + 250) {
-            startMovie = true;
-            this.world.keyboard.holdKeyToGoRight();
-            this.clearNormalAndSmallEnemies();
-        } else {
-            startMovie = false;
-            this.world.keyboard.resetKeys();
-            this.speed = this.saveSpeed;
-            this.startTheBossFight();
-        }
-    }
-
-
-    clearNormalAndSmallEnemies() {
-        this.world.levelEnemies.ENEMIES.forEach((enemy) => {
-            if (!(enemy instanceof ChickenBoss)) {
-                this.world.levelEnemies.ENEMIES.splice(this.world.levelEnemies.ENEMIES.indexOf(enemy), 1);
-            }
-        });
-    }
-
-
-    startTheBossFight() {
-        if (!this.bossFightStarted) {
-            this.world.levelEnemies.ENEMIES[this.world.levelEnemies.ENEMIES.length - 1].startTheEngine();
-            this.world.statusbar.createChickenBossStatus();
-            this.bossFightStarted = true;
-            this.world.sound.pauseSound();
-            setTimeout(() => this.world.sound.finalBossSoundPlay(), 150);
+            this.movie.moveCharacterToTheBoss();
         }
     }
 }

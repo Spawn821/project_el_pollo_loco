@@ -27,6 +27,7 @@ class MovableObject extends DrawableObject {
     leftSideReached = false;
     rightSideReached = true;
 
+    // Is colliding
     colliding = false;
 
     /**
@@ -104,7 +105,7 @@ class MovableObject extends DrawableObject {
         if (!pause) {
             let timepassed = new Date().getTime() - this.lastHit;
             timepassed = timepassed / 1000;
-            return timepassed < duration; // 0.25
+            return timepassed < duration;
         }
     }
 

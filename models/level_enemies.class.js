@@ -22,8 +22,8 @@ class LevelEnemies {
             let currentSection = this.background.sections[section];
 
             if (section != this.background.lastLevelSection) {
-                this.addEnemie('small', this.chickenSmallAlreadySet, this.numberChickenSmall, currentSection + 350);
-                this.addEnemie('normal', this.chickenNormalAlreadySet, this.numberChickenNormal, currentSection + 350);
+                this.addEnemie('small', this.chickenSmallAlreadySet, this.numberChickenSmall, currentSection + 720 + 360);
+                this.addEnemie('normal', this.chickenNormalAlreadySet, this.numberChickenNormal, currentSection + 720 + 360);
             }
 
             if (this.endbossConditions(index)) {

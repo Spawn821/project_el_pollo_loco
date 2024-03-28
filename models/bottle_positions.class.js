@@ -1,12 +1,18 @@
 class BottlePositions {
+
+    // All future bottle objects
     BOTTLES = [];
 
+    // All images for the object
     IMAGES = [
         'graphics/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'graphics/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ];
 
 
+    /**
+     * This function set all start conditions for the object.
+     */
     constructor() {
         this.setLine();
     }
