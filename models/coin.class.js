@@ -1,4 +1,6 @@
 class Coin extends MovableObject {
+
+    // All images for the object
     IMAGES = {
         IMAGES_COINS: [
             'graphics/8_coin/coin_1.png',
@@ -6,6 +8,11 @@ class Coin extends MovableObject {
         ]
     }
 
+    /**
+     * This function set all start conditions for the object.
+     * @param {number} x is the x coordinate for the object.
+     * @param {number} y ist the y coordinate for the object.
+     */
     constructor(x, y) {
         super().loadImage('graphics/8_coin/coin_1.png');
         this.loadImages(this.IMAGES);

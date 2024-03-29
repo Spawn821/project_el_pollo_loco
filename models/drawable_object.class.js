@@ -147,70 +147,11 @@ class DrawableObject {
     }
 
 
+    /**
+     * This function calculate the current energy.
+     * @returns number.
+     */
     calculateEnergyBar() {
         return ((30) * (this.energy / 10)); // 30 is 100 procent from drawn energy.
     }
-
-
-    drawButton(ctx) {
-        ctx.fillStyle = this.fillColor;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-
-        ctx.fillStyle = this.fillColor;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.font = '24px Boogaloo-Regular';
-        ctx.fillText(this.text, this.x - this.width / 2, this.y - this.height / 2);
-        ctx.style = 'cursor: pointer';
-    }
-
-
-    drawPlayIcon(ctx) {
-        ctx.beginPath();
-        ctx.moveTo(700, 50);
-        ctx.lineTo(660, 70);
-        ctx.lineTo(660, 30);
-        ctx.fill();
-    }
-
-
-    drawPauseIcon(ctx) {
-        ctx.beginPath();
-        ctx.lineWidth = '7.5';
-        ctx.moveTo(600, 30);
-        ctx.lineTo(600, 70);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.lineWidth = '7.5';
-        ctx.moveTo(615, 30);
-        ctx.lineTo(615, 70);
-        ctx.stroke();
-    }
-
-
-    // Delete if the project finished ##########
-    drawRectBounding(ctx) {
-        if (false) {
-            ctx.beginPath();
-            ctx.lineWidth = '2.5';
-            ctx.strokeStyle = 'green';
-            //ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.rect(this.x + this.offsetX, this.y + this.offsetY, this.width * this.scaleWPercent, this.height * this.scaleHPercent);
-            ctx.stroke();
-        }
-    }
-
-
-    // Delete if the project finished ##########
-    drawRectBounding2(ctx) {
-        if (false) {
-            ctx.beginPath();
-            ctx.lineWidth = '2.5';
-            ctx.strokeStyle = 'green';
-            //ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
-    } 
 }

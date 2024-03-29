@@ -1,8 +1,8 @@
 let level;
-let levelLength = 3; // tow-steps starting with one (1, 3, 5...)
+let levelLength = 1; // tow-steps starting with one (1, 3, 5...)
 
-let numberChickenSmall = 3 * levelLength;
-let numberChickenNormal = 3 * levelLength;
+let numberChickenSmall = 0 * levelLength;
+let numberChickenNormal = 0 * levelLength;
 let numberChickenBoss = 1; // max 1
 
 let IMAGES = {

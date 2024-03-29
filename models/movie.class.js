@@ -4,16 +4,30 @@ class Movie {
     character;
 
     // Boolean
+    chickenBossAppears = false;
     bossFightStarted = false;
 
     /**
      * This function set all start conditions for the object.
      */
     constructor() {
-        this.movieWin();
+        this.startTheEngine();
+
     }
 
     
+    /**
+    * This function starts all intervals.
+     */
+    startTheEngine() {
+        this.movieWin();
+        this.moveCamera();
+    }
+
+
+
+    // ### MOVIE ###
+
     /**
      * This function start the win movie and
      * set all conditioins to end the game.
@@ -44,7 +58,7 @@ class Movie {
     movieJumping() {
         startMovie = true;
         this.character.world.keyboard.tabKeyToJump();
-        setTimeout(() =>{
+        setTimeout(() => {
             this.character.world.keyboard.resetKeys()
         }, 250);
         this.character.world.sound.pauseSound();
@@ -82,7 +96,39 @@ class Movie {
             this.startTheBossFight();
         }
     }
-    
+
+
+
+    // ### CAMERA ###
+
+    /**
+     * This function controlls the camera movement.
+     */
+    moveCamera() {
+        setInterval(() => {
+            if (this.character.x + 300 > this.character.end_camera) {
+                this.moveCameraToTheBoss();
+            } else if (this.character.x > 200 && this.character.x < this.character.end_camera && !this.chickenBossAppears) {
+                this.character.world.camera_x = -this.character.x + 200;
+            }
+        }, 1000 / 60)
+    }
+
+
+    /**
+     * This function automatically tracks the character to the boss.
+     */
+    moveCameraToTheBoss() {
+        this.chickenBossAppears = true;
+        this.character.walkingLimitLeft = this.character.lastLevelSection;
+
+        if (this.character.world.camera_x > -this.character.end_camera + 200) {
+            this.character.world.camera_x -= 2;
+
+            this.moveCharacterToTheBoss();
+        }
+    }
+
 
 
     // ### ENEMIES ###

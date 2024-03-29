@@ -1,5 +1,6 @@
 class ChickenNormal extends MovableObject {
 
+    // All images for the object
     IMAGES = {
         IMAGES_WALKING: [
             'graphics/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -12,7 +13,9 @@ class ChickenNormal extends MovableObject {
         ]
     };
 
-
+    /**
+     * This function set all start conditions for the object.
+     */
     constructor(x, movementNumber) {
         super();
         this.movementNumber = movementNumber;
@@ -47,6 +50,10 @@ class ChickenNormal extends MovableObject {
     }
 
 
+    /**
+     * This function controls animation pictures for
+     * walk and dead.
+     */
     animation() {
         setInterval(() => {
             if (this.isDead() || this.isHurt(1)) {
@@ -60,6 +67,9 @@ class ChickenNormal extends MovableObject {
     }
 
 
+    /**
+     * This function start the diffrent movements.
+     */
     movement() {
         switch (this.movementNumber) {
             case 0:
@@ -75,6 +85,9 @@ class ChickenNormal extends MovableObject {
     }
 
 
+    /**
+     * This function stops the diffrent movements.
+     */
     stopMovement() {
         switch (this.movementNumber) {
             case 0:

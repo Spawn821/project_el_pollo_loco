@@ -1,10 +1,16 @@
 class ChickenBoss extends MovableObject {
 
-    collisionWhitCharacter = false;
+    // Timepassed
     sinceAlert;
-    jumpOnTheCharacterInterval;
-    xPosCharacter;
 
+    // Intervals
+    jumpOnTheCharacterInterval;
+
+    // Boolean
+    collisionWhitCharacter = false;
+    affectesWithBottle = false;
+
+    // All images for the object
     IMAGES = {
         IMAGES_WALK: [
             'graphics/4_enemie_boss_chicken/1_walk/G1.png',
@@ -48,16 +54,22 @@ class ChickenBoss extends MovableObject {
         ]
     };
 
+    /**
+     * This function set all start conditions for the object.
+     */
     constructor(x) {
         super().loadImage('graphics/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.IMAGES);
         this.setImgDimensions(260, 1.16); // width, percent for height = width * height
         this.setImgCoordinates(x - this.width); // coordinates x, y calculate less height
-        this.setImgScalePercentage(0.5, 0.8) // percentage scale from width and height
+        this.setImgScalePercentage(0.75, 0.9) // percentage scale from width and height
         this.setValues();
     }
 
 
+    /**
+     * This function sets all values for the start or the later course of the game.
+     */
     setValues() {
         this.speed = 1.5;
         this.saveSpeed = this.speed;
@@ -68,6 +80,9 @@ class ChickenBoss extends MovableObject {
     }
 
 
+    /**
+     * This function starts all intervals.
+     */
     startTheEngine() {
         this.animation();
         this.applyGravity();
@@ -76,21 +91,20 @@ class ChickenBoss extends MovableObject {
     }
 
 
+    /**
+     * This function controls animation pictures for
+     * hurt, alert, walk, dead and attack.
+     */
     animation() {
         setInterval(() => {
             if (this.collisionWhitCharacter) {
-                this.stopMovement()
-                this.animateImages(this.IMAGES.IMAGES_ATTACK);
+                this.whichAnimation('attack');
             } else if (this.isDead()) {
-                this.stopMovement()
-                this.animateImages(this.IMAGES.IMAGES_DEAD);
+                this.whichAnimation('dead');
             } else if (this.isHurt(1)) {
-                this.speed += 0.05;
-                this.stopMovement()
-                this.animateImages(this.IMAGES.IMAGES_HURT);
+                this.whichAnimation('hurt');
             } else if (this.isAlert() && !this.isDead()) {
-                this.stopMovement()
-                this.animateImages(this.IMAGES.IMAGES_ALERT);
+                this.whichAnimation('alert');
             } else {
                 this.animateImages(this.IMAGES.IMAGES_WALK);
                 this.movement();
@@ -99,26 +113,67 @@ class ChickenBoss extends MovableObject {
     }
 
 
-    jumpOnTheCharacter(x) {
-        this.jump(27.5);
+    /**
+     * This function sets the required action.
+     * @param {string} action is the requiered action.
+     */
+    whichAnimation(action) {
+        switch (action) {
+            case 'attack':
+                this.animateImages(this.IMAGES.IMAGES_ATTACK);
+                break;
+            case 'dead':
+                this.animateImages(this.IMAGES.IMAGES_DEAD);
+                break;
+            case 'hurt':
+                this.speed += 0.05;
+                this.animateImages(this.IMAGES.IMAGES_HURT);
+                break;
+            case 'alert':
+                this.animateImages(this.IMAGES.IMAGES_ALERT);
+                break;
+        };
 
-        this.jumpOnTheCharacterInterval = setInterval(() => {
-            if (this.x >= x && !this.otherDirection) {
-                this.x -= 15;
-            } else if (this.x <= x && this.otherDirection) {
-                this.x += 15;
-            } else {
-                clearInterval(this.jumpOnTheCharacterInterval);
-            }
-        }, 1000 / 25);
+        this.stopMovement();
     }
 
 
+    /**
+     * This function let the boss jump on the character.
+     * @param {number} x is the coordinate from the character
+     */
+    jumpOnTheCharacter(xPosCharacter) {
+        let jump = true;
+
+        this.jumpOnTheCharacterInterval = setInterval(() => {
+            if (this.x >= xPosCharacter && !this.otherDirection) {
+                if (jump) this.jump(27.5);
+                this.x -= 7.5;
+            } else if (this.x <= xPosCharacter && this.otherDirection) {
+                if (jump) this.jump(27.5);
+                this.x += 7.5;
+            } else {
+                this.affectesWithBottle = false;
+                clearInterval(this.jumpOnTheCharacterInterval);
+            }
+
+            jump = false;
+        }, 1000 / 50);
+    }
+
+
+    /**
+     * This function set the current time from the alert.
+     */
     lastAlert() {
         this.sinceAlert = new Date().getTime();
     }
 
 
+    /**
+     * This function evaluates the past.
+     * @returns true or false.
+     */
     isAlert() {
         let timepassed = new Date().getTime() - this.sinceAlert;
         timepassed = timepassed / 1000
@@ -126,12 +181,18 @@ class ChickenBoss extends MovableObject {
     }
 
 
+    /**
+     * This function start the diffrent movements.
+     */
     movement() {
         if (!this.runCrazyIntervall) this.runCrazy();
         if (!this.jumpAttackIntervall) this.jumpAttack();
     }
 
 
+    /**
+     * This function stops the diffrent movements.
+     */
     stopMovement() {
         clearInterval(this.runCrazyIntervall);
         clearInterval(this.jumpAttackIntervall);

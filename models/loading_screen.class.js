@@ -1,5 +1,6 @@
 class LoadingScreen extends MovableObject {
 
+    // All images for the object
     IMAGES = {
         IMAGES_LONG_IDLE: [
             'graphics/2_character_pepe/1_idle/long_idle/I-11.png',
@@ -15,6 +16,9 @@ class LoadingScreen extends MovableObject {
         ],
     };
 
+    /**
+     * This function set all start conditions for the object.
+     */
     constructor() {
         super().loadImage('graphics/2_character_pepe/1_idle/long_idle/I-11.png')
         this.loadImages(this.IMAGES);
@@ -24,11 +28,17 @@ class LoadingScreen extends MovableObject {
     }
 
 
+    /**
+     * This function starts all intervals.
+     */
     startTheEngine() {
         this.animation();
     }
 
 
+    /**
+     * This function start the animation from the pictures.
+     */
     animation() {
         setInterval(() => {
             this.animateImages(this.IMAGES.IMAGES_LONG_IDLE);

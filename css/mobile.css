@@ -1,7 +1,28 @@
+@media (orientation: landscape) {
+
+    @media (max-height: 380px) {
+        h1,
+        h2,
+        h3 {
+            font-size: 32px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        a {
+            word-break: break-all;
+        }
+    }
+}
+
+
+
+
 /* ---------- */
 /* SMARTPHONE */
 /* ---------- */
-
 
 @media (orientation: portrait) and (max-width: 800px) {
 
@@ -113,11 +134,11 @@
 
     @media (max-height: 464px) {
         .open-control-info {
-            left: 140px;
+            left: 160px;
             top: 4px;
 
-            width: calc(100dvw - 280px);
-            height: calc((100dvw - 280px) * 0.55);
+            width: calc(100dvw - 320px);
+            height: calc((100dvw - 320px) * 0.55);
         }
     }
 }
@@ -126,11 +147,11 @@
 
     @media (max-height: 464px) {
         .open-privacy_policy-impressum {
-            left: 140px;
+            left: 160px;
             top: 3px;
 
-            width: calc(100dvw - 280px - 32px);
-            height: calc((100dvw - 280px) * 0.55 - 2px);
+            width: calc(100dvw - 320px - 32px);
+            height: calc((100dvw - 320px) * 0.55 - 2px);
         }
     }
 }
@@ -145,8 +166,8 @@
 
     @media (max-height: 464px) {
         canvas {
-            width: calc(100dvw - 280px);
-            height: calc((100dvw - 280px) * 0.55);
+            width: calc(100dvw - 320px);
+            height: calc((100dvw - 320px) * 0.55);
 
             border: solid 3px black;
             border-radius: 30px;
@@ -195,8 +216,8 @@
             justify-content: space-between;
             gap: 16px;
 
-            width: 140px;
-            height: calc((100dvw - 280px) * 0.55);
+            width: 160px;
+            height: calc((100dvw - 320px) * 0.55);
 
             background-color: rgb(153, 68, 9);
             border: solid 3px black;
@@ -294,14 +315,36 @@
     }
 
     @media (max-height: 380px) {
+        span {
+            font-size: 16px;
+        }
+
         .options-area-mobile {
             margin-top: 8px;
+        }
+
+        .open-options-mobile {
+
+            & .option-one-mobile {
+                left: 20px;
+                top: 32px;
+            }
+
+            & .option-two-mobile {
+                left: 20px;
+                top: 64px;
+            }
+
+            & .option-three-mobile {
+                left: 20px;
+                top: 96px;
+            }
         }
 
         .key-caps-area-left {
             width: unset;
             flex-direction: row;
-            gap: 16px;
+            gap: 32px;
 
             margin-bottom: 8px;
         }
@@ -333,8 +376,8 @@
             align-items: flex-end;
             gap: 16px;
 
-            width: 140px;
-            height: calc((100dvw - 280px) * 0.55);
+            width: 160px;
+            height: calc((100dvw - 320px) * 0.55);
 
             background-color: rgb(153, 68, 9);
             border: solid 3px black;
@@ -409,11 +452,20 @@
 
     @media (max-height: 380px) {
         .key-caps-area-right {
-            margin-bottom: 0px;
+            margin-bottom: 8px;
         }
 
         .key-caps-small-layout {
-            gap: 8px;
+            position: relative;
+            gap: 0px;
+
+            &>#s-key {
+                position: absolute;
+            }
+
+            &>div {
+                gap: 56px;
+            }
         }
 
         .key-caps-small {
@@ -422,7 +474,7 @@
         }
 
         .key-caps-large {
-            padding-top: 8px;
+            margin-top: 8px;
         }
 
         #button-game-status-mobile {

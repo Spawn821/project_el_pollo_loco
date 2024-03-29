@@ -1,5 +1,6 @@
 class ChickenSmall extends MovableObject {
 
+    // All images for the object
     IMAGES = {
         IMAGES_WALKING: [
             'graphics/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -12,7 +13,9 @@ class ChickenSmall extends MovableObject {
         ]
     };
 
-
+    /**
+     * This function set all start conditions for the object.
+     */
     constructor(x, movementNumber) {
         super();
         this.movementNumber = movementNumber;
@@ -27,6 +30,9 @@ class ChickenSmall extends MovableObject {
     }
 
 
+    /**
+     * This function sets all values for the start or the later course of the game.
+     */
     setValues() {
         this.speed = 0.25 + Math.random() * 1.5;
         this.energy = 5;
@@ -35,12 +41,19 @@ class ChickenSmall extends MovableObject {
     }
 
 
+    /**
+     * This function starts all intervals.
+     */
     startTheEngine() {
         this.animation();
         this.movement();
     }
 
 
+    /**
+     * This function controls animation pictures for
+     * walk and dead.
+     */
     animation() {
         setInterval(() => {
             if (this.isDead() || this.isHurt(1)) {
@@ -54,6 +67,9 @@ class ChickenSmall extends MovableObject {
     }
 
 
+    /**
+     * This function start the diffrent movements.
+     */
     movement() {
         switch (this.movementNumber) {
             case 0:
@@ -66,6 +82,9 @@ class ChickenSmall extends MovableObject {
     }
 
 
+    /**
+     * This function stops the diffrent movements.
+     */
     stopMovement() {
         switch (this.movementNumber) {
             case 0:

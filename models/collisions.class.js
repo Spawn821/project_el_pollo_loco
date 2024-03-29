@@ -93,8 +93,7 @@ class Collisions extends Sound {
             this.enemyIsDead(enemy);
 
             if (enemy instanceof ChickenBoss) {
-                this.affectedChickenBossWithBottle(enemy);
-                setTimeout(() => enemy.jumpOnTheCharacter(this.world.character.x), 1000);
+                this.affectedChickenBossWithBottle(enemy, bottle);
             } else {
                 this.world.sound.hitTheChickenSound();
             }
@@ -102,12 +101,26 @@ class Collisions extends Sound {
     }
 
 
-    affectedChickenBossWithBottle(enemy) {
+    /**
+     * This function set all conditions when the boss has been attacked. 
+     * @param {object} enemy is the boss.
+     * @param {object} bottle is the current bottle.
+     */
+    affectedChickenBossWithBottle(enemy, bottle) {
         this.world.statusbar.setChickenBossHealth(enemy.energy);
         this.world.sound.hitTheBossSound();
+        if (bottle) {
+            setTimeout(() => {
+                enemy.jumpOnTheCharacter(this.world.character.x, this.world.character.otherDirection)
+            }, 1000);
+        }
     }
 
 
+    /**
+     * This function check that the bottle is in contact
+     * with the ground.
+     */
     bottleOnGround() {
         setInterval(() => {
             this.world.bottles.forEach((bottle) => {
@@ -204,6 +217,9 @@ class Collisions extends Sound {
     }
 
 
+    /**
+     * This function check if the boss collidet with the character.
+     */
     endboss() {
         setInterval(() => {
             this.world.levelEnemies.ENEMIES.forEach((enemy) => {

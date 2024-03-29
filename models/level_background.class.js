@@ -1,16 +1,25 @@
 class LevelBackground {
 
+    // All future objects.
     BACKGROUNDS = [];
     CLOUDS = [];
     AIR;
 
+    // Diffrent between the first and the second image
     section1Xpos;
     section2Xpos;
     section1Num;
     section2Num;
+
+    // X coordinates for the level sections
     sections = {};
     lastLevelSection;
 
+    /**
+     * This function set all start conditions for the object.
+     * @param {number} levelLength is the array length.
+     * @param {array} IMAGES is a list from image paths.
+     */
     constructor(levelLength, IMAGES) {
         this.levelLength = levelLength;
         this.IMAGES = IMAGES;
@@ -22,6 +31,9 @@ class LevelBackground {
     }
 
 
+    /**
+     * Determine the last level section for later use.
+     */
     determineLastSection() {
         for (let section in this.sections) {
             this.lastLevelSection = this.sections[section];

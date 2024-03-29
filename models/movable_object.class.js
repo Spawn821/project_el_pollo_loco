@@ -49,6 +49,9 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * This function remove the gravity and set the start y pos.
+     */
     cancelGravity() {
         if (this instanceof Bottle) {
             this.y = 325;
@@ -200,6 +203,9 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * This function reset the diffrent movment intervals.
+     */
     resetIntervallValues() {
         this.runLeftIntervall = undefined;
         this.runCrazyIntervall = undefined;
@@ -227,6 +233,9 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * This function start the movement left.
+     */
     runLeft() {
         this.runLeftIntervall = setInterval(() => {
             if (startGame && !pause && !loading) this.moveLeft();
@@ -234,6 +243,9 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * This functin start the movement left and right.
+     */
     runCrazy() {
         this.runCrazyIntervall = setInterval(() => {
             if (startGame && !pause && !loading) {
@@ -249,6 +261,10 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * This function change the direction when
+     * the running limit is reached.
+     */
     runningDirectionRight() {
         if (this.x <= this.startPosX - this.walkingDistance) {
             this.leftSideReached = true;
@@ -262,6 +278,10 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * This function change the direction when
+     * the running limit is reached.
+     */
     runningDirectionLeft() {
         if (this.x >= this.startPosX) {
             this.leftSideReached = false;
@@ -285,6 +305,9 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * This function start the movement jumping.
+     */
     jumpAttack() {
         this.jumpAttackIntervall = setInterval(() => {
             if (startGame && !pause && !loading) this.jump(27.5);

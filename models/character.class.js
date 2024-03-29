@@ -19,7 +19,6 @@ class Character extends MovableObject {
 
     // Boolean
     doubleJump = false;
-    chickenBossAppears = false;
 
     // All images for the object
     IMAGES = {
@@ -119,7 +118,7 @@ class Character extends MovableObject {
     /**
      * This function set the coordinates for
      * the last level section.
-     * @returns 
+     * @returns number.
      */
     lastSection() {
         let lastSection;
@@ -139,8 +138,8 @@ class Character extends MovableObject {
         this.animationIdle();
         this.move();
         this.throwBottle();
-        this.moveCamera();
         this.applyGravity();
+        this.resetLastActionIfPause();
     }
 
 
@@ -230,11 +229,11 @@ class Character extends MovableObject {
                 if (this.world.keyboard.RIGHT && this.x < this.walkingLimitRight) {
                     this.walkingMovement(false);
                 }
-    
+
                 if (this.world.keyboard.LEFT && this.x > this.walkingLimitLeft) {
                     this.walkingMovement(true);
                 }
-    
+
                 this.jumpOrDoubleJump();
             }
         }, 1000 / 60);
@@ -284,7 +283,7 @@ class Character extends MovableObject {
         this.jump();
         this.doubleJump = doubleJump;
         this.world.sound.jumpingSound();
-        if (this.doubleJump) this.setCurrentActionTime();
+        this.setCurrentActionTime();
         this.resetFartTime();
     }
 
@@ -306,7 +305,7 @@ class Character extends MovableObject {
                     } else if (this.world.keyboard.d) {
                         this.setBottle(20);
                     }
-                }   
+                }
             }
         }, 1000 / 60);
     }
@@ -336,16 +335,16 @@ class Character extends MovableObject {
     }
 
 
+
+    // ### CONTROL ACTION ###
+
+
     /**
      * This function reset the fart time for the long idle.
      */
     resetFartTime() {
         this.fartTime = 35;
     }
-
-
-
-    // ### CONTROL ACTION ###
 
     /**
      * This function set the current action time if walk, jump or throw.
@@ -356,45 +355,26 @@ class Character extends MovableObject {
 
 
     /**
+     * This function reset the 'lastAction' variable as long
+     * the pause status exist. 
+     */
+    resetLastActionIfPause() {
+        setInterval(() => {
+            if (loading || pause) {
+                this.setCurrentActionTime();
+            }
+        }, 1000 / 10);
+    }
+
+
+    /**
      * This function evaluates the past.
-      * @param {number} duration is the pasttime.
+     * @param {number} duration is the pasttime.
      * @returns true or false.
      */
     isAction(duration) {
         let timepassed = new Date().getTime() - this.lastAction;
         timepassed = timepassed / 1000;
         return timepassed > duration;
-    }
-
-
-
-    // ### CAMERA ###
-
-    /**
-     * This function controlls the camera movement.
-     */
-    moveCamera() {
-        setInterval(() => {
-            if (this.x + 300 > this.end_camera) {
-                this.moveCameraToTheBoss();
-            } else if (this.x > 200 && this.x < this.end_camera && !this.chickenBossAppears) {
-                this.world.camera_x = -this.x + 200;
-            }
-        }, 1000 / 60)
-    }
-
-
-    /**
-     * This function automatically tracks the character to the boss.
-     */
-    moveCameraToTheBoss() {
-        this.chickenBossAppears = true;
-        this.walkingLimitLeft = this.lastLevelSection;
-
-        if (this.world.camera_x > -this.end_camera + 200) {
-            this.world.camera_x -= 2;
-
-            this.movie.moveCharacterToTheBoss();
-        }
     }
 }

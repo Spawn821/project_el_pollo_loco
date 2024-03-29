@@ -34,7 +34,7 @@ button {
 ::-webkit-scrollbar-button:single-button {
     display: flex;
     align-items: center;
-    height: 8px;
+    height: 32px;
 }
 
 
@@ -486,9 +486,9 @@ canvas {
 }
 
 .key-caps-large {
-    width: 112px;
+    width: 128px;
     height: 40px;
-    padding-top: 16px;
+    margin-top: 16px;
 }
 
 #s-key {

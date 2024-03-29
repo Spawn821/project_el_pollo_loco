@@ -9,16 +9,23 @@ class World extends Draw {
     gameOverScreen = new GameOverScreen();
     youLostScreen = new YouLostScreen();
     sound = new Sound();
-
-    // Values
     levelBackground = level.background;
     levelEnemies = level.enemies;
     bottles = [];
+    keyboard;
+
+    // HTML elements
     canvas;
     ctx; // Context for canvas
-    keyboard;
+
+    // Values
     camera_x = 0;
 
+    /**
+     * This function set all start conditions for the object.
+     * @param {object} canvas is the canvas element.
+     * @param {object} keyboard is the keyboard object.
+     */
     constructor(canvas, keyboard) {
         super();
         this.ctx = canvas.getContext('2d');
@@ -31,6 +38,9 @@ class World extends Draw {
     }
 
 
+    /**
+     * This function transfers its values.
+     */
     setWorld() {
         this.character.world = this;
         this.collisions.world = this;
@@ -38,6 +48,9 @@ class World extends Draw {
     }
 
 
+    /**
+     * This function draw the world.
+     */
     draw() {
         if (gameEnd) {
             if (this.character.isDead()) {
@@ -61,6 +74,9 @@ class World extends Draw {
     }
 
 
+    /**
+     * This function set all conditions for the end screen.
+     */
     endScreen() {
         this.addObjectToMap(this.levelBackground.AIR);
         this.addObjectListToMap(this.levelBackground.CLOUDS);
@@ -69,6 +85,9 @@ class World extends Draw {
     }
 
 
+    /**
+     * This function coordinates the addition of objects.
+     */
     applyColor() {
         this.beforeTheCamera();
         this.ctx.translate(this.camera_x, 0);
@@ -77,6 +96,9 @@ class World extends Draw {
     }
 
 
+    /**
+     * This function add all objects that always move with you.
+     */
     beforeTheCamera() {
         this.addObjectToMap(this.levelBackground.AIR);
         this.addObjectListToMap(this.levelBackground.CLOUDS);
@@ -87,6 +109,9 @@ class World extends Draw {
     }
 
 
+    /**
+     * This function add all objects that do not move.
+     */
     afterTheCamera() {
         this.addObjectListToMap(this.levelBackground.BACKGROUNDS);
         this.addObjectListToMap(this.coinsToCollect.COINS);

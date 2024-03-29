@@ -1,6 +1,11 @@
 class CoinPositions {
+
+    // All future coin objects
     COINS = [];
 
+    /**
+     * This function set all start conditions for the object.
+     */
     constructor() {
         this.setForms();
     }

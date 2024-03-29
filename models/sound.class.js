@@ -24,11 +24,10 @@ class Sound {
         this.final_boss_sound
     ]
 
-
     constructor() {
-        this.walking_sound.volume = 0.75;
-        this.jumping_sound.volume = 0.75;
-        this.fart_sound.volume = 0.75;
+        this.walking_sound.volume = 0.5;
+        this.jumping_sound.volume = 0.5;
+        this.fart_sound.volume = 0.5;
         this.collect_coin_sound.volume = 0.5;
         this.collect_bottle_sound.volume = 0.5;
         this.hit_the_chicken_sound.volume = 0.5;
@@ -63,6 +62,7 @@ class Sound {
 
 
     // ### SOUND THAT INTERRUPTED AND RESTARTED FROM BEGINNING ###
+
     jumpingSound() {
         this.startSound(this.jumping_sound);
     }
