@@ -110,6 +110,8 @@ button {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+
+    touch-action: none;
 }
 
 
@@ -123,6 +125,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 1;
 }
 
 
@@ -247,6 +250,10 @@ canvas {
     transition: width 1s ease;
 
     & .options-text {
+        border: unset;
+        background-color: unset;
+        outline: unset;
+
         z-index: 1;
 
         &:hover {
@@ -517,4 +524,18 @@ canvas {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+
+
+/* ----------------- */ 
+/* BACKGROUND SOURCE */
+/* ----------------- */ 
+
+#background-picture-source {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    color: rgb(153, 68, 9);
+    font-weight: 700;
 }

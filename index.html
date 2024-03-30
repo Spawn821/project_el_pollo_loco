@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>El Polo Loco</title>
+    <link rel="icon" type="image/png" href="graphics/2_character_pepe/3_jump/J-37.png">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/mobile.css">
@@ -48,7 +49,7 @@
     <!-- The heirs form level object -->
     <script src="models/coin_positions.class.js"></script>
     <script src="models/bottle_positions.class.js"></script>
-    
+
     <!-- The heirs form character -->
     <script src="models/movie.class.js"></script>
 
@@ -80,8 +81,10 @@
             <section class="gameboy gameboy-left">
 
                 <div id="options-area-mobile" class="options-area-mobile">
-                    <span id="button-options-mobile" class="options-text-mobile"
-                        onclick="openOrCloseOptions()">Options</span>
+
+                    <button id="button-options-mobile" class="options-text-mobile" onclick="openOrCloseOptions()">
+                        <span>Options</span>
+                    </button>
 
                     <div class="option-one-mobile">
                         <span class="option-arrow-mobile"></span>
@@ -131,7 +134,11 @@
             <section class="menu">
 
                 <div id="options-area" class="options-area">
-                    <span id="button-options" class="options-text" onclick="openOrCloseOptions()">Options</span>
+
+                    <button id="button-options" class="options-text" onclick="openOrCloseOptions()">
+                        <span>Options</span>
+                    </button>
+
                     <span class="option-arrow"></span>
                     <span id="option-button-one" class="option-one"
                         onclick="selectedOption('control-info')">Control</span>
@@ -173,6 +180,8 @@
         </div>
 
     </div>
+
+    <a id="background-picture-source" href="https://www.freepik.com">Designed by pikisuperstar / Freepik</a>
 
 </body>
 

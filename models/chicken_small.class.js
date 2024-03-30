@@ -26,7 +26,7 @@ class ChickenSmall extends MovableObject {
         this.setImgCoordinates(x + Math.random() * 200); // coordinates x, y calculate less height
         this.setImgScalePercentage(0.6, 0.6) // percentage scale from width and height
         this.setValues();
-        this.animation();
+        this.startTheEngine()
     }
 
 
@@ -36,7 +36,7 @@ class ChickenSmall extends MovableObject {
     setValues() {
         this.speed = 0.25 + Math.random() * 1.5;
         this.energy = 5;
-        this.walkingDistance = 300;
+        this.walkingDistance = 400;
         this.startPosX = this.x;
     }
 

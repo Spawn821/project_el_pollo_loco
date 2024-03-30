@@ -3,6 +3,8 @@ let canvas;
 let buttonGameStatus;
 let buttonGameStatusMobile;
 let buttonPause;
+let optionsArea;
+let optionsAreaMobile;
 
 // Objects
 let screen;
@@ -21,6 +23,8 @@ let startMovie = false
  * all start parameters.
  */
 function init() {
+    optionsArea = document.getElementById('options-area');
+    optionsAreaMobile = document.getElementById('options-area-mobile');
     buttonGameStatus = document.getElementById('button-game-status');
     buttonGameStatusMobile = document.getElementById('button-game-status-mobile');
     buttonPause = document.getElementById('button-play-pause');

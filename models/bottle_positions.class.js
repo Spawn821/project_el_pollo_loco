@@ -37,7 +37,7 @@ class BottlePositions {
     line(section) {
         let currentImage = 0;
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             this.BOTTLES.push(new BottleToCollect(section, this.IMAGES[this.returnIndex(currentImage)]));
 
             currentImage++;

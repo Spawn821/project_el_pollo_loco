@@ -42,9 +42,6 @@ let optionButtonOne, optionButtonTwo, optionButtonThree;
  * the game is paused.
  */
 function openOrCloseOptions() {
-    let optionsArea = document.getElementById('options-area');
-    let optionsAreaMobile = document.getElementById('options-area-mobile');
-
     optionsArea.classList.toggle('open-options');
     optionsAreaMobile.classList.toggle('open-options-mobile');
 
@@ -52,7 +49,22 @@ function openOrCloseOptions() {
         selectedOption('option');
     }
 
-    if (startGame && optionsArea.classList.contains('open-options')) changePauseStatus(false, true);
+    changePauseStatusWithOptions(optionsArea, optionsAreaMobile);
+}
+
+
+/**
+ * This function change the play and pause status if options open or close.
+ * @param {object} optionsArea is options menu desktop.
+ * @param {object} optionsAreaMobile is options menu mobile.
+ */
+function changePauseStatusWithOptions(optionsArea, optionsAreaMobile) {
+    if (startGame && optionsArea.classList.contains('open-options')
+        && optionsAreaMobile.classList.contains('open-options-mobile')) {
+        changePauseStatus(false, true);
+    } else {
+        changePauseStatus(true, false);
+    }
 }
 
 
@@ -194,19 +206,28 @@ function switchToGame() {
  * @param {string} status is the 'Start' or 'Main screen'.
  */
 function startLoadingScreen(status) {
+    if (optionsArea.classList.contains('open-options')) openOrCloseOptions();
     loading = true;
 
-    /* desktop */
     buttonGameStatus.innerHTML = 'Loading';
-    buttonGameStatus.classList.add('button-game-status-disabled');
-
-    /* mobile */
     buttonGameStatusMobile.querySelector('span').innerHTML = 'Loading';
-    buttonGameStatusMobile.classList.add('button-game-status-disabled');
+
+    buttonDisabled();
 
     setTimeout(() => {
         endLoadingScreen(status);
     }, 7500);
+}
+
+
+/**
+ * This function disabled buttons with the assignment of classes.
+ */
+function buttonDisabled() {
+    buttonGameStatus.classList.add('button-game-status-disabled');
+    buttonGameStatusMobile.classList.add('button-game-status-disabled');
+    optionsArea.classList.add('button-game-status-disabled');
+    optionsAreaMobile.classList.add('button-game-status-disabled');
 }
 
 
@@ -217,15 +238,22 @@ function startLoadingScreen(status) {
 function endLoadingScreen(status) {
     loading = false;
 
-    /* desktop */
     buttonGameStatus.innerHTML = status;
-    buttonGameStatus.classList.remove('button-game-status-disabled');
-
-    /* mobile */
     buttonGameStatusMobile.querySelector('span').innerHTML = status;
-    buttonGameStatusMobile.classList.remove('button-game-status-disabled');
 
+    buttonEnabled();
     letTheTextShape();
+}
+
+
+/**
+ * This function enabled buttons.
+ */
+function buttonEnabled() {
+    buttonGameStatus.classList.remove('button-game-status-disabled');
+    buttonGameStatusMobile.classList.remove('button-game-status-disabled');
+    optionsArea.classList.remove('button-game-status-disabled');
+    optionsAreaMobile.classList.remove('button-game-status-disabled');
 }
 
 

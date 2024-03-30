@@ -154,11 +154,12 @@ class Character extends MovableObject {
         let runMovie = false;
 
         setInterval(() => {
-            if (!loading && !pause) {
+            if (!loading && !pause && !gameEnd) {
                 if (this.isDead()) {
                     runMovie = this.dead(runMovie);
                 } else if (this.isHurt(0.25)) {
                     this.animateImages(this.IMAGES.IMAGES_HURT);
+                    this.world.sound.hurtSound();
                 } else if (this.isAboveGround()) {
                     this.animateImages(this.IMAGES.IMAGES_JUMPING);
                 } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -176,11 +177,11 @@ class Character extends MovableObject {
      */
     animationIdle() {
         setInterval(() => {
-            if (!loading && !pause) {
+            if (!loading && !pause && !gameEnd) {
                 if (this.isAction(15)) {
                     this.longIdle();
                 } else if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
-                    if (!this.isDead() && !this.isHurt(0.25)) {
+                    if (!this.isDead() && !this.isHurt(0.25) && !this.isAboveGround()) {
                         this.animateImages(this.IMAGES.IMAGES_IDLE);
                     }
                 }
@@ -225,7 +226,7 @@ class Character extends MovableObject {
      */
     move() {
         setInterval(() => {
-            if (!loading && !pause) {
+            if (!loading && !pause && !gameEnd) {
                 if (this.world.keyboard.RIGHT && this.x < this.walkingLimitRight) {
                     this.walkingMovement(false);
                 }
@@ -296,7 +297,7 @@ class Character extends MovableObject {
      */
     throwBottle() {
         setInterval(() => {
-            if (!loading && !pause) {
+            if (!loading && !pause && !gameEnd) {
                 if (this.world.statusbar.bottleIcon.numberText > 0) {
                     if (this.world.keyboard.a) {
                         this.setBottle(10)

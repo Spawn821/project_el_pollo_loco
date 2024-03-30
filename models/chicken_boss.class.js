@@ -142,15 +142,21 @@ class ChickenBoss extends MovableObject {
      * This function let the boss jump on the character.
      * @param {number} x is the coordinate from the character
      */
-    jumpOnTheCharacter(xPosCharacter) {
+    jumpOnTheCharacter(xPosCharacter, jumpingSound) {
         let jump = true;
 
         this.jumpOnTheCharacterInterval = setInterval(() => {
             if (this.x >= xPosCharacter && !this.otherDirection) {
-                if (jump) this.jump(27.5);
+                if (jump) {
+                    jumpingSound;
+                    this.jump(27.5);
+                }
                 this.x -= 7.5;
             } else if (this.x <= xPosCharacter && this.otherDirection) {
-                if (jump) this.jump(27.5);
+                if (jump) {
+                    jumpingSound;
+                    this.jump(27.5);
+                }
                 this.x += 7.5;
             } else {
                 this.affectesWithBottle = false;

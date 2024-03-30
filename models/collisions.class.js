@@ -88,17 +88,27 @@ class Collisions extends Sound {
         this.thrownBottles.push(bottle);
         if (this.checkDeadIndex(enemy) == -1) {
             bottle.colliding = bottle.isColliding(enemy);
+            this.world.sound.brokenBottleSound();
             this.removeBottle(bottle);
             enemy.hit();
             this.enemyIsDead(enemy);
-
-            if (enemy instanceof ChickenBoss) {
-                this.affectedChickenBossWithBottle(enemy, bottle);
-            } else {
-                this.world.sound.hitTheChickenSound();
-            }
+            this.affectedEnemyConditions(enemy, bottle);
         }
     }
+
+
+    affectedEnemyConditions(enemy, bottle) {
+        if (enemy instanceof ChickenBoss) {
+            if (bottle) this.affectedChickenBossWithBottle(enemy, bottle);
+            else this.affectedChickenBossWithBottle(enemy);
+        } else if (enemy instanceof ChickenNormal) {
+            this.world.sound.hitTheChickenNormalSound();
+        } else {
+            this.world.sound.hitTheChickenSmallSound();
+        }
+    }
+
+
 
 
     /**
@@ -111,7 +121,7 @@ class Collisions extends Sound {
         this.world.sound.hitTheBossSound();
         if (bottle) {
             setTimeout(() => {
-                enemy.jumpOnTheCharacter(this.world.character.x, this.world.character.otherDirection)
+                enemy.jumpOnTheCharacter(this.world.character.x, this.world.sound.bossJumpingSound());
             }, 1000);
         }
     }
@@ -126,6 +136,7 @@ class Collisions extends Sound {
             this.world.bottles.forEach((bottle) => {
                 if (bottle.isOnGround() && this.checkThrownBottles(bottle) == -1) {
                     this.removeBottle(bottle);
+                    this.world.sound.brokenBottleSound();
                 }
             });
         }, 1000 / 60);
@@ -157,12 +168,7 @@ class Collisions extends Sound {
             enemy.hit();
             this.enemyIsDead(enemy);
             this.world.character.jump();
-
-            if (enemy instanceof ChickenBoss) {
-                this.affectedChickenBossWithBottle(enemy);
-            } else {
-                this.world.sound.hitTheChickenSound();
-            }
+            this.affectedEnemyConditions(enemy);
         }
     }
 

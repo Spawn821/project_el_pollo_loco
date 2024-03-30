@@ -15,7 +15,7 @@ class Movie {
 
     }
 
-    
+
     /**
     * This function starts all intervals.
      */
@@ -62,7 +62,9 @@ class Movie {
             this.character.world.keyboard.resetKeys()
         }, 250);
         this.character.world.sound.pauseSound();
-        if (this.character.world.levelEnemies.ENEMIES.length == 0) setTimeout(() => this.character.world.sound.winSound(), 150);
+        if (this.character.world.levelEnemies.ENEMIES.length == 0) {
+            setTimeout(() => this.character.world.sound.winSound(), 150);
+        }
         return true;
     }
 

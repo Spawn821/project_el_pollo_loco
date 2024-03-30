@@ -34,9 +34,11 @@ class ChickenNormal extends MovableObject {
      * This function sets all values for the start or the later course of the game.
      */
     setValues() {
-        this.speed = 0.25 + Math.random() * 1.5;
+        this.speed = Math.random() * 1.5 + 0.25;
         this.energy = 10;
-        this.jumpAttackTime = 2000;
+        this.walkingDistance = 600;
+        this.startPosX = this.x;
+        this.jumpAttackTime = Math.random() * 1000 + 1500;
     }
 
 
@@ -76,8 +78,8 @@ class ChickenNormal extends MovableObject {
                 if (!this.runLeftIntervall) this.runLeft();
                 break;
             case 1:
-                if (!this.jumpAttackIntervall) {
-                    this.runLeft();
+                if (!this.runCrazyIntervall) {
+                    this.runCrazy();
                     this.jumpAttack();
                 }
                 break;
@@ -94,7 +96,7 @@ class ChickenNormal extends MovableObject {
                 clearInterval(this.runLeftIntervall);
                 break;
             case 1:
-                clearInterval(this.runLeftIntervall);
+                clearInterval(this.runCrazyIntervall);
                 clearInterval(this.jumpAttackIntervall);
                 break;
         };
