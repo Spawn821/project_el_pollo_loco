@@ -97,10 +97,10 @@ class ChickenBoss extends MovableObject {
      */
     animation() {
         setInterval(() => {
-            if (this.collisionWhitCharacter) {
-                this.whichAnimation('attack');
-            } else if (this.isDead()) {
+            if (this.isDead()) {
                 this.whichAnimation('dead');
+            } else if (this.collisionWhitCharacter) {
+                this.whichAnimation('attack');
             } else if (this.isHurt(1)) {
                 this.whichAnimation('hurt');
             } else if (this.isAlert() && !this.isDead()) {
@@ -147,16 +147,10 @@ class ChickenBoss extends MovableObject {
 
         this.jumpOnTheCharacterInterval = setInterval(() => {
             if (this.x >= xPosCharacter && !this.otherDirection) {
-                if (jump) {
-                    jumpingSound;
-                    this.jump(27.5);
-                }
+                this.startJumping(jump, jumpingSound);
                 this.x -= 7.5;
             } else if (this.x <= xPosCharacter && this.otherDirection) {
-                if (jump) {
-                    jumpingSound;
-                    this.jump(27.5);
-                }
+                this.startJumping(jump, jumpingSound);
                 this.x += 7.5;
             } else {
                 this.affectesWithBottle = false;
@@ -165,6 +159,19 @@ class ChickenBoss extends MovableObject {
 
             jump = false;
         }, 1000 / 50);
+    }
+
+
+    /**
+     * This function start jumping movement.
+     * @param {boolean} jump will jump be executed or not.
+     * @param {object} jumpSound is the jumping sound. 
+     */
+    startJumping(jump, jumpingSound) {
+        if (jump) {
+            jumpingSound;
+            this.jump(27.5);
+        }
     }
 
 

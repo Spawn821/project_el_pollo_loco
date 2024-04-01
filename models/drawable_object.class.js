@@ -138,10 +138,10 @@ class DrawableObject {
     drawEnergyBar(ctx) {
         if (this instanceof ChickenNormal) {
             ctx.beginPath()
-            ctx.lineWidth = '3.5';
-            this.energy == 10 ? ctx.strokeStyle = 'black' : ctx.strokeStyle = 'red';
-            ctx.moveTo(this.x + this.width / 2, this.y + 20);
-            ctx.lineTo(this.x + this.width / 2 + this.calculateEnergyBar(), this.y + 20);
+            ctx.lineWidth = '4';
+            ctx.strokeStyle = 'green';
+            ctx.moveTo(this.x, this.y - 5);
+            ctx.lineTo(this.x + this.calculateEnergyBar(), this.y - 5);
             ctx.stroke();
         }
     }
@@ -152,6 +152,6 @@ class DrawableObject {
      * @returns number.
      */
     calculateEnergyBar() {
-        return ((30) * (this.energy / 10)); // 30 is 100 procent from drawn energy.
+        return (this.width * (this.energy / 10)); // 30 is 100 procent from drawn energy.
     }
 }

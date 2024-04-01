@@ -156,6 +156,33 @@ button {
     }
 }
 
+#button-sound-mute {
+}
+
+.button-sound-mute {
+    position: absolute;
+    top: 72px;
+    right: 12px;
+
+    width: 48px;
+    height: 48px;
+
+    background-image: url('../graphics/0_downloads/sound.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    cursor: pointer;
+
+    border-radius: 8px;
+
+    z-index: 1;
+
+    &.mute {
+        background-image: url('../graphics/0_downloads/mute.png');
+    }
+}
+
 .info-window {
     position: absolute;
     left: 50%;

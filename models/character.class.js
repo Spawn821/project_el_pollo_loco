@@ -14,7 +14,8 @@ class Character extends MovableObject {
     movie = new Movie();
 
     // Timepassed
-    lastAction = 0;
+    lastWalk = 0;
+    lastJump = 0;
     fartTime = 35;
 
     // Boolean
@@ -97,7 +98,6 @@ class Character extends MovableObject {
         this.setImgScalePercentage(0.4, 0.5) // percentage scale from width and height
         this.setValues();
         this.startTheEngine();
-        this.setCurrentActionTime();
     }
 
 
@@ -178,7 +178,7 @@ class Character extends MovableObject {
     animationIdle() {
         setInterval(() => {
             if (!loading && !pause && !gameEnd) {
-                if (this.isAction(15)) {
+                if (this.isAction(15, this.lastWalk) && this.isAction(15, this.lastJump)) {
                     this.longIdle();
                 } else if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
                     if (!this.isDead() && !this.isHurt(0.25) && !this.isAboveGround()) {
@@ -250,7 +250,7 @@ class Character extends MovableObject {
         if (this.world.keyboard.RIGHT) this.moveRight();
         if (this.world.keyboard.LEFT) this.moveLeft();
         this.otherDirection = otherDirection;
-        if (!this.doubleJump) this.setCurrentActionTime();
+        this.setCurrentWalkTime();
         this.resetFartTime();
     }
 
@@ -265,7 +265,7 @@ class Character extends MovableObject {
                 this.jumpMovement(true);
             }
         } else {
-            if (this.world.keyboard.SPACE && this.isAction(0.5)) {
+            if (this.world.keyboard.SPACE && this.isAction(0.5, this.lastJump)) {
                 if (this.doubleJump) {
                     this.jumpMovement(false);
                 }
@@ -284,7 +284,7 @@ class Character extends MovableObject {
         this.jump();
         this.doubleJump = doubleJump;
         this.world.sound.jumpingSound();
-        this.setCurrentActionTime();
+        this.setCurrentJumpTime();
         this.resetFartTime();
     }
 
@@ -318,7 +318,7 @@ class Character extends MovableObject {
      */
     setBottle(distance) {
         if (this.world.bottles.length == 0) this.createBottle(distance);
-        this.setCurrentActionTime();
+        this.setCurrentWalkTime();
         this.resetFartTime();
     }
 
@@ -348,10 +348,17 @@ class Character extends MovableObject {
     }
 
     /**
-     * This function set the current action time if walk, jump or throw.
+     * This function set the current action time if walk.
      */
-    setCurrentActionTime() {
-        this.lastAction = new Date().getTime();
+    setCurrentWalkTime() {
+        this.lastWalk = new Date().getTime();
+    }
+
+    /**
+     * This function set the current action time if jump.
+     */
+    setCurrentJumpTime() {
+        this.lastJump = new Date().getTime();
     }
 
 
@@ -362,7 +369,8 @@ class Character extends MovableObject {
     resetLastActionIfPause() {
         setInterval(() => {
             if (loading || pause) {
-                this.setCurrentActionTime();
+                this.setCurrentWalkTime();
+                this.setCurrentJumpTime();
             }
         }, 1000 / 10);
     }
@@ -373,8 +381,8 @@ class Character extends MovableObject {
      * @param {number} duration is the pasttime.
      * @returns true or false.
      */
-    isAction(duration) {
-        let timepassed = new Date().getTime() - this.lastAction;
+    isAction(duration, lastAction) {
+        let timepassed = new Date().getTime() - lastAction;
         timepassed = timepassed / 1000;
         return timepassed > duration;
     }

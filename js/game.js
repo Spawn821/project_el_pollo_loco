@@ -3,6 +3,7 @@ let canvas;
 let buttonGameStatus;
 let buttonGameStatusMobile;
 let buttonPause;
+let buttonSound;
 let optionsArea;
 let optionsAreaMobile;
 
@@ -14,6 +15,7 @@ let keyboard = new Keyboard();
 // Boolean
 let startGame = false;
 let pause = false;
+let mute = false;
 let loading = false;
 let gameEnd = false;
 let startMovie = false
@@ -28,6 +30,7 @@ function init() {
     buttonGameStatus = document.getElementById('button-game-status');
     buttonGameStatusMobile = document.getElementById('button-game-status-mobile');
     buttonPause = document.getElementById('button-play-pause');
+    buttonSound = document.getElementById('button-sound-mute');
     canvas = document.getElementById('canvas');
 
     setScreen();

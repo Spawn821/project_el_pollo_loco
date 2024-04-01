@@ -28,6 +28,7 @@ class World extends Draw {
      */
     constructor(canvas, keyboard) {
         super();
+        gameEnd = false;
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
@@ -53,14 +54,7 @@ class World extends Draw {
      */
     draw() {
         if (gameEnd) {
-            if (this.character.isDead()) {
-                this.endScreen();
-                this.addObjectToMap(this.youLostScreen);
-            } else if (this.levelEnemies.ENEMIES.length == 0) {
-                this.endScreen();
-                this.addObjectToMap(this.gameOverScreen);
-            }
-
+            this.gameIsEnd();
         } else if (startGame && !pause && !loading) {
             this.clearCanvas();
             this.applyColor();
@@ -71,6 +65,20 @@ class World extends Draw {
         requestAnimationFrame(() => {
             self.draw();
         });
+    }
+
+
+    /**
+     * This function shows the diffrent end screens.
+     */
+    gameIsEnd() {
+        if (this.character.isDead()) {
+            this.endScreen();
+            this.addObjectToMap(this.youLostScreen);
+        } else if (this.levelEnemies.ENEMIES.length == 0) {
+            this.endScreen();
+            this.addObjectToMap(this.gameOverScreen);
+        }
     }
 
 

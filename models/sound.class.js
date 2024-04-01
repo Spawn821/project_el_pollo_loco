@@ -65,7 +65,7 @@ class Sound {
      * This function start the walking sound from the character.
      */
     walkingSound() {
-        this.walking_sound.play();
+        if (!mute) this.walking_sound.play();
     }
 
 
@@ -73,7 +73,7 @@ class Sound {
      * This function start the hurt sound from the character.
      */
     hurtSound() {
-        this.hurt_sound.play();
+        if (!mute) this.hurt_sound.play();
     }
 
 
@@ -81,7 +81,7 @@ class Sound {
      * This function start the sound if broken a bottle.
      */
     brokenBottleSound() {
-        this.broken_bottle_sound.play();
+        if (!mute) this.broken_bottle_sound.play();
     }
 
 
@@ -89,7 +89,7 @@ class Sound {
      * This function start the fart sound from the character.
      */
     fartSound() {
-        this.fart_sound.play();
+        if (!mute) this.fart_sound.play();
     }
 
 
@@ -97,7 +97,7 @@ class Sound {
      * This function start the sound if collect a coin.
      */
     collectCoinSound() {
-        this.collect_coin_sound.play();
+        if (!mute) this.collect_coin_sound.play();
     }
 
 
@@ -105,7 +105,7 @@ class Sound {
      * This function start the sound if collect a bottle.
      */
     collectBottleSound() {
-        this.collect_bottle_sound.play();
+        if (!mute) this.collect_bottle_sound.play();
     }
 
 
@@ -113,9 +113,9 @@ class Sound {
      * This function start the boss jumping sound.
      */
     bossJumpingSound() {
-        this.boss_jumping_sound.play();
+        if (!mute) this.boss_jumping_sound.play();
     }
-    
+
 
 
     // ### SOUND THAT INTERRUPTED AND RESTARTED FROM BEGINNING ###
@@ -159,7 +159,7 @@ class Sound {
      * This function start the win sound.
      */
     winSound() {
-        this.startSound(this.win_sound);
+        if (!mute) this.win_sound.play();
     }
 
 
@@ -167,11 +167,16 @@ class Sound {
      * This function start the level background sound.
      */
     backgroundSoundPlay() {
-        this.startSound(this.background_sound)
+        if (!mute) this.background_sound.play();
 
         this.background_sound.addEventListener('ended', () => {
-            this.startSound(this.background_sound);
+            this.background_sound.play();
         }, false)
+
+        document.addEventListener('click', () => {
+            if (mute) this.background_sound.pause();
+            else if (!this.final_boss_sound.played) this.background_sound.play();
+        }, false);
     }
 
 
@@ -179,11 +184,16 @@ class Sound {
      * This function start the boss background sound.
      */
     finalBossSoundPlay() {
-        this.startSound(this.final_boss_sound);
+        if (!mute) this.final_boss_sound.play();
 
         this.final_boss_sound.addEventListener('ended', () => {
-            this.startSound(this.final_boss_sound);
+            this.final_boss_sound.play();
         }, false)
+
+        document.addEventListener('click', () => {
+            if (mute) this.final_boss_sound.pause();
+            else this.final_boss_sound.play();
+        }, false);
     }
 
 
@@ -195,6 +205,8 @@ class Sound {
      * @param {*} sound 
      */
     startSound(sound) {
+        if (mute) return;
+
         let playPromise = sound.play();
 
         if (playPromise != undefined) {

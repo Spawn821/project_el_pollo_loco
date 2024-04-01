@@ -25,6 +25,32 @@ function changePauseStatus(reset = false, options = false) {
 
 
 
+// ### GAME SOUND ###
+
+/**
+ * This function show or hide the sound-mute button.
+ */
+function showOrHideSoundMute() {
+    buttonSound.classList.toggle('d-none');
+}
+
+
+/**
+ * This function change the status from the play-puse button.
+ * @param {boolean} reset remove the pause status.
+ * @param {boolean} options set the pause status.
+ */
+function changeMuteStatus() {
+    if (buttonSound.classList.contains('mute') || gameEnd) {
+        mute = false
+        buttonSound.classList.remove('mute');
+    } else {
+        mute = true;
+        buttonSound.classList.add('mute');
+    }
+}
+
+
 
 // ### MENU LEFT AREA ###
 
@@ -198,6 +224,7 @@ function switchToGame() {
     setLevel1();
     world = new World(canvas, keyboard);
     setTimeout(() => showOrHidePlayPause(), 7500);
+    setTimeout(() => showOrHideSoundMute(), 7500);
 }
 
 
@@ -262,11 +289,13 @@ function buttonEnabled() {
  */
 function switchToMainScreen() {
     changePauseStatus(true);
+    changeMuteStatus();
 
     if (!gameEnd) world.sound.pauseSound();
     if (!buttonPause.classList.contains('d-none')) showOrHidePlayPause();
+    if (!buttonSound.classList.contains('d-none')) showOrHideSoundMute();
 
-    startGame = false, pause = false ,gameEnd = false, startMovie = false;
+    startGame = false, pause = false, gameEnd = false, startMovie = false;
 
     startLoadingScreen('Start');
     letTheTextShape();
