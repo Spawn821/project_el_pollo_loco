@@ -112,7 +112,7 @@ class Sound {
      * This function start the sound if broken a bottle.
      */
     brokenBottleSound() {
-        this.broken_bottle_sound.play();
+        this.startSound(this.broken_bottle_sound);
     }
 
 
