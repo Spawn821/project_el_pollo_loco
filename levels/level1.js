@@ -1,5 +1,5 @@
 let level;
-let levelLength = 1; // starting with one (1, 2, 3...)
+let levelLength = 3; // starting with one (1, 2, 3...)
 
 let numberChickenSmall = 3 * levelLength; // max. 3 * levelLength
 let numberChickenNormal = 3 * levelLength; // max. 3 * levelLength

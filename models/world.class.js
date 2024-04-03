@@ -6,7 +6,8 @@ class World extends Draw {
     coinsToCollect = new CoinPositions();
     bottlesToCollect = new BottlePositions();
     collisions = new Collisions();
-    gameOverScreen = new GameOverScreen();
+    ballonScreen = new BallonScreen();
+    youWinScreen = new YouWinScreen();
     youLostScreen = new YouLostScreen();
     sound = new Sound();
     levelBackground = level.background;
@@ -77,7 +78,8 @@ class World extends Draw {
             this.addObjectToMap(this.youLostScreen);
         } else if (this.levelEnemies.ENEMIES.length == 0) {
             this.endScreen();
-            this.addObjectToMap(this.gameOverScreen);
+            this.addObjectToMap(this.ballonScreen);
+            this.addObjectToMap(this.youWinScreen);
         }
     }
 
@@ -90,6 +92,7 @@ class World extends Draw {
         this.addObjectListToMap(this.levelBackground.CLOUDS);
         this.addObjectListToMap(this.levelBackground.BACKGROUNDS);
         buttonPause.classList.add('d-none');
+        buttonSound.classList.add('d-none');
     }
 
 

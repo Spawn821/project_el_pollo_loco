@@ -134,6 +134,12 @@ button {
 /* FLY ON THE CANVAS */
 /* ----------------- */
 
+.win-screen {
+    position: absolute;
+    width: 300px;
+    height: 150px;
+}
+
 .button-play-pause {
     position: absolute;
     right: 24px;
@@ -154,9 +160,6 @@ button {
         border-style: double;
         border-width: 0px 0px 0px 32px;
     }
-}
-
-#button-sound-mute {
 }
 
 .button-sound-mute {
@@ -555,9 +558,9 @@ canvas {
 
 
 
-/* ----------------- */ 
+/* ----------------- */
 /* BACKGROUND SOURCE */
-/* ----------------- */ 
+/* ----------------- */
 
 #background-picture-source {
     position: absolute;

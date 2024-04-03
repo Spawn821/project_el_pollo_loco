@@ -139,11 +139,13 @@ class Movie {
      * This function removes all enemies expected the boss.
      */
     clearNormalAndSmallEnemies() {
-        this.character.world.levelEnemies.ENEMIES.forEach((enemy) => {
-            if (!(enemy instanceof ChickenBoss)) {
-                this.character.world.levelEnemies.ENEMIES.splice(this.character.world.levelEnemies.ENEMIES.indexOf(enemy), 1);
-            }
-        });
+        setTimeout(() => {
+            this.character.world.levelEnemies.ENEMIES.forEach((enemy) => {
+                if (!(enemy instanceof ChickenBoss)) {
+                    this.character.world.levelEnemies.ENEMIES.splice(this.character.world.levelEnemies.ENEMIES.indexOf(enemy), 1);
+                }
+            });
+        }, 150);
     }
 
 

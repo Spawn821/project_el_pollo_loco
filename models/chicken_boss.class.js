@@ -99,10 +99,10 @@ class ChickenBoss extends MovableObject {
         setInterval(() => {
             if (this.isDead()) {
                 this.whichAnimation('dead');
-            } else if (this.collisionWhitCharacter) {
-                this.whichAnimation('attack');
             } else if (this.isHurt(1)) {
                 this.whichAnimation('hurt');
+            } else if (this.collisionWhitCharacter) {
+                this.whichAnimation('attack');
             } else if (this.isAlert() && !this.isDead()) {
                 this.whichAnimation('alert');
             } else {

@@ -40,8 +40,8 @@ function showOrHideSoundMute() {
  * @param {boolean} reset remove the pause status.
  * @param {boolean} options set the pause status.
  */
-function changeMuteStatus() {
-    if (buttonSound.classList.contains('mute') || gameEnd) {
+function changeMuteStatus(reset = false) {
+    if (buttonSound.classList.contains('mute') || reset) {
         mute = false
         buttonSound.classList.remove('mute');
     } else {
@@ -289,7 +289,7 @@ function buttonEnabled() {
  */
 function switchToMainScreen() {
     changePauseStatus(true);
-    changeMuteStatus();
+    changeMuteStatus(true);
 
     if (!gameEnd) world.sound.pauseSound();
     if (!buttonPause.classList.contains('d-none')) showOrHidePlayPause();

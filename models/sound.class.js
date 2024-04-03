@@ -31,6 +31,7 @@ class Sound {
         this.hit_the_chicken_small_sound,
         this.hit_the_chicken_normal_sound,
         this.hit_the_boss_sound,
+        this.boss_jumping_sound,
         this.win_sound,
         this.background_sound,
         this.final_boss_sound
@@ -40,6 +41,26 @@ class Sound {
      * This function set all start conditions for the object.
      */
     constructor() {
+        this.volumeSound();
+        this.onAir();
+    }
+
+
+    /**
+     * This function set the sound on or off.
+     */
+    onAir() {
+        document.addEventListener('click', () => {
+            if (mute) this.muteSound();
+            else this.volumeSound();
+        }, false)        
+    }
+
+
+    /**
+     * This functin set the volume for the diffrent sounds.
+     */
+    volumeSound() {
         this.walking_sound.volume = 0.5;
         this.jumping_sound.volume = 0.5;
         this.hurt_sound.volume = 1;
@@ -59,13 +80,23 @@ class Sound {
     }
 
 
+    /**
+     * This fuction mute all sound.
+     */
+    muteSound() {
+        this.SOUNDS.forEach((sound) => {
+            sound.volume = 0;
+        })
+    }
+
+
     // ### SHORT SOUND ###
 
     /**
      * This function start the walking sound from the character.
      */
     walkingSound() {
-        if (!mute) this.walking_sound.play();
+        this.walking_sound.play();
     }
 
 
@@ -73,7 +104,7 @@ class Sound {
      * This function start the hurt sound from the character.
      */
     hurtSound() {
-        if (!mute) this.hurt_sound.play();
+        this.hurt_sound.play();
     }
 
 
@@ -81,7 +112,7 @@ class Sound {
      * This function start the sound if broken a bottle.
      */
     brokenBottleSound() {
-        if (!mute) this.broken_bottle_sound.play();
+        this.broken_bottle_sound.play();
     }
 
 
@@ -89,7 +120,7 @@ class Sound {
      * This function start the fart sound from the character.
      */
     fartSound() {
-        if (!mute) this.fart_sound.play();
+        this.fart_sound.play();
     }
 
 
@@ -97,7 +128,7 @@ class Sound {
      * This function start the sound if collect a coin.
      */
     collectCoinSound() {
-        if (!mute) this.collect_coin_sound.play();
+        this.collect_coin_sound.play();
     }
 
 
@@ -105,7 +136,7 @@ class Sound {
      * This function start the sound if collect a bottle.
      */
     collectBottleSound() {
-        if (!mute) this.collect_bottle_sound.play();
+        this.collect_bottle_sound.play();
     }
 
 
@@ -113,7 +144,7 @@ class Sound {
      * This function start the boss jumping sound.
      */
     bossJumpingSound() {
-        if (!mute) this.boss_jumping_sound.play();
+        this.boss_jumping_sound.play();
     }
 
 
@@ -159,7 +190,7 @@ class Sound {
      * This function start the win sound.
      */
     winSound() {
-        if (!mute) this.win_sound.play();
+        this.win_sound.play();
     }
 
 
@@ -167,16 +198,11 @@ class Sound {
      * This function start the level background sound.
      */
     backgroundSoundPlay() {
-        if (!mute) this.background_sound.play();
+        this.background_sound.play();
 
         this.background_sound.addEventListener('ended', () => {
             this.background_sound.play();
         }, false)
-
-        document.addEventListener('click', () => {
-            if (mute) this.background_sound.pause();
-            else if (!this.final_boss_sound.played) this.background_sound.play();
-        }, false);
     }
 
 
@@ -184,16 +210,11 @@ class Sound {
      * This function start the boss background sound.
      */
     finalBossSoundPlay() {
-        if (!mute) this.final_boss_sound.play();
+        this.final_boss_sound.play();
 
         this.final_boss_sound.addEventListener('ended', () => {
             this.final_boss_sound.play();
         }, false)
-
-        document.addEventListener('click', () => {
-            if (mute) this.final_boss_sound.pause();
-            else this.final_boss_sound.play();
-        }, false);
     }
 
 
@@ -205,8 +226,6 @@ class Sound {
      * @param {*} sound 
      */
     startSound(sound) {
-        if (mute) return;
-
         let playPromise = sound.play();
 
         if (playPromise != undefined) {

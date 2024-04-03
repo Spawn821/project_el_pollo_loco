@@ -1,10 +1,10 @@
-class GameOverScreen extends MovableObject {
+class YouWinScreen extends MovableObject {
 
     /**
      * This function set all start conditions for the object.
      */
     constructor() {
-        super().loadImage('graphics/9_intro_outro_screens/game_over/game over.png');
+        super().loadImage('graphics/0_downloads/win_screen.png');
         this.setImgCoordinates(0, 0); // coordinates x, y calculate less height
     }
 }

@@ -5,10 +5,10 @@ class Background extends MovableObject {
      * @param {string} image is the path from the image.
      * @param {number} x is the start coordinate from the image.
      */
-    constructor(image, x) {
+    constructor(image, x, y=0) {
         super().loadImage(image);
 
-        this.y = 0;
+        this.y = y;
         this.x = x;
     }
 }
