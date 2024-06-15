@@ -1,55 +1,65 @@
-class World {
-    level = level1;
+class World extends Draw {
+
+    // Objects
     character = new Character();
     statusbar = new Statusbar();
-    coins = new CoinPositions();
+    coinsToCollect = new CoinPositions();
+    bottlesToCollect = new BottlePositions();
+    collisions = new Collisions();
+    ballonScreen = new BallonScreen();
+    youWinScreen = new YouWinScreen();
+    youLostScreen = new YouLostScreen();
+    sound = new Sound();
+    levelBackground = level.background;
+    levelEnemies = level.enemies;
+    bottles = [];
+    keyboard;
+
+    // HTML elements
     canvas;
     ctx; // Context for canvas
-    keyboard;
+
+    // Values
     camera_x = 0;
 
+    /**
+     * This function set all start conditions for the object.
+     * @param {object} canvas is the canvas element.
+     * @param {object} keyboard is the keyboard object.
+     */
     constructor(canvas, keyboard) {
+        super();
+        gameEnd = false;
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.sound.backgroundSoundPlay();
 
         this.draw();
         this.setWorld();
-        this.checkCollisions();
     }
 
 
-    checkCollisions() {
-        setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusbar.setHealth(this.character.energy);
-                }
-            });
-
-            this.coins.COINS.forEach((coin) => {
-                if (this.character.isColliding(coin)) {
-                    this.coins.COINS.splice(this.coins.COINS.indexOf(coin), 1);
-                    this.statusbar.setCounterCoin();
-                }
-            })
-        }, 1000 / 3);
-    }
-
-
+    /**
+     * This function transfers its values.
+     */
     setWorld() {
         this.character.world = this;
+        this.collisions.world = this;
+        this.statusbar.world = this;
     }
 
 
+    /**
+     * This function draw the world.
+     */
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.beforTheCamera();
-        this.ctx.translate(this.camera_x, 0);
-        this.afterTheCamera();
-        this.ctx.translate(-this.camera_x, 0);
+        if (gameEnd) {
+            this.gameIsEnd();
+        } else if (startGame && !pause && !loading) {
+            this.clearCanvas();
+            this.applyColor();
+        }
 
         // draw() wird immer wieder aufgerufen
         let self = this;
@@ -59,55 +69,66 @@ class World {
     }
 
 
-    beforTheCamera() {
-        this.addObjectToMap(this.level.air);
-        this.addObjectListToMap(this.level.clouds);
+    /**
+     * This function shows the diffrent end screens.
+     */
+    gameIsEnd() {
+        if (this.character.isDead()) {
+            this.endScreen();
+            this.addObjectToMap(this.youLostScreen);
+        } else if (this.levelEnemies.ENEMIES.length == 0) {
+            this.endScreen();
+            this.addObjectToMap(this.ballonScreen);
+            this.addObjectToMap(this.youWinScreen);
+        }
+    }
+
+
+    /**
+     * This function set all conditions for the end screen.
+     */
+    endScreen() {
+        this.addObjectToMap(this.levelBackground.AIR);
+        this.addObjectListToMap(this.levelBackground.CLOUDS);
+        this.addObjectListToMap(this.levelBackground.BACKGROUNDS);
+        buttonPause.classList.add('d-none');
+        buttonSound.classList.add('d-none');
+    }
+
+
+    /**
+     * This function coordinates the addition of objects.
+     */
+    applyColor() {
+        this.beforeTheCamera();
+        this.ctx.translate(this.camera_x, 0);
+        this.afterTheCamera();
+        this.ctx.translate(-this.camera_x, 0);
+    }
+
+
+    /**
+     * This function add all objects that always move with you.
+     */
+    beforeTheCamera() {
+        this.addObjectToMap(this.levelBackground.AIR);
+        this.addObjectListToMap(this.levelBackground.CLOUDS);
         this.addObjectToMap(this.statusbar.bottleIcon);
         this.addObjectToMap(this.statusbar.healthIcon);
         this.addObjectToMap(this.statusbar.coinIcon);
+        if (this.statusbar.endbossHealthIcon) this.addObjectToMap(this.statusbar.endbossHealthIcon);
     }
 
 
+    /**
+     * This function add all objects that do not move.
+     */
     afterTheCamera() {
-        this.addObjectListToMap(this.level.backgroundObjects);
-        this.addObjectListToMap(this.level.enemies);
-        this.addObjectListToMap(this.coins.COINS);
+        this.addObjectListToMap(this.levelBackground.BACKGROUNDS);
+        this.addObjectListToMap(this.coinsToCollect.COINS);
+        this.addObjectListToMap(this.bottlesToCollect.BOTTLES);
+        this.addObjectListToMap(this.levelEnemies.ENEMIES);
         this.addObjectToMap(this.character);
-    }
-
-
-    addObjectListToMap(movableObjectList) {
-        movableObjectList.forEach(movableObject => {
-            this.addObjectToMap(movableObject);
-        });
-    }
-
-
-    addObjectToMap(movableObject) {
-        if (movableObject.otherDirection) {
-            this.mirrorImage(movableObject);
-        }
-
-        movableObject.draw(this.ctx);
-        movableObject.drawRectBounding(this.ctx);
-        movableObject.drawText(this.ctx);
-
-        if (movableObject.otherDirection) {
-            this.removeMirrorImage(movableObject);
-        }
-    }
-
-
-    mirrorImage(movableObject) {
-        this.ctx.save();
-        this.ctx.translate(movableObject.width, 0);
-        this.ctx.scale(-1, 1);
-        movableObject.x = movableObject.x * -1;
-    }
-
-
-    removeMirrorImage(movableObject) {
-        movableObject.x = movableObject.x * -1;
-        this.ctx.restore();
+        this.addObjectListToMap(this.bottles);
     }
 }

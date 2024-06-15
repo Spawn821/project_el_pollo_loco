@@ -1,10 +1,571 @@
 body {
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+
+h1,
+h2,
+h3 {
+    font-family: 'Boogaloo-Regular';
+    font-size: 48px;
+}
+
+span,
+button {
+    font-family: 'Boogaloo-Regular';
+    font-size: 24px;
+}
+
+::-webkit-scrollbar {
+    width: 24px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 16px;
+    border: 8px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-button:single-button {
+    display: flex;
+    align-items: center;
+    height: 32px;
+}
+
+
+
+/* --------------- */
+/* GENERIC CLASSES */
+/* --------------- */
+
+.d-none {
+    display: none !important;
+}
+
+.scale {
+    transform: scale(1.1);
+}
+
+
+
+/* ---------- */
+/* SMARTPHONE */
+/* ---------- */
+
+.note-rotate-to-landscape {
+    display: none;
+}
+
+.smartphone {
+    width: 300px;
+    height: 300px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background-image: url('../graphics/0_downloads/smartphone.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    transform: rotate(0deg);
+
+    transition: 1s ease;
+    will-change: transform;
+
+    &>span {
+        transform: rotate(-16deg);
+    }
+}
+
+
+.smartphone-rotate {
+    transform: rotate(90deg);
+}
+
+
+
+/* ------- */
+/* WRAPPER */
+/* ------- */
+
+.wrapper {
+    width: 100dvw;
+    height: 100dvh;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    background-image: url('../graphics/0_downloads/website_background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    touch-action: none;
 }
 
+
+
+/* ----- */
+/* PANEL */
+/* ----- */
+
+.panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+
+
+/* ----------------- */
+/* FLY ON THE CANVAS */
+/* ----------------- */
+
+.win-screen {
+    position: absolute;
+    width: 300px;
+    height: 150px;
+}
+
+.button-play-pause {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+
+    box-sizing: border-box;
+    height: 32px;
+
+    border-color: transparent transparent transparent #202020;
+    transition: 100ms all ease;
+    will-change: border-width;
+    cursor: pointer;
+
+    border-style: solid;
+    border-width: 16px 0px 16px 32px;
+
+    &.pause {
+        border-style: double;
+        border-width: 0px 0px 0px 32px;
+    }
+}
+
+.button-sound-mute {
+    position: absolute;
+    top: 72px;
+    right: 12px;
+
+    width: 48px;
+    height: 48px;
+
+    background-image: url('../graphics/0_downloads/sound.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    cursor: pointer;
+
+    border-radius: 8px;
+
+    z-index: 1;
+
+    &.mute {
+        background-image: url('../graphics/0_downloads/mute.png');
+    }
+}
+
+.info-window {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0px;
+    height: 0px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    transition: 1s ease;
+    will-change: width, height, overflow-y;
+    overflow-y: hidden;
+}
+
+.control-info {
+    background-image: url("../graphics/0_downloads/controll.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+}
+
+.open-control-info {
+    width: 720px;
+    height: 400px;
+    left: 0;
+    top: 0;
+}
+
+.open-privacy_policy-impressum {
+    width: calc(720px - 32px);
+    height: 400px;
+    left: 0;
+    top: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    overflow-y: scroll;
+}
+
+.privacy_policy-background {
+    background-color: rgb(248, 197, 103);
+}
+
+.impressum-background {
+    background-color: rgba(208, 224, 232);
+}
+
+
+
+/* ------ */
+/* CANVAS */
+/* ------ */
+
 canvas {
-    background-color: black;    
+    background-color: black;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+
+
+/* ---- */
+/* MENU */
+/* ---- */
+
+.menu {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: calc(100% - 48px);
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+
+    background-color: rgb(153, 68, 9);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.options-area {
+    position: relative;
+    height: 40px;
+    width: 75px;
+
+    display: flex;
+    align-items: center;
+
+    border-radius: 8px;
+    padding-left: 8px;
+
+    transition: width 1s ease;
+
+    & .options-text {
+        border: unset;
+        background-color: unset;
+        outline: unset;
+
+        z-index: 1;
+
+        &:hover {
+            cursor: pointer;
+            color: rgb(247, 189, 99);
+        }
+    }
+
+    & .option-arrow {
+        position: absolute;
+        left: 0px;
+
+        border: solid black;
+        border-width: 0 6px 6px 0;
+        display: inline-block;
+        padding: 6px;
+        transform: rotate(-45deg);
+
+        opacity: 0;
+        transition: 1s all ease;
+        will-change: left, opacity;
+    }
+
+    & .option-one,
+    .option-two,
+    .option-three {
+        position: absolute;
+        left: 0px;
+
+        opacity: 0;
+        transition: 1s all ease;
+        will-change: left, opacity;
+        text-wrap: nowrap;
+        padding: 4px;
+        border-radius: 4px;
+
+        z-index: -1;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgb(247, 189, 99) !important;
+        }
+    }
+}
+
+.open-options {
+    width: 410px;
+
+    & .options-text {
+        color: rgb(247, 189, 99);
+    }
+
+    & .option-arrow {
+        opacity: 1;
+        left: calc(70px + 8px);
+    }
+
+    & .option-one,
+    .option-two,
+    .option-three {
+        opacity: 1;
+        background-color: rgba(247, 189, 99, 0.7);
+        z-index: 0;
+    }
+
+    & .option-one {
+        left: calc(105px + 8px);
+    }
+
+    & .option-two {
+        left: calc(180px + 8px);
+    }
+
+    & .option-three {
+        left: calc(308px + 8px);
+    }
+}
+
+.option-button-background {
+    background-color: rgb(247, 189, 99) !important;
+}
+
+#button-game-status {
+    position: absolute;
+    right: 40px;
+
+    border: unset;
+    background-color: unset;
+    outline: unset;
+
+    &:hover {
+        cursor: pointer;
+        color: rgb(247, 189, 99);
+    }
+}
+
+.button-game-status-disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.button-game-status-animation {
+    animation-name: button-game-status-slide;
+    animation-duration: 1s;
+}
+
+
+@keyframes button-game-status-slide {
+    0% {
+        right: 5px;
+    }
+
+    25% {
+        right: 75px;
+    }
+
+    45% {
+        right: 20px;
+    }
+
+    65% {
+        right: 60px;
+    }
+
+    75% {
+        right: 25px;
+    }
+
+    85% {
+        right: 55px;
+    }
+
+    90% {
+        right: 30px;
+    }
+
+    95% {
+        right: 50px;
+    }
+
+    97.5% {
+        right: 45px;
+    }
+
+    100% {
+        right: 40px;
+    }
+}
+
+
+
+/* ------- */
+/* GAMEBOY */
+/* ------- */
+
+.gameboy {
+    display: none;
+}
+
+/* gameboy left */
+
+.gameboy-left {
+    left: 0;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 20px;
+    padding-right: 30px;
+}
+
+.key-caps-area-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.key-caps-medium {
+    width: 64px;
+    height: 64px;
+}
+
+#arrow-left-key {
+    background-image: url('../graphics/0_downloads/arrow_left_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 56px;
+}
+
+#arrow-right-key {
+    background-image: url('../graphics/0_downloads/arrow_right_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: 40px;
+}
+
+/* gameboy right */
+
+.gameboy-right {
+    right: 0;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding-left: 30px;
+
+    &>button {
+        top: 8px;
+    }
+}
+
+.key-caps-area-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.key-caps-small-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    &>div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+    }
+}
+
+.key-caps-small {
+    width: 48px;
+    height: 48px;
+}
+
+.key-caps-large {
+    width: 128px;
+    height: 40px;
+    margin-top: 16px;
+}
+
+#s-key {
+    background-image: url('../graphics/0_downloads/s_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#a-key {
+    background-image: url('../graphics/0_downloads/a_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#d-key {
+    background-image: url('../graphics/0_downloads/d_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#space-key {
+    background-image: url('../graphics/0_downloads/space_key.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+/* ----------------- */
+/* BACKGROUND SOURCE */
+/* ----------------- */
+
+#background-picture-source {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    color: rgb(153, 68, 9);
+    font-weight: 700;
 }

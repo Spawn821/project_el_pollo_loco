@@ -1,44 +1,132 @@
 class MovableObject extends DrawableObject {
-    speed = 0.15;
-    otherDirection = false;
-    speedY = 0;
-    acceleration = 2.5;
-    energy = 100;
+
+    // Movement speed
+    speed = 0.05;
+
+    // Character or enemy health
+    energy = 0;
+
+    // Current time for the current hit
     lastHit = 0;
 
+    // For jumping
+    speedY = 0;
+    acceleration = 2.5;
+    applyGravityInterval;
+
+    // Move right or left
+    otherDirection = false;
+
+    // Diffrent movements
+    runLeftIntervall;
+    runCrazyIntervall;
+    jumpAttackIntervall;
+    jumpAttackTime = 0;
+    movementNumber = 0;
+    walkingDistance = 0;
+    leftSideReached = false;
+    rightSideReached = true;
+
+    // Is colliding
+    colliding = false;
+
+    /**
+     * This function controlls the gravity if the character jump.
+     * Decreasing speed above the ground and
+     * increasing speed to the ground.
+     */
     applyGravity() {
-        setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
+        this.applyGravityInterval = setInterval(() => {
+            if (!pause) {
+                if ((this.isAboveGround() || this.speedY > 0) && !this.colliding) {
+                    this.y -= this.speedY;
+                    this.speedY -= this.acceleration;
+                } else if (this.isOnGround() && !this.colliding) {
+                    this.cancelGravity();
+                }
             }
         }, 1000 / 25);
     }
 
 
+    /**
+     * This function remove the gravity and set the start y pos.
+     */
+    cancelGravity() {
+        if (this instanceof Bottle) {
+            this.y = 325;
+        } else {
+            this.y = this.startPosY; // The Character always has the same y coordinate after jumping
+        }
+    }
+
+
+    /**
+     * This function checks the start position in y against the is position and
+     * ensures that thrown objects simply fall.
+     * @returns true or false.
+     */
     isAboveGround() {
-        return this.y < 128.75;
+        if (this instanceof Bottle) {
+            return this.y < 325;
+        } else {
+            return this instanceof Character && this.isDead() ? true : this.y < this.startPosY;
+        }
     }
 
 
+    /**
+     * This function check if the fixed character pos. higher.
+     * @returns true or false.
+     */
+    isOnGround() {
+        if (this instanceof Bottle) {
+            return this.y >= 325;
+        } else {
+            return this.y >= this.startPosY;
+        }
+    }
+
+
+    /**
+     * This function reduce the energy and
+     * set the current time for the hit.
+     */
     hit() {
-        if (this.energy > 0) this.energy -= 5;
-        this.lastHit = new Date().getTime();
+        if (!pause) {
+            if (this.energy > 0) this.energy -= 5;
+            this.lastHit = new Date().getTime();
+        }
     }
 
 
-    isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 1000;
-        return timepassed < 0.25;
+    /**
+     * This function check how much time has passed since the last hit.
+     * @returns true or false.
+     */
+    isHurt(duration) {
+        if (!pause) {
+            let timepassed = new Date().getTime() - this.lastHit;
+            timepassed = timepassed / 1000;
+            return timepassed < duration;
+        }
     }
 
 
+    /**
+     * This function check if the energy equal zero.
+     * @returns true or false.
+     */
     isDead() {
         return this.energy == 0;
     }
 
 
+    /**
+     * This fucntion load diffrent images in the img value,
+     * to animate the figures movements.
+     * @param {object} images is the current image from the figure.
+     */
     animateImages(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -47,26 +135,182 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * This function check if the character collided with an enemy on the ground.
+     * @param {object} mO is the current enemy.
+     * @returns true or false.
+     */
     isColliding(mO) {
-        return this.x + this.width > mO.x && 
-               this.x < mO.x + mO.width &&
-               this.y + this.height > mO.y && 
-               this.y < mO.y + mO.height;
+        return this.imgRightSite(this) > this.imgLeftSite(mO) &&
+            this.imgLeftSite(this) < this.imgRightSite(mO) &&
+            this.imgBottom(this) > this.imgTop(mO) &&
+            this.imgTop(this) < this.imgBottom(mO);
     }
 
 
+    /**
+     * This function check if the character jumps on an enemy.
+     * @param {object} mO is the current enemy.
+     * @returns true or false.
+     */
+    isCollidingOnTop(mO) {
+        return this.imgRightSite(this) > this.imgLeftSite(mO) &&
+            this.imgLeftSite(this) < this.imgRightSite(mO) &&
+            this.imgBottom(this) > this.imgTop(mO) &&
+            this.imgTop(this) < this.imgTop(mO) &&
+            this.imgBottom(this) < this.imgBottom(mO) &&
+            this.isAboveGround() &&
+            this.speedY < 0;
+    }
+
+
+    /**
+     * This function returns the right image site from the collided object.
+     * @param {object} object is the character or the enemy.
+     * @returns true or false.
+     */
+    imgRightSite(object) {
+        return object.x + object.offsetX + object.width * object.scaleWPercent;
+    }
+
+
+    /**
+     * This function returns the left image site from the collided object.
+     * @param {object} object is the character or the enemy.
+     * @returns true or false.
+     */
+    imgLeftSite(object) {
+        return object.x + object.offsetX;
+    }
+
+    /**
+     * This function returns the bottom image site from the collided object.
+     * @param {object} object is the character or the enemy.
+     * @returns true or false.
+     */
+    imgBottom(object) {
+        return object.y + object.offsetY + object.height * object.scaleHPercent;
+    }
+
+
+    /**
+     * This function returns the top image site from the collided object.
+     * @param {object} object is the character or the enemy.
+     * @returns true or false.
+     */
+    imgTop(object) {
+        return object.y + object.offsetY;
+    }
+
+
+    /**
+     * This function reset the diffrent movment intervals.
+     */
+    resetIntervallValues() {
+        this.runLeftIntervall = undefined;
+        this.runCrazyIntervall = undefined;
+        this.jumpAttackIntervall = undefined;
+    }
+
+
+    /**
+     * This function lets the images move to the right.
+     */
     moveRight() {
-        this.x += this.speed;
+        if (startGame && !pause && !loading) {
+            this.x += this.speed;
+        }
     }
 
 
+    /**
+     * This function lets the imges move to the left.
+     */
     moveLeft() {
-        this.x -= this.speed;
+        if (startGame && !pause && !loading) {
+            this.x -= this.speed;
+        }
     }
 
 
-    jump() {
-        this.speedY = 25;
+    /**
+     * This function start the movement left.
+     */
+    runLeft() {
+        this.runLeftIntervall = setInterval(() => {
+            if (startGame && !pause && !loading) this.moveLeft();
+        }, 1000 / 60);
+    }
+
+
+    /**
+     * This functin start the movement left and right.
+     */
+    runCrazy() {
+        this.runCrazyIntervall = setInterval(() => {
+            if (startGame && !pause && !loading) {
+                if (!this.leftSideReached) {
+                    this.moveLeft();
+                    this.runningDirectionRight();
+                } else if (!this.rightSideReached) {
+                    this.moveRight();
+                    this.runningDirectionLeft();
+                }
+            }
+        }, 1000 / 60);
+    }
+
+
+    /**
+     * This function change the direction when
+     * the running limit is reached.
+     */
+    runningDirectionRight() {
+        if (this.x <= this.startPosX - this.walkingDistance) {
+            this.leftSideReached = true;
+            this.rightSideReached = false;
+            this.otherDirection = true;
+
+            if (this instanceof ChickenBoss) {
+                this.lastAlert();
+            }
+        }
+    }
+
+
+    /**
+     * This function change the direction when
+     * the running limit is reached.
+     */
+    runningDirectionLeft() {
+        if (this.x >= this.startPosX) {
+            this.leftSideReached = false;
+            this.rightSideReached = true;
+            this.otherDirection = false;
+
+            if (this instanceof ChickenBoss) {
+                this.lastAlert();
+            }
+        }
+    }
+
+
+    /**
+     * This function set the jump height and
+     * set the image counter to zero for a clean jump animation.
+     */
+    jump(speedY = 22.5) {
+        this.speedY = speedY;
         this.currentImage = 0; // For a clean jump animation
+    }
+
+
+    /**
+     * This function start the movement jumping.
+     */
+    jumpAttack() {
+        this.jumpAttackIntervall = setInterval(() => {
+            if (startGame && !pause && !loading) this.jump(27.5);
+        }, this.jumpAttackTime);
     }
 }

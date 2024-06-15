@@ -1,62 +1,19 @@
 class Level {
-    backgroundObjects = [];
-    clouds = [];
-    air;
-    end_level;
+
+    // The container for the object list
+    background;
     enemies;
-    bottle;
-    health;
-    coin;
 
-    constructor(IMAGES_BACKGROUND, IMAGES_CLOUD, air, enemies) {
-        this.backgroundObjects = this.loadObjects(IMAGES_BACKGROUND, 'background');
-        this.clouds = this.loadObjects(IMAGES_CLOUD, 'cloud');
-        this.air = air;
-        this.enemies = enemies;
-    }
-
-
-    loadObjects(IMAGES, category) {
-        let posX1 = 0;
-        let posX2 = 720;
-        let objectList = [];
-
-        for (let i = 0; i < 3; i++) {
-
-            objectList = this.addObjects(posX1, posX2, objectList, IMAGES, category);
-
-            posX1 = posX2 + 720;
-            posX2 = posX2 + 720 * 2;
-        }
-
-        return objectList;
-    }
-
-
-    addObjects(posX1, posX2, objectList, IMAGES, category) {
-        for (let j = 0; j < IMAGES.length; j++) {
-            let image = IMAGES[j];
-
-            if (category == 'background') {
-                this.addBackgroundObjects(image, posX1, posX2, objectList, IMAGES, j);
-            } else {
-                this.addCloudObjects(image, posX1, posX2, objectList, IMAGES, j);
-            }
-        }
-
-        this.end_level = posX2;
-        return objectList;
-    }
-
-
-    addBackgroundObjects(image, posX1, posX2, objectList, IMAGES, j) {
-        if (j < IMAGES.length / 2) objectList.push(new BackgroundObject(image, posX1));
-        else objectList.push(new BackgroundObject(image, posX2));
-    }
-
-
-    addCloudObjects(image, posX1, posX2, objectList, IMAGES, j) {
-        if (j < IMAGES.length / 2) objectList.push(new Cloud(image, posX1));
-        else objectList.push(new Cloud(image, posX2));
+    /**
+     * This function set all start conditions for the object.
+     * @param {number} levelLength is the array length.
+     * @param {array} IMAGES is the image path list.
+     * @param {number} numberChickenSmall is the number.
+     * @param {*} numberChickenNormal is the number.
+     * @param {*} numberChickenBoss is the number.
+     */
+    constructor(levelLength, IMAGES, numberChickenSmall, numberChickenNormal, numberChickenBoss) {
+        this.background = new LevelBackground(levelLength, IMAGES);
+        this.enemies = new LevelEnemies(numberChickenSmall, numberChickenNormal, numberChickenBoss, this.background);
     }
 }
