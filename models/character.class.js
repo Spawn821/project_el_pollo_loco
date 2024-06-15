@@ -210,7 +210,7 @@ class Character extends MovableObject {
      */
     longIdle() {
         this.animateImages(this.IMAGES.IMAGES_LONG_IDLE);
-        if (this.isAction(this.fartTime)) {
+        if (this.isAction(this.fartTime, this.lastWalk || this.lastJump)) {
             this.world.sound.fartSound();
             this.fartTime += 20;
         }
